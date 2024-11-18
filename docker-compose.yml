@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: s333291
+      POSTGRES_PASSWORD: qwerty12345
+      POSTGRES_DB: studs
+    ports:
+      - "15432:5432"
+  backend:
+    build: .
+    container_name: backend
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/studs
+      - SPRING_DATASOURCE_USERNAME=s333291
+      - SPRING_DATASOURCE_PASSWORD=qwerty12345
+    ports:
+      - "8080:8080"
