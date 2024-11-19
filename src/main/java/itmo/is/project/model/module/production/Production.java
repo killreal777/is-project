@@ -4,7 +4,10 @@ import itmo.is.project.model.Resource;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "production")
@@ -18,7 +21,7 @@ public class Production {
     public record CompositeKey (Integer blueprintId, Integer resourceId) {}
 
     @EmbeddedId
-    private CompositeKey id;
+    private Production.CompositeKey id;
 
     @MapsId("blueprintId")
     @OneToOne(fetch = FetchType.EAGER)
