@@ -25,14 +25,12 @@ spring:
     locations: classpath:db/migration/common
 
 application:
-  security:
-    enabled: true
     jwt:
       secret-key: ${APPLICATION_SECURITY_JWT_SECRET_KEY:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
       expiration: ${APPLICATION_SECURITY_JWT_EXPIRATION:86400000} # a day
 
 springdoc:
   api-docs:
-    enabled: true
+    enabled: ${SPRINGDOC_API_DOCS_ENABLED:true}
   swagger-ui:
-    enabled: true
+    enabled: ${SPRINGDOC_SWAGGER_UI_ENABLED:true}
