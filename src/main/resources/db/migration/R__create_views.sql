@@ -78,9 +78,9 @@ ORDER BY
 
 CREATE OR REPLACE VIEW production_modules_view AS
 SELECT
-    pm.id      AS module_id,
-    pmb.name   AS module_name,
-    pm.state   AS module_state,
+    pm.id AS module_id,
+    pmb.name AS module_name,
+    pm.state AS module_state,
     u.username AS engineer_name
 FROM production_module pm
 JOIN production_module_blueprint pmb ON pm.blueprint_id = pmb.id
@@ -138,14 +138,14 @@ ORDER BY module_name, module_id;
 
 CREATE OR REPLACE VIEW docking_spots_view AS
 SELECT
-    ds.id          AS docking_spot_id,
-    dm.id          AS module_id,
-    dmb.name       AS module_name,
-    ds.size        AS size,
+    ds.id AS docking_spot_id,
+    dm.id AS module_id,
+    dmb.name AS module_name,
+    ds.size AS size,
     ds.is_occupied AS is_occupied,
-    sp.id          AS spaceship_id,
-    u.id           AS pilot_id,
-    u.username     AS pilot_name
+    sp.id AS spaceship_id,
+    u.id AS pilot_id,
+    u.username AS pilot_name
 FROM docking_spot ds
 JOIN dock_module dm ON ds.dock_module_id = dm.id
 JOIN dock_module_blueprint dmb ON dm.blueprint_id = dmb.id
