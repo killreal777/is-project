@@ -2,8 +2,8 @@ package itmo.is.project.repository.module;
 
 import itmo.is.project.model.module.ModuleBlueprint;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.NoRepositoryBean;
 
-@Repository
-public interface ModuleBlueprintRepository extends JpaRepository<ModuleBlueprint, Integer> {
+@NoRepositoryBean
+public interface ModuleBlueprintRepository<T extends ModuleBlueprint> extends JpaRepository<T, Integer> {
 }
