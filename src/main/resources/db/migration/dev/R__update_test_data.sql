@@ -6,7 +6,6 @@ stored_resource,
 storage_module,
 trade_item,
 trade,
-trade_policy,
 spaceship,
 account,
 users
@@ -199,7 +198,7 @@ INSERT INTO production_module (blueprint_id, state, engineer_id) VALUES
 (11, 'READY', 8),        -- Blueprint: Graphene Production, Engineer: HenryRobinson (ID 8)
 (7, 'MANUFACTURING', 7), -- Blueprint: Energy Cell Production, Engineer: GraceMartinez (ID 7)
 (1, 'OFF', NULL),        -- Blueprint: Advanced Composite Production, No Engineer
-(25, 'OFF', NULL);       -- Blueprint: Refined Metal Production, No Engineer
+(21, 'OFF', NULL);       -- Blueprint: Refined Metal Production, No Engineer
 
 
 

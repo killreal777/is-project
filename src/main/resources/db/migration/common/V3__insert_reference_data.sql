@@ -551,15 +551,15 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (29, 22, 1394); -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(24, 29, 'Quantum Tube Production');
+(20, 29, 'Quantum Tube Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(24, 51, 550);  -- Quantum Tubes (resource_id 51)
+(20, 51, 550);  -- Quantum Tubes (resource_id 51)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(24, 14, 200),  -- Energy Cells (resource_id 14)
-(24, 20, 580),  -- Graphene (resource_id 20)
-(24, 65, 150);  -- Superfluid Coolant (resource_id 65)
+(20, 14, 200),  -- Energy Cells (resource_id 14)
+(20, 20, 580),  -- Graphene (resource_id 20)
+(20, 65, 150);  -- Superfluid Coolant (resource_id 65)
 
 
 -- Refined Metal Production
@@ -571,14 +571,14 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (30, 22, 135);   -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(25, 30, 'Refined Metal Production');
+(21, 30, 'Refined Metal Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(25, 52, 2400);  -- Refined Metals (resource_id 52)
+(21, 52, 2400);  -- Refined Metals (resource_id 52)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(25, 14, 2160),  -- Energy Cells (resource_id 14)
-(25, 44, 5760);  -- Ore (resource_id 44)
+(21, 14, 2160),  -- Energy Cells (resource_id 14)
+(21, 44, 5760);  -- Ore (resource_id 44)
 
 
 -- Scanning Array Production
@@ -590,15 +590,15 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (31, 22, 2305);  -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(26, 31, 'Scanning Array Production');
+(22, 31, 'Scanning Array Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(26, 53, 240);  -- Scanning Arrays (resource_id 53)
+(22, 53, 240);  -- Scanning Arrays (resource_id 53)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(26, 14, 360),   -- Energy Cells (resource_id 14)
-(26, 52, 600),   -- Refined Metals (resource_id 52)
-(26, 57, 360);   -- Silicon Wafers (resource_id 57)
+(22, 14, 360),   -- Energy Cells (resource_id 14)
+(22, 52, 600),   -- Refined Metals (resource_id 52)
+(22, 57, 360);   -- Silicon Wafers (resource_id 57)
 
 
 -- Shield Component Production
@@ -610,15 +610,15 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (32, 22, 1583); -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(27, 32, 'Shield Component Production');
+(23, 32, 'Shield Component Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(27, 55, 660);  -- Shield Components (resource_id 55)
+(23, 55, 660);  -- Shield Components (resource_id 55)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(27, 14, 210),  -- Energy Cells (resource_id 14)
-(27, 46, 60),   -- Plasma Conductors (resource_id 46)
-(27, 51, 60);   -- Quantum Tubes (resource_id 51)
+(23, 14, 210),  -- Energy Cells (resource_id 14)
+(23, 46, 60),   -- Plasma Conductors (resource_id 46)
+(23, 51, 60);   -- Quantum Tubes (resource_id 51)
 
 
 -- Smart Chip Production
@@ -630,14 +630,14 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (33, 22, 464);  -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(28, 33, 'Smart Chip Production');
+(24, 33, 'Smart Chip Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(28, 58, 480);  -- Smart Chips (resource_id 58)
+(24, 58, 480);  -- Smart Chips (resource_id 58)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(28, 14, 300),  -- Energy Cells (resource_id 14)
-(28, 57, 120);  -- Silicon Wafers (resource_id 57)
+(24, 14, 300),  -- Energy Cells (resource_id 14)
+(24, 57, 120);  -- Silicon Wafers (resource_id 57)
 
 
 -- Soja Bean Production
@@ -649,14 +649,14 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (34, 22, 1084); -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(29, 34, 'Soja Bean Production');
+(25, 34, 'Soja Bean Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(29, 59, 1440); -- Soja Beans (resource_id 59)
+(25, 59, 1440); -- Soja Beans (resource_id 59)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(29, 14, 360),  -- Energy Cells (resource_id 14)
-(29, 71, 960);  -- Water (resource_id 71)
+(25, 14, 360),  -- Energy Cells (resource_id 14)
+(25, 71, 960);  -- Water (resource_id 71)
 
 
 -- Soja Husk Production
@@ -668,16 +668,16 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (35, 22, 1159); -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(30, 35, 'Soja Husk Production');
+(26, 35, 'Soja Husk Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(30, 60, 3840); -- Soja Husks (resource_id 60)
+(26, 60, 3840); -- Soja Husks (resource_id 60)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(30, 14, 480),  -- Energy Cells (resource_id 14)
-(30, 30, 480),  -- Maja Snails (resource_id 30)
-(30, 59, 480),  -- Soja Beans (resource_id 59)
-(30, 63, 240);  -- Spices (resource_id 63)
+(26, 14, 480),  -- Energy Cells (resource_id 14)
+(26, 30, 480),  -- Maja Snails (resource_id 30)
+(26, 59, 480),  -- Soja Beans (resource_id 59)
+(26, 63, 240);  -- Spices (resource_id 63)
 
 
 -- Spacefuel Production
@@ -689,15 +689,15 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (36, 22, 1168); -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(31, 36, 'Spacefuel Production');
+(27, 36, 'Spacefuel Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(31, 61, 900);  -- Space Fuel (resource_id 61)
+(27, 61, 900);  -- Space Fuel (resource_id 61)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(31, 14, 300),  -- Energy Cells (resource_id 14)
-(31, 71, 750),  -- Water (resource_id 71)
-(31, 73, 600);  -- Wheat (resource_id 73)
+(27, 14, 300),  -- Energy Cells (resource_id 14)
+(27, 71, 750),  -- Water (resource_id 71)
+(27, 73, 600);  -- Wheat (resource_id 73)
 
 
 -- Spaceweed Production
@@ -709,15 +709,15 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (37, 22, 2336); -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(32, 37, 'Spaceweed Production');
+(28, 37, 'Spaceweed Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(32, 62, 1350);  -- Space Weed (resource_id 62)
+(28, 62, 1350);  -- Space Weed (resource_id 62)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(32, 14, 840),   -- Energy Cells (resource_id 14)
-(32, 63, 240),   -- Spices (resource_id 63)
-(32, 67, 720);   -- Swamp Plants (resource_id 67)
+(28, 14, 840),   -- Energy Cells (resource_id 14)
+(28, 63, 240),   -- Spices (resource_id 63)
+(28, 67, 720);   -- Swamp Plants (resource_id 67)
 
 
 -- Spice Production
@@ -729,14 +729,14 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (38, 22, 510);  -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(33, 38, 'Spice Production');
+(29, 38, 'Spice Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(33, 63, 2880);  -- Spices (resource_id 63)
+(29, 63, 2880);  -- Spices (resource_id 63)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(33, 14, 240),   -- Energy Cells (resource_id 14)
-(33, 71, 480);   -- Water (resource_id 71)
+(29, 14, 240),   -- Energy Cells (resource_id 14)
+(29, 71, 480);   -- Water (resource_id 71)
 
 
 -- Sunrise Flower Production
@@ -748,14 +748,14 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (39, 22, 1087); -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(34, 39, 'Sunrise Flower Production');
+(30, 39, 'Sunrise Flower Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(34, 64, 1200);  -- Sunrise Flowers (resource_id 64)
+(30, 64, 1200);  -- Sunrise Flowers (resource_id 64)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(34, 14, 360),   -- Energy Cells (resource_id 14)
-(34, 71, 960);   -- Water (resource_id 71)
+(30, 14, 360),   -- Energy Cells (resource_id 14)
+(30, 71, 960);   -- Water (resource_id 71)
 
 
 -- Superfluid Coolant Production
@@ -767,14 +767,14 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (40, 22, 94);   -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(35, 40, 'Superfluid Coolant Production');
+(31, 40, 'Superfluid Coolant Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(35, 65, 1650);  -- Superfluid Coolant (resource_id 65)
+(31, 65, 1650);  -- Superfluid Coolant (resource_id 65)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(35, 14, 900),   -- Energy Cells (resource_id 14)
-(35, 21, 4800);  -- Helium (resource_id 21)
+(31, 14, 900),   -- Energy Cells (resource_id 14)
+(31, 21, 4800);  -- Helium (resource_id 21)
 
 
 -- Swamp Plant Production
@@ -786,14 +786,14 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (41, 22, 2338); -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(36, 41, 'Swamp Plant Production');
+(32, 41, 'Swamp Plant Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(36, 67, 960);  -- Swamp Plants (resource_id 67)
+(32, 67, 960);  -- Swamp Plants (resource_id 67)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(36, 14, 320),   -- Energy Cells (resource_id 14)
-(36, 71, 800);   -- Water (resource_id 71);
+(32, 14, 320),   -- Energy Cells (resource_id 14)
+(32, 71, 800);   -- Water (resource_id 71);
 
 
 -- Teladianium Production
@@ -805,14 +805,14 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (42, 22, 185);  -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(37, 42, 'Teladianium Production');
+(33, 42, 'Teladianium Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(37, 68, 2400);  -- Teladianium (resource_id 68)
+(33, 68, 2400);  -- Teladianium (resource_id 68)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(37, 14, 1350),  -- Energy Cells (resource_id 14)
-(37, 44, 8400);  -- Ore (resource_id 44)
+(33, 14, 1350),  -- Energy Cells (resource_id 14)
+(33, 44, 8400);  -- Ore (resource_id 44)
 
 
 -- Turret Component Production
@@ -824,16 +824,16 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (43, 22, 1741); -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(38, 43, 'Turret Component Production');
+(34, 43, 'Turret Component Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(38, 69, 400);  -- Turret Components (resource_id 69)
+(34, 69, 400);  -- Turret Components (resource_id 69)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(38, 14, 120),   -- Energy Cells (resource_id 14)
-(38, 36, 40),    -- Microchips (resource_id 36)
-(38, 51, 40),    -- Quantum Tubes (resource_id 51)
-(38, 53, 20);    -- Scanning Arrays (resource_id 53)
+(34, 14, 120),   -- Energy Cells (resource_id 14)
+(34, 36, 40),    -- Microchips (resource_id 36)
+(34, 51, 40),    -- Quantum Tubes (resource_id 51)
+(34, 53, 20);    -- Scanning Arrays (resource_id 53)
 
 
 -- Water Production
@@ -845,14 +845,14 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (44, 22, 132);  -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(39, 44, 'Water Production');
+(35, 44, 'Water Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(39, 71, 6600);  -- Water (resource_id 71)
+(35, 71, 6600);  -- Water (resource_id 71)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(39, 14, 1800),   -- Energy Cells (resource_id 14)
-(39, 24, 9600);   -- Ice (resource_id 24)
+(35, 14, 1800),   -- Energy Cells (resource_id 14)
+(35, 24, 9600);   -- Ice (resource_id 24)
 
 
 -- Weapon Component Production
@@ -864,15 +864,15 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (45, 22, 1452); -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(40, 45, 'Weapon Component Production');
+(36, 45, 'Weapon Component Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(40, 72, 400);  -- Weapon Components (resource_id 72)
+(36, 72, 400);  -- Weapon Components (resource_id 72)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(40, 14, 120),   -- Energy Cells (resource_id 14)
-(40, 22, 40),    -- Hull Parts (resource_id 22)
-(40, 46, 60);    -- Plasma Conductors (resource_id 46)
+(36, 14, 120),   -- Energy Cells (resource_id 14)
+(36, 22, 40),    -- Hull Parts (resource_id 22)
+(36, 46, 60);    -- Plasma Conductors (resource_id 46)
 
 
 -- Wheat Production
@@ -884,11 +884,11 @@ INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
 (46, 22, 1084); -- Hull Parts (resource_id 22)
 
 INSERT INTO production_module_blueprint (id, build_cost_id, name) VALUES
-(41, 46, 'Wheat Production');
+(37, 46, 'Wheat Production');
 
 INSERT INTO production (blueprint_id, resource_id, amount) VALUES
-(41, 73, 3240);  -- Wheat (resource_id 73)
+(37, 73, 3240);  -- Wheat (resource_id 73)
 
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
-(41, 14, 360),   -- Energy Cells (resource_id 14)
-(41, 71, 960);   -- Water (resource_id 71)
+(37, 14, 360),   -- Energy Cells (resource_id 14)
+(37, 71, 960);   -- Water (resource_id 71)
