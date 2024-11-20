@@ -1,7 +1,7 @@
 package itmo.is.project.model.module.storage;
 
+import itmo.is.project.model.module.Module;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -12,17 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StorageModule {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "blueprint_id", referencedColumnName = "id", nullable = false, updatable = false)
-    private StorageModuleBlueprint blueprint;
+public class StorageModule extends Module<StorageModuleBlueprint> {
 
     @OneToMany(mappedBy = "storage", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StoredResource> storedResources;

@@ -1,5 +1,6 @@
 package itmo.is.project.model.module.production;
 
+import itmo.is.project.model.module.Module;
 import itmo.is.project.model.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -11,17 +12,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductionModule {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "blueprint_id", referencedColumnName = "id", nullable = false, updatable = false)
-    private ProductionModuleBlueprint blueprint;
+public class ProductionModule extends Module<ProductionModuleBlueprint> {
 
     @NotNull
     @Enumerated(EnumType.STRING)

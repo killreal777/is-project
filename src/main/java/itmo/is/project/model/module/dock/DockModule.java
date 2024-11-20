@@ -1,7 +1,7 @@
 package itmo.is.project.model.module.dock;
 
+import itmo.is.project.model.module.Module;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -12,17 +12,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DockModule {
+public class DockModule extends Module<DockModuleBlueprint> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "blueprint_id", referencedColumnName = "id", nullable = false, updatable = false)
-    private DockModuleBlueprint blueprint;
 
     @OneToMany(mappedBy = "dockModule", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<DockingSpot> dockingSpots;
