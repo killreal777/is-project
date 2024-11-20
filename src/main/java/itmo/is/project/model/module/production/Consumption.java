@@ -1,12 +1,14 @@
 package itmo.is.project.model.module.production;
 
-import itmo.is.project.model.Resource;
+import itmo.is.project.model.resource.Resource;
+import itmo.is.project.model.resource.ResourceAmountHolder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "production")
@@ -14,10 +16,11 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Consumption implements Serializable {
+public class Consumption implements ResourceAmountHolder {
 
     @Embeddable
-    public record CompositeKey (Integer blueprintId, Integer resourceId) {}
+    public record CompositeKey(Integer blueprintId, Integer resourceId) {
+    }
 
     @EmbeddedId
     private Consumption.CompositeKey id;

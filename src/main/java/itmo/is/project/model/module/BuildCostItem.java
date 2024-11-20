@@ -1,10 +1,14 @@
 package itmo.is.project.model.module;
 
-import itmo.is.project.model.Resource;
+import itmo.is.project.model.resource.Resource;
+import itmo.is.project.model.resource.ResourceAmountHolder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "build_cost_item")
@@ -12,10 +16,11 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BuildCostItem {
+public class BuildCostItem implements ResourceAmountHolder {
 
     @Embeddable
-    public record CompositeKey (Integer buildCostId, Integer resourceId) {}
+    public record CompositeKey(Integer buildCostId, Integer resourceId) {
+    }
 
     @EmbeddedId
     private BuildCostItem.CompositeKey id;

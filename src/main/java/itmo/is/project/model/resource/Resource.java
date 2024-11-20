@@ -1,4 +1,4 @@
-package itmo.is.project.model;
+package itmo.is.project.model.resource;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

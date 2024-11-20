@@ -1,6 +1,6 @@
 package itmo.is.project.model.module.storage;
 
-import itmo.is.project.model.Resource;
+import itmo.is.project.model.resource.Resource;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
