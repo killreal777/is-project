@@ -10,6 +10,8 @@ import java.util.List;
 @Table(name = "production_module_blueprint")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductionModuleBlueprint extends ModuleBlueprint {
 
     @OneToOne(mappedBy = "blueprint", cascade = CascadeType.ALL)
