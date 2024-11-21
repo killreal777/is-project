@@ -1,10 +1,15 @@
 package itmo.is.project.model.module.storage;
 
 import itmo.is.project.model.resource.Resource;
+import itmo.is.project.model.resource.ResourceAmount;
+import itmo.is.project.model.resource.ResourceAmountHolder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "stored_resource")
@@ -12,10 +17,11 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StoredResource {
+public class StoredResource implements ResourceAmountHolder {
 
     @Embeddable
-    public record CompositeKey (Integer storageModuleId, Integer resourceId) {}
+    public record CompositeKey(Integer storageModuleId, Integer resourceId) {
+    }
 
     @EmbeddedId
     private StoredResource.CompositeKey id;
@@ -32,6 +38,6 @@ public class StoredResource {
 
     @NotNull
     @Min(1)
-    @Column(name = "amount", nullable = false)
+    @Column(name = "amount", nullable = false, updatable = false)
     private Integer amount;
 }

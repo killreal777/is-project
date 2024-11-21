@@ -31,9 +31,8 @@ public class TradeItem implements ResourceAmountHolder {
     private Trade trade;
 
     @MapsId("resourceId")
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "resource_id", referencedColumnName = "id", nullable = false, updatable = false)
+    @JoinColumn(name = "resource_id", referencedColumnName = "id")
     private Resource resource;
 
     @NotNull

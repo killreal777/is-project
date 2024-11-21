@@ -18,6 +18,11 @@ public class ResourceAmount implements ResourceAmountHolder {
     @Min(1)
     private Integer amount;
 
+    public ResourceAmount(Integer resourceId, String resourceName, Integer amount) {
+        this.resource = new Resource(resourceId, resourceName);
+        this.amount = amount;
+    }
+
     @Override
     public ResourceAmount getResourceAmount() {
         return this;

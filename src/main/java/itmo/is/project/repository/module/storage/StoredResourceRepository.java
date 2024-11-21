@@ -1,6 +1,5 @@
 package itmo.is.project.repository.module.storage;
 
-import itmo.is.project.model.resource.ResourceAmount;
 import itmo.is.project.model.module.storage.StoredResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,14 +11,8 @@ import org.springframework.stereotype.Repository;
 public interface StoredResourceRepository extends JpaRepository<StoredResource, Integer> {
 
     @Query("""
-            SELECT sr.resource.id AS resourceId, SUM(sr.amount) AS totalAmount
-            FROM StoredResource sr
-            GROUP BY sr.resource.id
+            SELECT sr.resource.id AS id, sr.resource.name AS name, SUM(sr.amount) AS amount
+            FROM StoredResource sr GROUP BY sr.resource.id, sr.resource.name
             """)
-    Page<ResourceAmount> findTotalResourceAmounts(Pageable pageable);
-
-    @Query("SELECT sr FROM StoredResource sr WHERE sr.storage.id = storageModuleId")
-    Page<StoredResource> findStoredResourceByStorageId(Integer storageModuleId, Pageable pageable);
-
-    Page<StoredResource> findStoredResourcesByResourceId(Integer resourceId, Pageable pageable);
+    Page<Object[]> sumAmountGroupedByResource(Pageable pageable);
 }
