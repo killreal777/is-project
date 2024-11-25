@@ -1,19 +1,19 @@
-package itmo.is.project.rest.controller;
+package itmo.is.project.rest.controller.authentication;
 
 import itmo.is.project.dto.security.AuthenticationRequest;
 import itmo.is.project.dto.security.JwtResponse;
 import itmo.is.project.dto.security.RegistrationRequest;
-import itmo.is.project.dto.security.UserDto;
 import itmo.is.project.security.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/api/v1/auth")
+@RestController
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthenticationRestController {
     private final AuthenticationService authenticationService;
@@ -33,32 +33,15 @@ public class AuthenticationRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(authenticationService.registerPilot(request));
     }
 
-    @PostMapping("/register/requests/apply/manager")
+    @PostMapping("/register/manager")
     public ResponseEntity<Void> registerManager(@RequestBody RegistrationRequest request) {
         authenticationService.applyManagerRegistrationRequest(request);
         return ResponseEntity.accepted().build();
     }
 
-    @PostMapping("/register/requests/apply/engineer")
+    @PostMapping("/register/engineer")
     public ResponseEntity<Void> registerEngineer(@RequestBody RegistrationRequest request) {
         authenticationService.applyEngineerRegistrationRequest(request);
         return ResponseEntity.accepted().build();
-    }
-
-    @GetMapping("/admin/register/requests")
-    public ResponseEntity<Page<UserDto>> getPendingRegistrationRequests(@PageableDefault Pageable pageable) {
-        return ResponseEntity.ok(authenticationService.getPendingRegistrationRequests(pageable));
-    }
-
-    @PutMapping("/admin/register/requests/approve/{userId}")
-    public ResponseEntity<Void> approveRegistrationApplication(@PathVariable Integer userId) {
-        authenticationService.approveRegistrationRequest(userId);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/admin/register/requests/reject/{userId}")
-    public ResponseEntity<Void> rejectRegistrationApplication(@PathVariable Integer userId) {
-        authenticationService.rejectAdminRegistrationRequest(userId);
-        return ResponseEntity.noContent().build();
     }
 }

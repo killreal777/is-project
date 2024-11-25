@@ -1,4 +1,4 @@
-package itmo.is.project.rest.controller;
+package itmo.is.project.rest.controller.module;
 
 import itmo.is.project.dto.ResourceAmountDto;
 import itmo.is.project.service.module.storage.StorageService;
@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/api/v1/storage")
+@RestController
+@RequestMapping("/api/v1/storage")
 @RequiredArgsConstructor
 public class StorageRestController {
     private final StorageService storageService;
