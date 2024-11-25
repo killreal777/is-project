@@ -33,15 +33,15 @@ public class AuthenticationRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(authenticationService.registerPilot(request));
     }
 
-    @PostMapping("/register/manager")
+    @PostMapping("/register/requests/apply/manager")
     public ResponseEntity<Void> registerManager(@RequestBody RegistrationRequest request) {
-        authenticationService.submitManagerRegistrationRequest(request);
+        authenticationService.applyManagerRegistrationRequest(request);
         return ResponseEntity.accepted().build();
     }
 
-    @PostMapping("/register/engineer")
+    @PostMapping("/register/requests/apply/engineer")
     public ResponseEntity<Void> registerEngineer(@RequestBody RegistrationRequest request) {
-        authenticationService.submitEngineerRegistrationRequest(request);
+        authenticationService.applyEngineerRegistrationRequest(request);
         return ResponseEntity.accepted().build();
     }
 

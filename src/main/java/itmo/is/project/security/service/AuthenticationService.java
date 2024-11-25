@@ -50,11 +50,11 @@ public class AuthenticationService {
         return createEnabledUser(request, Role.ROLE_PILOT);
     }
 
-    public void submitManagerRegistrationRequest(RegistrationRequest request) {
+    public void applyManagerRegistrationRequest(RegistrationRequest request) {
         createDisabledUser(request, Role.ROLE_MANAGER);
     }
 
-    public void submitEngineerRegistrationRequest(RegistrationRequest request) {
+    public void applyEngineerRegistrationRequest(RegistrationRequest request) {
         createDisabledUser(request, Role.ROLE_ENGINEER);
     }
 
