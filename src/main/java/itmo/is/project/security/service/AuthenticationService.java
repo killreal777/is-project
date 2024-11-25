@@ -7,23 +7,20 @@ import itmo.is.project.dto.security.UserDto;
 import itmo.is.project.mapper.user.UserMapper;
 import itmo.is.project.model.user.Role;
 import itmo.is.project.model.user.User;
-import itmo.is.project.repository.user.UserRepository;
+import itmo.is.project.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final UserMapper userMapper;
-    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
@@ -34,74 +31,50 @@ public class AuthenticationService {
                         request.password()
                 )
         );
-        User user = findUserByUsername(request.username());
+        User user = userService.findUserByUsername(request.username());
         validateUserEnabled(user);
         return new JwtResponse(jwtService.generateToken(user));
     }
 
     public JwtResponse registerOwner(RegistrationRequest request) {
-        if (userRepository.existsByRole(Role.ROLE_OWNER)) {
+        if (userService.isOwnerRegistered()) {
             throw new AuthenticationServiceException("Owner is already registered");
         }
-        return createEnabledUser(request, Role.ROLE_OWNER);
-    }
-
-    public JwtResponse registerPilot(RegistrationRequest request) {
-        return createEnabledUser(request, Role.ROLE_PILOT);
-    }
-
-    public void applyManagerRegistrationRequest(RegistrationRequest request) {
-        createDisabledUser(request, Role.ROLE_MANAGER);
-    }
-
-    public void applyEngineerRegistrationRequest(RegistrationRequest request) {
-        createDisabledUser(request, Role.ROLE_ENGINEER);
-    }
-
-    public Page<UserDto> getPendingRegistrationRequests(Pageable pageable) {
-        return userRepository.findAllByEnabledFalse(pageable).map(userMapper::toDto);
-    }
-
-    public void approveRegistrationRequest(Integer userId) {
-        User user = findUserById(userId);
-        user.setEnabled(true);
-        userRepository.save(user);
-    }
-
-    public void rejectAdminRegistrationRequest(Integer userId) {
-        User user = findUserById(userId);
-        validateUserNotEnabled(user);
-        userRepository.delete(user);
-    }
-
-    private void createDisabledUser(RegistrationRequest request, Role role) {
-        boolean enabled = false;
-        createUser(request, role, enabled);
-    }
-
-    private JwtResponse createEnabledUser(RegistrationRequest request, Role role) {
         boolean enabled = true;
-        User user = createUser(request, role, enabled);
+        User user = userService.createUser(request, Role.ROLE_OWNER, enabled);
         return new JwtResponse(jwtService.generateToken(user));
     }
 
-    private User createUser(RegistrationRequest request, Role role, boolean enabled) {
-        validateRegisterRequest(request);
-        User user = userMapper.toEntity(request);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(role);
-        user.setEnabled(enabled);
-        return userRepository.save(user);
+    public JwtResponse registerPilot(RegistrationRequest request) {
+        boolean enabled = true;
+        User user = userService.createUser(request, Role.ROLE_PILOT, enabled);
+        return new JwtResponse(jwtService.generateToken(user));
     }
 
-    private User findUserById(Integer userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new AuthenticationServiceException("User not found with id: " + userId));
+    public void applyManagerRegistrationRequest(RegistrationRequest request) {
+        boolean enabled = false;
+        userService.createUser(request, Role.ROLE_MANAGER, enabled);
     }
 
-    private User findUserByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+    public void applyEngineerRegistrationRequest(RegistrationRequest request) {
+        boolean enabled = false;
+        userService.createUser(request, Role.ROLE_ENGINEER, enabled);
+    }
+
+    public Page<UserDto> getPendingRegistrationRequests(Pageable pageable) {
+        return userService.findAllDisabledUsers(pageable).map(userMapper::toDto);
+    }
+
+    public void approveRegistrationRequest(Integer userId) {
+        User user = userService.findUserById(userId);
+        user.setEnabled(true);
+        userService.updateUser(user);
+    }
+
+    public void rejectAdminRegistrationRequest(Integer userId) {
+        User user = userService.findUserById(userId);
+        validateUserNotEnabled(user);
+        userService.deleteUser(user);
     }
 
     private void validateUserEnabled(User user) {
@@ -112,17 +85,7 @@ public class AuthenticationService {
 
     private void validateUserNotEnabled(User user) {
         if (user.isEnabled()) {
-            throw new AuthenticationServiceException("Cannot delete an enabled user");
-        }
-    }
-
-    private void validateRegisterRequest(RegistrationRequest request) {
-        validateUsername(request.username());
-    }
-
-    private void validateUsername(String username) {
-        if (userRepository.existsByUsername(username)) {
-            throw new AuthenticationServiceException("Username " + username + " is taken");
+            throw new AuthenticationServiceException("User is enabled: " + user.getUsername());
         }
     }
 }
