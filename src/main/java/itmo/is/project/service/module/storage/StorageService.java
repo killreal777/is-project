@@ -2,9 +2,8 @@ package itmo.is.project.service.module.storage;
 
 import itmo.is.project.dto.ResourceAmountDto;
 import itmo.is.project.dto.ResourceDto;
-import itmo.is.project.mapper.ResourceAmountMapper;
-import itmo.is.project.mapper.ResourceMapper;
-import itmo.is.project.model.resource.Resource;
+import itmo.is.project.mapper.resource.ResourceAmountMapper;
+import itmo.is.project.mapper.resource.ResourceMapper;
 import itmo.is.project.repository.module.storage.StorageModuleRepository;
 import itmo.is.project.repository.module.storage.StoredResourceRepository;
 import lombok.RequiredArgsConstructor;

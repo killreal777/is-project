@@ -1,6 +1,7 @@
-package itmo.is.project.mapper;
+package itmo.is.project.mapper.module;
 
 import itmo.is.project.dto.ProductionModuleBlueprintDto;
+import itmo.is.project.mapper.EntityMapper;
 import itmo.is.project.model.module.production.ProductionModuleBlueprint;
 
 import org.mapstruct.Mapper;

@@ -42,6 +42,7 @@ INSERT INTO users (id, username, password, role, enabled) VALUES -- BCrypt passw
 (25, 'YaraTorres', '$2a$10$6HFVkt7BFcj88TQjYvhR4uzL97xJwXzyXOmp4IEQk49.wPYpH5tCK', 'ROLE_PILOT', TRUE), -- 8C9!%L7@1#k
 (26, 'ZacharyPhillips', '$2a$10$XEyuvDlQc3D49dGcHSC0wOE4TrD0rOHyy1VfV07vwqugyo/IOI0Oy', 'ROLE_PILOT', TRUE); -- R1%k@8G4$2
 
+SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));
 
 INSERT INTO account (user_id, balance) VALUES
 (1, 15000000),      -- Owner balance
@@ -80,6 +81,8 @@ INSERT INTO spaceship (id, pilot_id, size) VALUES
 (15, 25, 'L'),
 (16, 26, 'L');
 
+SELECT setval('spaceship_id_seq', (SELECT MAX(id) FROM spaceship));
+
 
 
 -- STORAGE MODULES
@@ -88,6 +91,8 @@ INSERT INTO storage_module (id, blueprint_id) VALUES
 (1, 3), -- Storage L
 (2, 2), -- Storage M
 (3, 1); -- Storage S
+
+SELECT setval('storage_module_id_seq', (SELECT MAX(id) FROM storage_module));
 
 -- Storage L
 INSERT INTO stored_resource (storage_id, resource_id, amount) VALUES
@@ -126,6 +131,8 @@ INSERT INTO dock_module (id, blueprint_id) VALUES
 (3, 3),  -- Dock Area 8M
 (4, 5),  -- Pier 3L-E
 (5, 6);  -- Pier 3L-T
+
+SELECT setval('dock_module_id_seq', (SELECT MAX(id) FROM dock_module));
 
 UPDATE docking_spot
 SET is_occupied  = TRUE,
@@ -255,6 +262,8 @@ INSERT INTO trade (id, user_id, time) VALUES
 (3, 13, '2024-11-02 12:03:43'),
 (4, 11, '2024-11-03 17:41:46'),
 (5, 15, '2024-11-04 11:23:02');
+
+SELECT setval('trade_id_seq', (SELECT MAX(id) FROM trade));
 
 INSERT INTO trade_item (trade_id, resource_id, operation, amount, price) VALUES
 (1, 14, 'BUY', 1200, 190);  -- Trade ID 1: Energy Cells (ID 14) - BUY 1200 at price 190

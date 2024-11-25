@@ -75,6 +75,8 @@ INSERT INTO resource (id, name) VALUES
 (72, 'Weapon Components'),
 (73, 'Wheat');
 
+SELECT setval('resource_id_seq', (SELECT MAX(id) FROM resource));
+
 
 
 -- STORAGE MODULES BLUEPRINTS
@@ -88,6 +90,8 @@ INSERT INTO storage_module_blueprint (id, build_cost_id, name, capacity) VALUES
 (1, 1, 'Storage S', 25000),
 (2, 2, 'Storage M', 100000),
 (3, 3, 'Storage L', 1000000);
+
+SELECT setval('storage_module_blueprint_id_seq', (SELECT MAX(id) FROM storage_module_blueprint));
 
 -- Storage S
 INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
@@ -126,6 +130,8 @@ INSERT INTO dock_module_blueprint (id, build_cost_id, name, s_docks_quantity, m_
 (4, 7, 'Pier 1L', 0, 0, 1),
 (5, 8, 'Pier 3L-E', 0, 0, 3),
 (6, 9, 'Pier 3L-T', 0, 0, 3);
+
+SELECT setval('dock_module_blueprint_id_seq', (SELECT MAX(id) FROM dock_module_blueprint));
 
 -- Dock Area 1M6S
 INSERT INTO build_cost_item (build_cost_id, resource_id, amount) VALUES
@@ -892,3 +898,7 @@ INSERT INTO production (blueprint_id, resource_id, amount) VALUES
 INSERT INTO consumption (blueprint_id, resource_id, amount) VALUES
 (37, 14, 360),   -- Energy Cells (resource_id 14)
 (37, 71, 960);   -- Water (resource_id 71)
+
+SELECT setval('production_module_blueprint_id_seq', (SELECT MAX(id) FROM production_module_blueprint));
+
+SELECT setval('build_cost_id_seq', (SELECT MAX(id) FROM build_cost));
