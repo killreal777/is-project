@@ -1,4 +1,4 @@
-package itmo.is.project.dto.security;
+package itmo.is.project.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import itmo.is.project.model.user.Role;

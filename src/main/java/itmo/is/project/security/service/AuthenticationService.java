@@ -3,7 +3,7 @@ package itmo.is.project.security.service;
 import itmo.is.project.dto.security.AuthenticationRequest;
 import itmo.is.project.dto.security.JwtResponse;
 import itmo.is.project.dto.security.RegistrationRequest;
-import itmo.is.project.dto.security.UserDto;
+import itmo.is.project.dto.user.UserDto;
 import itmo.is.project.mapper.user.UserMapper;
 import itmo.is.project.model.user.Role;
 import itmo.is.project.model.user.User;
