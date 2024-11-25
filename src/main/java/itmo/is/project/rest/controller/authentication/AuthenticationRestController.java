@@ -45,18 +45,18 @@ public class AuthenticationRestController {
         return ResponseEntity.accepted().build();
     }
 
-    @GetMapping("/register/requests")
+    @GetMapping("/admin/register/requests")
     public ResponseEntity<Page<UserDto>> getPendingRegistrationRequests(@PageableDefault Pageable pageable) {
         return ResponseEntity.ok(authenticationService.getPendingRegistrationRequests(pageable));
     }
 
-    @PutMapping("/register/requests/approve/{userId}")
+    @PutMapping("/admin/register/requests/approve/{userId}")
     public ResponseEntity<Void> approveRegistrationApplication(@PathVariable Integer userId) {
         authenticationService.approveRegistrationRequest(userId);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/register/requests/reject/{userId}")
+    @DeleteMapping("/admin/register/requests/reject/{userId}")
     public ResponseEntity<Void> rejectRegistrationApplication(@PathVariable Integer userId) {
         authenticationService.rejectAdminRegistrationRequest(userId);
         return ResponseEntity.noContent().build();
