@@ -47,15 +47,15 @@ public class AccountService {
                 .orElseThrow(() -> new NoSuchElementException("Username not found: " + username));
     }
 
-    public AccountDto deposit(String username, TransferRequest request) {
-        Account account = findByUsername(username);
+    public AccountDto deposit(Integer userId, TransferRequest request) {
+        Account account = findByUserId(userId);
         account.setBalance(account.getBalance() + request.amount());
         account = accountRepository.save(account);
         return accountMapper.toDto(account);
     }
 
-    public AccountDto withdraw(String username, TransferRequest request) {
-        Account account = findByUsername(username);
+    public AccountDto withdraw(Integer userId, TransferRequest request) {
+        Account account = findByUserId(userId);
         Integer funds = account.getBalance();
         if (funds < request.amount()) {
             throw new IllegalStateException("Insufficient funds: " + funds);

@@ -1,7 +1,10 @@
 package itmo.is.project.service.user;
 
+import itmo.is.project.dto.user.CreateSpaceshipRequest;
 import itmo.is.project.dto.user.SpaceshipDto;
 import itmo.is.project.mapper.user.SpaceshipMapper;
+import itmo.is.project.model.user.Spaceship;
+import itmo.is.project.model.user.User;
 import itmo.is.project.repository.user.SpaceshipRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,5 +41,11 @@ public class SpaceshipService {
                 .orElseThrow(() ->
                         new NoSuchElementException("Spaceship not found with pilot username: " + pilotUsername)
                 );
+    }
+
+    public SpaceshipDto createSpaceship(CreateSpaceshipRequest request, User owner) {
+        Spaceship spaceship = spaceshipMapper.toEntity(request);
+        spaceship.setPilot(owner);
+        return spaceshipMapper.toDto(spaceshipRepository.save(spaceship));
     }
 }
