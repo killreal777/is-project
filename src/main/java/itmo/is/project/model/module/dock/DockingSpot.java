@@ -1,7 +1,6 @@
 package itmo.is.project.model.module.dock;
 
-import itmo.is.project.model.spaceship.Spaceship;
-import itmo.is.project.model.spaceship.SpaceshipSize;
+import itmo.is.project.model.user.Spaceship;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -27,7 +26,7 @@ public class DockingSpot {
     @NotNull
     @Column(name = "size", length = 1, nullable = false, updatable = false)
     @Enumerated(EnumType.STRING)
-    private SpaceshipSize size;
+    private Spaceship.Size size;
 
     @NotNull
     @Column(name = "is_occupied", nullable = false)

@@ -43,7 +43,7 @@ public class AccountService {
     }
 
     private Account findByUsername(String username) {
-        return accountRepository.findByUsername(username)
+        return accountRepository.findByUserUsername(username)
                 .orElseThrow(() -> new NoSuchElementException("Username not found: " + username));
     }
 

@@ -1,6 +1,5 @@
-package itmo.is.project.model.spaceship;
+package itmo.is.project.model.user;
 
-import itmo.is.project.model.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -12,6 +11,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Spaceship {
+
+    public enum Size {
+        S, M, L
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +29,6 @@ public class Spaceship {
     @NotNull
     @Column(name = "size", length = 1, nullable = false, updatable = false)
     @Enumerated(EnumType.STRING)
-    private SpaceshipSize size;
+    private Size size;
 }
 
