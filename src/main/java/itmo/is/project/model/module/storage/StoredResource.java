@@ -38,7 +38,7 @@ public class StoredResource implements ResourceAmountHolder {
 
     @NotNull
     @Min(1)
-    @Column(name = "amount", nullable = false, updatable = false)
+    @Column(name = "amount", nullable = false)
     private Integer amount;
 
     public StoredResource(ResourceAmount resourceAmount, StorageModule storageModule) {
