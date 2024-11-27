@@ -7,6 +7,7 @@ import lombok.*;
 
 @Entity
 @Table(name = "resource")
+@ToString
 @Getter
 @Setter
 @NoArgsConstructor

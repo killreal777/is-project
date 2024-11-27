@@ -40,4 +40,18 @@ public class StoredResource implements ResourceAmountHolder {
     @Min(1)
     @Column(name = "amount", nullable = false, updatable = false)
     private Integer amount;
+
+    public StoredResource(ResourceAmount resourceAmount, StorageModule storageModule) {
+        setResourceAmount(resourceAmount);
+        setStorage(storageModule);
+        setId(new CompositeKey(storage.getId(), resource.getId()));
+    }
+
+    public void add(Integer amount) {
+        this.amount += amount;
+    }
+
+    public void subtract(Integer amount) {
+        this.amount -= amount;
+    }
 }
