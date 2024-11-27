@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface StoredResourceRepository extends JpaRepository<StoredResource, StoredResource.CompositeKey> {
@@ -26,4 +27,6 @@ public interface StoredResourceRepository extends JpaRepository<StoredResource, 
     Optional<ResourceAmount> findResourceAmountTotal(Integer resourceId);
 
     Page<StoredResource> findAllByStorageId(Integer storageId, Pageable pageable);
+
+    List<StoredResource> findAllByResourceId(Integer resourceId);
 }

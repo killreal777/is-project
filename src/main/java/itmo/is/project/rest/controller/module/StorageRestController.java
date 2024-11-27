@@ -31,17 +31,26 @@ public class StorageRestController {
         return ResponseEntity.ok(storageService.getAllResourceAmountsTotal(pageable));
     }
 
-    @GetMapping("/resources/total/{resourceId}")
+    @GetMapping("/resources/{resourceId}/total")
     public ResponseEntity<ResourceAmountDto> findByResourceId(@PathVariable Integer resourceId) {
         return ResponseEntity.ok(storageService.getResourceAmountTotal(resourceId));
     }
 
-    @PutMapping("/resources/{resourceId}")
+    @PutMapping("/resources/{resourceId}/store")
     public ResponseEntity<Void> store(
             @PathVariable Integer resourceId,
             @RequestBody Integer amount
     ) {
         storageService.store(resourceId, amount);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/resources/{resourceId}/retrieve")
+    public ResponseEntity<Void> retrieve(
+            @PathVariable Integer resourceId,
+            @RequestBody Integer amount
+    ) {
+        storageService.retrieve(resourceId, amount);
         return ResponseEntity.ok().build();
     }
 }

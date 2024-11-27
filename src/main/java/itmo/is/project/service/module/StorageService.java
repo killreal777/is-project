@@ -8,6 +8,7 @@ import itmo.is.project.mapper.resource.StoredResourceMapper;
 import itmo.is.project.model.module.storage.StorageModule;
 import itmo.is.project.model.module.storage.StoredResource;
 import itmo.is.project.model.resource.Resource;
+import itmo.is.project.model.resource.ResourceAmount;
 import itmo.is.project.repository.ResourceRepository;
 import itmo.is.project.repository.module.storage.StorageModuleRepository;
 import itmo.is.project.repository.module.storage.StoredResourceRepository;
@@ -68,7 +69,7 @@ public class StorageService {
                     new StoredResource(id, storageModule, resource, 0)
             );
             int storedAmount = Math.min(remainingAmount, freeSpace);
-            storedResource.add(storedAmount);
+            storedResource.setAmount(storedResource.getAmount() + storedAmount);
             storedResourceRepository.save(storedResource);
             remainingAmount -= storedAmount;
             if (remainingAmount == 0) {
@@ -78,6 +79,24 @@ public class StorageService {
     }
 
     public void retrieve(Integer resourceId, Integer amount) {
-
+        ResourceAmount totalAmount = storedResourceRepository.findResourceAmountTotal(resourceId).orElseThrow();
+        if (totalAmount.getAmount() < amount) {
+            throw new IllegalStateException();
+        }
+        List<StoredResource> storedResources = storedResourceRepository.findAllByResourceId(resourceId);
+        int remainingAmount = amount;
+        for (StoredResource storedResource : storedResources) {
+            if (storedResource.getAmount() <= remainingAmount) {
+                storedResourceRepository.delete(storedResource);
+                remainingAmount -= storedResource.getAmount();
+            } else {
+                storedResource.setAmount(storedResource.getAmount() - remainingAmount);
+                storedResourceRepository.save(storedResource);
+                remainingAmount = 0;
+            }
+            if (remainingAmount == 0) {
+                break;
+            }
+        }
     }
 }
