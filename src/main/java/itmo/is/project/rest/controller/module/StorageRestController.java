@@ -1,7 +1,7 @@
 package itmo.is.project.rest.controller.module;
 
-import itmo.is.project.dto.ResourceAmountDto;
-import itmo.is.project.service.module.storage.StorageService;
+import itmo.is.project.dto.resource.ResourceAmountDto;
+import itmo.is.project.service.module.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,11 +18,11 @@ public class StorageRestController {
 
     @GetMapping("/resources")
     public ResponseEntity<Page<ResourceAmountDto>> findAll(Pageable pageable) {
-        return ResponseEntity.ok(storageService.findAll(pageable));
+        return ResponseEntity.ok(storageService.getAllStoredResourcesByStorages(pageable));
     }
 
     @GetMapping("/resources/summary")
     public ResponseEntity<Page<ResourceAmountDto>> findAllSummary(Pageable pageable) {
-        return ResponseEntity.ok(storageService.findAllSummary(pageable));
+        return ResponseEntity.ok(storageService.getAllStoredResources(pageable));
     }
 }

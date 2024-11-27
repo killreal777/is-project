@@ -1,0 +1,10 @@
+package itmo.is.project.mapper.module;
+
+import itmo.is.project.dto.module.storage.StorageModuleBlueprintDto;
+import itmo.is.project.mapper.EntityMapper;
+import itmo.is.project.model.module.storage.StorageModuleBlueprint;
+import org.mapstruct.Mapper;
+
+@Mapper(componentModel = "spring")
+public interface StorageModuleBlueprintMapper extends EntityMapper<StorageModuleBlueprintDto, StorageModuleBlueprint> {
+}

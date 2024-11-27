@@ -1,6 +1,6 @@
 package itmo.is.project.mapper.resource;
 
-import itmo.is.project.dto.ResourceAmountDto;
+import itmo.is.project.dto.resource.ResourceAmountDto;
 import itmo.is.project.mapper.EntityMapper;
 import itmo.is.project.model.resource.ResourceAmount;
 import org.mapstruct.Mapper;

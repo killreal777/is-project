@@ -1,7 +1,7 @@
-package itmo.is.project.service.module.storage;
+package itmo.is.project.service.module;
 
-import itmo.is.project.dto.ResourceAmountDto;
-import itmo.is.project.dto.ResourceDto;
+import itmo.is.project.dto.resource.ResourceAmountDto;
+import itmo.is.project.dto.resource.ResourceDto;
 import itmo.is.project.mapper.resource.ResourceAmountMapper;
 import itmo.is.project.mapper.resource.ResourceMapper;
 import itmo.is.project.repository.module.storage.StorageModuleRepository;
@@ -21,9 +21,7 @@ public class StorageService {
     private final StorageModuleRepository storageModuleRepository;
 
 
-
-
-    public Page<ResourceAmountDto> findAllSummary(Pageable pageable) {
+    public Page<ResourceAmountDto> getAllStoredResources(Pageable pageable) {
         return storedResourceRepository.sumAmountGroupedByResource(pageable)
                 .map(array -> new ResourceAmountDto(
                         new ResourceDto(
@@ -34,13 +32,13 @@ public class StorageService {
                 ));
     }
 
-    public Page<ResourceAmountDto> findAll(Pageable pageable) {
+    public Page<ResourceAmountDto> getAllStoredResourcesByStorages(Pageable pageable) {
         return storedResourceRepository.findAll(pageable)
                 .map(storedResource -> resourceAmountMapper.toDto(storedResource.getResourceAmount()));
     }
 
-    public void getStoredResources(Integer resourceId, Integer storageModuleId) {
-
+    public Page<ResourceAmountDto> getAllResourcesInStorage(Integer resourceId, Integer storageModuleId, Pageable pageable) {
+        return null;
     }
 
     public void store(Integer resourceId, Integer amount) {

@@ -1,6 +1,7 @@
 package itmo.is.project.model.module;
 
 import itmo.is.project.model.resource.Resource;
+import itmo.is.project.model.resource.ResourceAmountHolder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -15,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BuildCostItem {
+public class BuildCostItem implements ResourceAmountHolder {
 
     @Embeddable
     public record CompositeKey(Integer buildCostId, Integer resourceId) {

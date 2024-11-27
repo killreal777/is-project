@@ -15,4 +15,6 @@ public interface StoredResourceRepository extends JpaRepository<StoredResource, 
             FROM StoredResource sr GROUP BY sr.resource.id, sr.resource.name
             """)
     Page<Object[]> sumAmountGroupedByResource(Pageable pageable);
+
+    Page<StoredResource> findAllByStorageId(Integer storageId, Pageable pageable);
 }

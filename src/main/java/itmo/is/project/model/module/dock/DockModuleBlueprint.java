@@ -16,20 +16,20 @@ public class DockModuleBlueprint extends ModuleBlueprint {
     @NotNull
     @Min(0)
     @Column(name = "s_docks_quantity", nullable = false, updatable = false)
-    private Integer sDocksQuantity;
+    private Integer smallDocksQuantity; // full word 'small' for correct MapStruct mapping
 
     @NotNull
     @Min(0)
     @Column(name = "m_docks_quantity", nullable = false, updatable = false)
-    private Integer mDocksQuantity;
+    private Integer mediumDocksQuantity; // full word 'medium' for correct MapStruct mapping
 
     @NotNull
     @Min(0)
     @Column(name = "l_docks_quantity", nullable = false, updatable = false)
-    private Integer lDocksQuantity;
+    private Integer largeDocksQuantity; // full word 'large' for correct MapStruct mapping
 
     @AssertTrue
     public boolean containsAtLeastOneDock() {
-        return sDocksQuantity + mDocksQuantity + lDocksQuantity > 0;
+        return smallDocksQuantity + mediumDocksQuantity + largeDocksQuantity > 0;
     }
 }
