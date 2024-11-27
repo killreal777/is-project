@@ -9,4 +9,7 @@ public record ResourceAmountDto(
         @JsonProperty(value = "amount")
         Integer amount
 ) {
+//    public ResourceAmountDto(Integer resourceId, String resourceName, Integer amount) {
+//        this(new ResourceDto(resourceId, resourceName), amount);
+//    }
 }
