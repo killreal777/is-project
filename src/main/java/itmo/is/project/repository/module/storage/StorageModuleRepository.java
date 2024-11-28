@@ -1,6 +1,7 @@
 package itmo.is.project.repository.module.storage;
 
 import itmo.is.project.model.module.storage.StorageModule;
+import itmo.is.project.model.module.storage.StorageModuleFreeSpace;
 import itmo.is.project.repository.module.ModuleRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.util.Pair;
@@ -10,7 +11,6 @@ import java.util.List;
 
 @Repository
 public interface StorageModuleRepository extends ModuleRepository<StorageModule> {
-
 //    @Query("""
 //            SELECT sm, smb.capacity - SUM(sr.amount) FROM StorageModule sm
 //            JOIN StorageModuleBlueprint smb ON sm.blueprint = smb

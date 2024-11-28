@@ -11,7 +11,6 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class ResourceAmount {
-//public class ResourceAmount implements ResourceAmountHolder {
 
     @NotNull
     private Resource resource;
@@ -26,16 +25,7 @@ public class ResourceAmount {
         this.amount = amount.intValue();
     }
 
-    public void add(Integer amount) {
-        this.amount += amount;
+    public ResourceIdAmount getResourceIdAmount() {
+        return new ResourceIdAmount(resource.getId(), amount);
     }
-
-    public void subtract(Integer amount) {
-        this.amount -= amount;
-    }
-
-//    @Override
-//    public ResourceAmount getResourceAmount() {
-//        return this;
-//    }
 }

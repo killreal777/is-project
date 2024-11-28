@@ -1,6 +1,7 @@
 package itmo.is.project.repository.module.storage;
 
 import itmo.is.project.model.module.storage.StoredResource;
+import itmo.is.project.model.resource.Resource;
 import itmo.is.project.model.resource.ResourceAmount;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

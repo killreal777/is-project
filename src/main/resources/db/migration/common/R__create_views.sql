@@ -160,11 +160,12 @@ ORDER BY
 
 CREATE OR REPLACE VIEW resources_view AS
 SELECT
+    r.id as resource_id,
     r.name AS resource_name,
     SUM(sr.amount) AS total_amount
 FROM stored_resource sr
 JOIN resource r ON sr.resource_id = r.id
-GROUP BY r.name
+GROUP BY r.id, r.name
 HAVING SUM(sr.amount) > 0
 ORDER BY r.name;
 
@@ -190,6 +191,7 @@ CREATE OR REPLACE VIEW storage_resources_view AS
 SELECT
     sm.id AS storage_id,
     smb.name AS module_name,
+    r.id as resource_id,
     r.name AS resource_name,
     sr.amount AS resource_amount
 FROM storage_module sm

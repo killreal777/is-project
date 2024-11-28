@@ -19,7 +19,7 @@ public class SecurityFilterChainConfig {
     private static final String[] WHITE_LIST_URL = {
             "/swagger-ui*/**", "/swagger-ui.html",
             "/v3/api-docs/**", "/v3/api-docs.yaml",
-            "/api/v*/auth/**",
+            "/api/v*/auth/**", "api/**"
     };
     private static final String[] ADMIN_LIST_URL = {"/api/v*/admin/**"};
 

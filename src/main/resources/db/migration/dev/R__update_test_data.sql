@@ -12,7 +12,7 @@ users
 CASCADE;
 
 
--- USERS
+-- USERSp
 
 INSERT INTO users (id, username, password, role, enabled) VALUES -- BCrypt password encoding
 (1, 'AliceSmith', '$2a$10$mxUxwT6BU1L6hY0.UFVoQekPDAuckjho0sOVoY6uW2e2GdMTUy/SS', 'ROLE_OWNER', TRUE), -- 1$;{ghd@`8

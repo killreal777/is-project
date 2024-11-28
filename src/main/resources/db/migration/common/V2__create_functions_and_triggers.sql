@@ -107,13 +107,13 @@ EXECUTE FUNCTION create_docking_spots();
 CREATE OR REPLACE FUNCTION get_total_free_space_in_storages()
 RETURNS INT AS $$
 DECLARE
-    total_free_space INT;
+    total_space INT;
+    total_resources INT;
 BEGIN
-    SELECT SUM(smb.capacity) - COALESCE(SUM(sr.amount), 0) INTO total_free_space
-    FROM storage_module sm
-             LEFT JOIN stored_resource sr ON sm.id = sr.storage_id
-             JOIN storage_module_blueprint smb ON sm.blueprint_id = smb.build_cost_id;
-    RETURN total_free_space;
+    SELECT COALESCE(SUM(smb.capacity), 0) INTO total_space FROM storage_module sm
+    JOIN storage_module_blueprint smb ON sm.blueprint_id = smb.id;
+    SELECT COALESCE(SUM(sr.amount), 0) INTO total_resources FROM stored_resource sr;
+    RETURN total_space - total_resources;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -122,7 +122,7 @@ RETURNS INT AS $$
 DECLARE
     free_space INT;
 BEGIN
-    SELECT smb.capacity - COALESCE(SUM(sr.amount), 0)INTO free_space
+    SELECT smb.capacity - COALESCE(SUM(sr.amount), 0) INTO free_space
     FROM storage_module sm
     JOIN storage_module_blueprint smb ON sm.id = storage_module_id AND sm.blueprint_id = smb.build_cost_id
     JOIN stored_resource sr ON sr.storage_id = storage_module_id
