@@ -47,6 +47,11 @@ public class AccountService {
                 .orElseThrow(() -> new NoSuchElementException("Username not found: " + username));
     }
 
+    public AccountDto findStationAccount() {
+        return accountRepository.findOwnerAccount().map(accountMapper::toDto)
+                .orElseThrow(() -> new IllegalStateException("Owner account not found"));
+    }
+
     public AccountDto deposit(Integer userId, TransferRequest request) {
         Account account = findByUserId(userId);
         account.setBalance(account.getBalance() + request.amount());
