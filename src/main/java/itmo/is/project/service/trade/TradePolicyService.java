@@ -23,6 +23,14 @@ public class TradePolicyService {
         return tradePolicyRepository.findAll(pageable).map(tradePolicyMapper::toDto);
     }
 
+    public Page<TradePolicyDto> getAllStationBuys(Pageable pageable) {
+        return tradePolicyRepository.findAllByStationBuysTrue(pageable).map(tradePolicyMapper::toDto);
+    }
+
+    public Page<TradePolicyDto> getAllStationSells(Pageable pageable) {
+        return tradePolicyRepository.findAllByStationSellsTrue(pageable).map(tradePolicyMapper::toDto);
+    }
+
     public TradePolicyDto getByResourceId(Integer resourceId) {
         return tradePolicyRepository.findById(resourceId).map(tradePolicyMapper::toDto).orElse(null);
     }
