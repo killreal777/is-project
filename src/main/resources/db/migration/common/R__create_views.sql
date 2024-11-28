@@ -263,27 +263,29 @@ ORDER BY t.time DESC;
 
 CREATE OR REPLACE VIEW sell_offers_view AS
 SELECT
+    r.id AS resource_id,
     r.name AS resource_name,
-    tp.sell_price,
-    GREATEST(COALESCE(SUM(sr.amount), 0) - tp.sell_limit, 0) AS sell_amount
+    tp.sell_price AS price,
+    GREATEST(COALESCE(SUM(sr.amount), 0) - tp.sell_limit, 0) AS amount
 FROM trade_policy tp
 JOIN resource r ON tp.resource_id = r.id
 JOIN stored_resource sr ON sr.resource_id = r.id
 WHERE tp.station_sells = TRUE
-GROUP BY r.name, tp.sell_price, tp.sell_limit
+GROUP BY r.id, r.name, tp.sell_price, tp.sell_limit
 HAVING GREATEST(COALESCE(SUM(sr.amount), 0) - tp.sell_limit, 0) > 0;
 
 
 CREATE OR REPLACE VIEW purchase_offers_view AS
 SELECT
+    r.id AS resource_id,
     r.name AS resource_name,
-    tp.purchase_price,
-    GREATEST(COALESCE(SUM(sr.amount), 0) - tp.purchase_limit, 0) AS purchase_amount
+    tp.purchase_price AS price,
+    GREATEST(COALESCE(SUM(sr.amount), 0) - tp.purchase_limit, 0) AS amount
 FROM trade_policy tp
 JOIN resource r ON tp.resource_id = r.id
 JOIN stored_resource sr ON sr.resource_id = r.id
-WHERE tp.station_sells = TRUE
-GROUP BY r.name, tp.purchase_price, tp.purchase_limit
+WHERE tp.station_buys = TRUE
+GROUP BY r.id, r.name, tp.purchase_price, tp.purchase_limit
 HAVING GREATEST(COALESCE(SUM(sr.amount), 0) - tp.purchase_limit, 0) > 0;
 
 
@@ -293,15 +295,15 @@ FROM (
     SELECT
         sov.resource_name AS resource_name,
         'FOR SALE' AS trade_type,
-        sov.sell_price AS price,
-        sov.sell_amount AS amount
+        sov.price AS price,
+        sov.amount AS amount
     FROM sell_offers_view sov
     UNION ALL
     SELECT
         pov.resource_name AS resource_name,
         'FOR PURCHASE' AS trade_type,
-        pov.purchase_price AS price,
-        pov.purchase_amount AS amount
+        pov.price AS price,
+        pov.amount AS amount
     FROM purchase_offers_view pov
 ) AS o
 ORDER BY

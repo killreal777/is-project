@@ -1,7 +1,7 @@
 package itmo.is.project.rest.controller.trade;
 
-import itmo.is.project.dto.trade.TradePolicyDto;
-import itmo.is.project.dto.trade.UpdateTradePolicyRequest;
+import itmo.is.project.dto.trade.policy.TradePolicyDto;
+import itmo.is.project.dto.trade.policy.UpdateTradePolicyRequest;
 import itmo.is.project.service.trade.TradePolicyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/management/trade/policies")
+@RequestMapping("/api/v1/management/trades/policies")
 @RequiredArgsConstructor
 public class TradePolicyRestController {
     private final TradePolicyService service;

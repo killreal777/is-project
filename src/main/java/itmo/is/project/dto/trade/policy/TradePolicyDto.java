@@ -1,6 +1,10 @@
-package itmo.is.project.dto.trade;
+package itmo.is.project.dto.trade.policy;
 
-public record UpdateTradePolicyRequest(
+import itmo.is.project.model.resource.Resource;
+
+public record TradePolicyDto(
+        Integer resourceId,
+        Resource resource,
         Boolean stationSells,
         Integer sellPrice,
         Integer sellLimit,

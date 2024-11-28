@@ -1,7 +1,7 @@
 package itmo.is.project.mapper.trade;
 
-import itmo.is.project.dto.trade.TradePolicyDto;
-import itmo.is.project.dto.trade.UpdateTradePolicyRequest;
+import itmo.is.project.dto.trade.policy.TradePolicyDto;
+import itmo.is.project.dto.trade.policy.UpdateTradePolicyRequest;
 import itmo.is.project.mapper.EntityMapper;
 import itmo.is.project.model.trade.TradePolicy;
 import org.mapstruct.Mapper;

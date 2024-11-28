@@ -1,6 +1,5 @@
 package itmo.is.project.repository.trade;
 
-import itmo.is.project.dto.trade.TradePolicyDto;
 import itmo.is.project.model.trade.TradePolicy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
