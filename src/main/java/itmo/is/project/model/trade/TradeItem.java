@@ -5,10 +5,8 @@ import itmo.is.project.model.resource.ResourceAmountHolder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 @Entity
 @Table(name = "trade_item")
@@ -49,4 +47,10 @@ public class TradeItem implements ResourceAmountHolder {
     @Min(0)
     @Column(name = "price", nullable = false, updatable = false)
     private Integer price;
+
+    public void setCompositeKey(Trade trade, Resource resource) {
+        this.trade = trade;
+        this.resource = resource;
+        this.id = new TradeItem.CompositeKey(trade.getId(), resource.getId());
+    }
 }

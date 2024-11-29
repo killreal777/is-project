@@ -69,4 +69,18 @@ public class AccountService {
         account = accountRepository.save(account);
         return accountMapper.toDto(account);
     }
+
+    public void transferFunds(AccountDto from, AccountDto to, int amount) {
+        Account accountFrom = accountRepository.findById(from.user().id())
+                .orElseThrow(() -> new IllegalArgumentException("Account not found: " + from.user().id()));
+        Account accountTo = accountRepository.findById(to.user().id())
+                .orElseThrow(() -> new IllegalArgumentException("Account not found: " + to.user().id()));
+
+        accountFrom.setBalance(accountFrom.getBalance() - amount);
+        accountTo.setBalance(accountTo.getBalance() + amount);
+
+        accountRepository.save(accountFrom);
+        accountRepository.save(accountTo);
+    }
+
 }

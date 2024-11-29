@@ -1,19 +1,24 @@
 package itmo.is.project.dto.module.storage;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import itmo.is.project.dto.module.BuildCostDto;
 
 public record StorageModuleBlueprintDto(
-        @JsonProperty("id")
+
+        @Schema(example = "1")
+        @JsonProperty(value = "id", required = true)
         Integer id,
 
-        @JsonProperty("name")
+        @Schema(example = "Storage S")
+        @JsonProperty(value = "name", required = true)
         String name,
 
-        @JsonProperty("buildCost")
+        @JsonProperty(value = "buildCost", required = true)
         BuildCostDto buildCost,
 
-        @JsonProperty("capacity")
+        @Schema(example = "25000")
+        @JsonProperty(value = "capacity", required = true)
         Integer capacity
 ) {
 }

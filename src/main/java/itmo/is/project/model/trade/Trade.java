@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Trade {
 
     @Id
@@ -21,13 +22,13 @@ public class Trade {
     @Column(name = "id")
     private Integer id;
 
-    @NotNull
+//    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @NotNull
+//    @NotNull
     @CreationTimestamp
-    @Column(name = "time", nullable = false, updatable = false)
+    @Column(name = "time", nullable = false)
     private LocalDateTime time;
 }

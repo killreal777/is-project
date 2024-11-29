@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface TradeRepository extends JpaRepository<Trade, Integer> {
 
@@ -30,6 +32,26 @@ public interface TradeRepository extends JpaRepository<Trade, Integer> {
                 .map(this::parseTradeOffer);
     }
 
+    @Query("""
+            SELECT
+                tp.resource,
+                GREATEST(COALESCE(SUM(sr.amount), 0) - tp.purchaseLimit, 0),
+                tp.purchasePrice
+            FROM TradePolicy tp
+            JOIN StoredResource sr ON sr.resource = tp.resource
+            WHERE tp.stationBuys = TRUE AND tp.resourceId = :resourceId
+            GROUP BY tp.resource, tp.purchaseLimit, tp.purchasePrice
+            HAVING GREATEST(COALESCE(SUM(sr.amount), 0) - tp.purchaseLimit, 0) > 0
+            """)
+    Optional<Object[]> findPurchaseOfferByResourceIdRaw(Integer resourceId);
+
+    default TradeOfferDto findPurchaseOfferByResourceId(Integer resourceId) {
+        return findPurchaseOfferByResourceIdRaw(resourceId)
+                .map(rawSelect -> (Object[]) rawSelect[0])
+                .map(this::parseTradeOffer)
+                .orElseThrow();
+    }
+
     @Query("""           
             SELECT
                 tp.resource,
@@ -46,6 +68,25 @@ public interface TradeRepository extends JpaRepository<Trade, Integer> {
     default Page<TradeOfferDto> findAllSellOffers(Pageable pageable) {
         return findAllSellOffersRaw(pageable)
                 .map(this::parseTradeOffer);
+    }
+    @Query("""           
+            SELECT
+                tp.resource,
+                GREATEST(COALESCE(SUM(sr.amount), 0) - tp.sellLimit, 0),
+                tp.sellPrice
+            FROM TradePolicy tp
+            JOIN StoredResource sr ON sr.resource = tp.resource
+            WHERE tp.stationSells = TRUE AND tp.resourceId = :resourceId
+            GROUP BY tp.resource, tp.sellLimit, tp.sellPrice
+            HAVING GREATEST(COALESCE(SUM(sr.amount), 0) - tp.sellLimit, 0) > 0
+            """)
+    Optional<Object[]> findSellOfferByResourceIdRaw(Integer resourceId);
+
+    default TradeOfferDto findSellOfferByResourceId(Integer resourceId) {
+        return findSellOfferByResourceIdRaw(resourceId)
+                .map(rawSelect -> (Object[]) rawSelect[0])
+                .map(this::parseTradeOffer)
+                .orElseThrow();
     }
 
     private TradeOfferDto parseTradeOffer(Object[] rawResult) {

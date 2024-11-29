@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayDeque;
+import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
 
@@ -53,8 +54,9 @@ public class StorageService {
                 .map(storedResource -> resourceAmountMapper.toDto(storedResource.getResourceAmount()));
     }
 
-
-
+    public int getTotalFreeSpace() {
+        return storageModuleRepository.getTotalFreeSpaceInStorages();
+    }
 
 
     private void checkFreeSpace(int amount) {
@@ -78,7 +80,7 @@ public class StorageService {
     }
 
 
-    public void storeAll(List<ResourceIdAmount> resources) {
+    public void storeAll(Collection<ResourceIdAmount> resources) {
         int amountTotal = sumResourcesAmount(resources);
         checkFreeSpace(amountTotal);
 
@@ -122,7 +124,7 @@ public class StorageService {
     }
 
 
-    public void retrieveAll(List<ResourceIdAmount> resources) {
+    public void retrieveAll(Collection<ResourceIdAmount> resources) {
         for (ResourceIdAmount resourceIdAmount : resources) {
             checkExistenceRequiredResourceAmount(resourceIdAmount);
         }
@@ -164,7 +166,7 @@ public class StorageService {
         }
     }
 
-    public void retrieveAndStoreAll(List<ResourceIdAmount> retrieve, List<ResourceIdAmount> store) {
+    public void retrieveAndStoreAll(Collection<ResourceIdAmount> retrieve, Collection<ResourceIdAmount> store) {
         int requiredSpace = sumResourcesAmount(store) - sumResourcesAmount(retrieve);
         if (requiredSpace > 0) {
             checkFreeSpace(requiredSpace);
@@ -173,7 +175,7 @@ public class StorageService {
         storeAll(store);
     }
 
-    private int sumResourcesAmount(List<ResourceIdAmount> resources) {
+    private int sumResourcesAmount(Collection<ResourceIdAmount> resources) {
         return resources.stream()
                 .mapToInt(ResourceIdAmount::getAmount)
                 .sum();

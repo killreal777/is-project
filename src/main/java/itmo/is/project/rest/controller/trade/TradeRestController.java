@@ -36,6 +36,7 @@ public class TradeRestController {
 
     @PostMapping
     public ResponseEntity<TradeDto> trade(@RequestBody TradeRequest request, @AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(tradeService.trade(request, user));
+        TradeDto trade = tradeService.trade(request, user);
+        return ResponseEntity.ok(trade);
     }
 }

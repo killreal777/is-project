@@ -14,6 +14,10 @@ public interface ResourceAmountHolder {
         return new ResourceAmount(getResource(), getAmount());
     }
 
+    default ResourceIdAmount getResourceIdAmount() {
+        return new ResourceIdAmount(getResource().getId(), getAmount());
+    }
+
     default void setResourceAmount(ResourceAmount resourceAmount) {
         setResource(resourceAmount.getResource());
         setAmount(resourceAmount.getAmount());
