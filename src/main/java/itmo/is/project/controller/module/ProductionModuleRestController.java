@@ -1,8 +1,9 @@
-package itmo.is.project.rest.controller.module;
+package itmo.is.project.controller.module;
 
 import itmo.is.project.dto.module.production.ProductionModuleBlueprintDto;
 import itmo.is.project.dto.module.production.ProductionModuleDto;
 import itmo.is.project.service.module.ProductionModuleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ public class ProductionModuleRestController
 
     private final ProductionModuleService productionModuleService;
 
+    @Autowired
     public ProductionModuleRestController(ProductionModuleService productionModuleService) {
         super(productionModuleService);
         this.productionModuleService = productionModuleService;

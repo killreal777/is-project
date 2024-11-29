@@ -2,8 +2,8 @@ package itmo.is.project.service.module;
 
 import itmo.is.project.dto.module.production.ProductionModuleBlueprintDto;
 import itmo.is.project.dto.module.production.ProductionModuleDto;
-import itmo.is.project.mapper.module.ProductionModuleBlueprintMapper;
-import itmo.is.project.mapper.module.ProductionModuleMapper;
+import itmo.is.project.mapper.module.production.ProductionModuleBlueprintMapper;
+import itmo.is.project.mapper.module.production.ProductionModuleMapper;
 import itmo.is.project.model.module.production.*;
 import itmo.is.project.model.user.Role;
 import itmo.is.project.model.user.User;

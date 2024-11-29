@@ -1,4 +1,4 @@
-package itmo.is.project.rest.controller.management;
+package itmo.is.project.controller.management;
 
 import itmo.is.project.dto.user.SpaceshipDto;
 import itmo.is.project.service.user.SpaceshipService;

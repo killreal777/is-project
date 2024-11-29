@@ -1,4 +1,4 @@
-package itmo.is.project.rest.controller.account;
+package itmo.is.project.controller.account;
 
 import itmo.is.project.dto.user.AccountDto;
 import itmo.is.project.dto.user.TransferRequest;

@@ -1,4 +1,4 @@
-package itmo.is.project.rest.controller.management;
+package itmo.is.project.controller.management;
 
 import itmo.is.project.dto.user.AccountDto;
 import itmo.is.project.service.user.AccountService;

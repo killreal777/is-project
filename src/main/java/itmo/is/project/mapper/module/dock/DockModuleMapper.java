@@ -1,4 +1,4 @@
-package itmo.is.project.mapper.module;
+package itmo.is.project.mapper.module.dock;
 
 import itmo.is.project.dto.module.dock.DockModuleDto;
 import itmo.is.project.mapper.EntityMapper;

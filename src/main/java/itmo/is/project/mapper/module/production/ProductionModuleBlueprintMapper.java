@@ -1,4 +1,4 @@
-package itmo.is.project.mapper.module;
+package itmo.is.project.mapper.module.production;
 
 import itmo.is.project.dto.module.production.ProductionModuleBlueprintDto;
 import itmo.is.project.mapper.EntityMapper;

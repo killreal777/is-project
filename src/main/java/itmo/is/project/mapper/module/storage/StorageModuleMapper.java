@@ -1,4 +1,4 @@
-package itmo.is.project.mapper.module;
+package itmo.is.project.mapper.module.storage;
 
 import itmo.is.project.dto.module.storage.StorageModuleDto;
 import itmo.is.project.mapper.EntityMapper;

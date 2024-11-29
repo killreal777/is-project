@@ -2,8 +2,8 @@ package itmo.is.project.service.module;
 
 import itmo.is.project.dto.module.storage.StorageModuleBlueprintDto;
 import itmo.is.project.dto.module.storage.StorageModuleDto;
-import itmo.is.project.mapper.module.StorageModuleBlueprintMapper;
-import itmo.is.project.mapper.module.StorageModuleMapper;
+import itmo.is.project.mapper.module.storage.StorageModuleBlueprintMapper;
+import itmo.is.project.mapper.module.storage.StorageModuleMapper;
 import itmo.is.project.model.module.storage.StorageModule;
 import itmo.is.project.model.module.storage.StorageModuleBlueprint;
 import itmo.is.project.repository.module.storage.StorageModuleBlueprintRepository;

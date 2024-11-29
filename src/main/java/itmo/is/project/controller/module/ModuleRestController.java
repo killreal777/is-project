@@ -1,4 +1,4 @@
-package itmo.is.project.rest.controller.module;
+package itmo.is.project.controller.module;
 
 import itmo.is.project.dto.module.BuildModuleRequest;
 import itmo.is.project.service.module.ModuleService;

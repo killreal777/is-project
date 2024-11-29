@@ -35,6 +35,11 @@ public class SpaceshipService {
                 .orElseThrow(() -> new NoSuchElementException("Spaceship not found with pilot id: " + pilotId));
     }
 
+    public Spaceship findSpaceshipEntityByPilotId(Integer pilotId) {
+        return spaceshipRepository.findByPilotId(pilotId)
+                .orElseThrow(() -> new NoSuchElementException("Spaceship not found with pilot id: " + pilotId));
+    }
+
     public SpaceshipDto findSpaceshipByPilotUsername(String pilotUsername) {
         return spaceshipRepository.findByPilotUsername(pilotUsername)
                 .map(spaceshipMapper::toDto)

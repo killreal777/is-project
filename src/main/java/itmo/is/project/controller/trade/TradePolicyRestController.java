@@ -1,4 +1,4 @@
-package itmo.is.project.rest.controller.trade;
+package itmo.is.project.controller.trade;
 
 import itmo.is.project.dto.trade.policy.TradePolicyDto;
 import itmo.is.project.dto.trade.policy.UpdateTradePolicyRequest;

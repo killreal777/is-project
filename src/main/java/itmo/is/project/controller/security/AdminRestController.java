@@ -1,4 +1,4 @@
-package itmo.is.project.rest.controller.security;
+package itmo.is.project.controller.security;
 
 import itmo.is.project.dto.user.UserDto;
 import itmo.is.project.security.service.AuthenticationService;

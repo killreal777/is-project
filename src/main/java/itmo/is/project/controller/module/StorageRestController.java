@@ -1,4 +1,4 @@
-package itmo.is.project.rest.controller.module;
+package itmo.is.project.controller.module;
 
 import itmo.is.project.dto.resource.ResourceAmountDto;
 import itmo.is.project.dto.resource.StoredResourceDto;

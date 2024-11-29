@@ -1,4 +1,4 @@
-package itmo.is.project.rest.controller.security;
+package itmo.is.project.controller.security;
 
 import itmo.is.project.dto.security.AuthenticationRequest;
 import itmo.is.project.dto.security.JwtResponse;
