@@ -15,7 +15,7 @@ public record TradeDto(
         @JsonProperty(value = "user", required = true)
         UserDto user,
 
-        @Schema(example = "500")
+        @Schema(example = "2024-11-29T10:48:08.248564")
         @JsonProperty(value = "time", required = true)
         LocalDateTime time
 ) {

@@ -9,6 +9,7 @@ import itmo.is.project.model.module.storage.StorageModuleFreeSpace;
 import itmo.is.project.model.module.storage.StoredResource;
 import itmo.is.project.model.resource.Resource;
 import itmo.is.project.model.resource.ResourceAmount;
+import itmo.is.project.model.resource.ResourceAmountHolder;
 import itmo.is.project.model.resource.ResourceIdAmount;
 import itmo.is.project.repository.ResourceRepository;
 import itmo.is.project.repository.module.storage.StorageModuleRepository;
@@ -87,19 +88,23 @@ public class StorageService {
         Deque<StorageModuleFreeSpace> storages = getAvailableStorages();
 
         for (ResourceIdAmount resourceIdAmount : resources) {
-            storeAllAmountToStorages(resourceIdAmount, storages);
+            storeAllAmountToStorages(toResourceAmount(resourceIdAmount), storages);
         }
     }
 
-    public void store(ResourceIdAmount resourceIdAmount) {
+    public void storeById(ResourceIdAmount resourceIdAmount) {
         checkFreeSpace(resourceIdAmount.getAmount());
         Deque<StorageModuleFreeSpace> storages = getAvailableStorages();
-        storeAllAmountToStorages(resourceIdAmount, storages);
+        storeAllAmountToStorages(toResourceAmount(resourceIdAmount), storages);
     }
 
-    private void storeAllAmountToStorages(ResourceIdAmount resourceIdAmount, Deque<StorageModuleFreeSpace> storages) {
-        ResourceAmount resourceAmount = toResourceAmount(resourceIdAmount);
+    public void store(ResourceAmountHolder resourceAmount) {
+        checkFreeSpace(resourceAmount.getAmount());
+        Deque<StorageModuleFreeSpace> storages = getAvailableStorages();
+        storeAllAmountToStorages(resourceAmount.getResourceAmount(), storages);
+    }
 
+    private void storeAllAmountToStorages(ResourceAmount resourceAmount, Deque<StorageModuleFreeSpace> storages) {
         while (resourceAmount.getAmount() > 0) {
             StorageModuleFreeSpace storage = storages.poll();
             storeResourceUpToStorageCapacity(resourceAmount, storage);
@@ -124,23 +129,32 @@ public class StorageService {
     }
 
 
-    public void retrieveAll(Collection<ResourceIdAmount> resources) {
+    public void retrieveAllById(Collection<ResourceIdAmount> resources) {
         for (ResourceIdAmount resourceIdAmount : resources) {
             checkExistenceRequiredResourceAmount(resourceIdAmount);
         }
         for (ResourceIdAmount resourceIdAmount : resources) {
-            retrieveFromStorages(resourceIdAmount);
+            retrieveFromStorages(toResourceAmount(resourceIdAmount));
+        }
+    }
+
+    public void retrieveAll(Collection<? extends ResourceAmountHolder> resources) {
+        for (ResourceAmountHolder resource : resources) {
+            checkExistenceRequiredResourceAmount(resource.getResourceIdAmount());
+        }
+        for (ResourceAmountHolder resource : resources) {
+            retrieveFromStorages(resource.getResourceAmount());
         }
     }
 
     public void retrieve(ResourceIdAmount resourceIdAmount) {
         checkExistenceRequiredResourceAmount(resourceIdAmount);
-        retrieveFromStorages(resourceIdAmount);
+        retrieveFromStorages(toResourceAmount(resourceIdAmount));
     }
 
-    private void retrieveFromStorages(ResourceIdAmount resourceIdAmount) {
-        ResourceAmount resourceAmount = toResourceAmount(resourceIdAmount);
-        List<StoredResource> storedResources = storedResourceRepository.findAllByResourceId(resourceIdAmount.getId());
+    private void retrieveFromStorages(ResourceAmount resourceAmount) {
+        Integer resourceId = resourceAmount.getResource().getId();
+        List<StoredResource> storedResources = storedResourceRepository.findAllByResourceId(resourceId);
 
         int remainingAmount = resourceAmount.getAmount();
         for (StoredResource storedResource : storedResources) {
@@ -171,7 +185,7 @@ public class StorageService {
         if (requiredSpace > 0) {
             checkFreeSpace(requiredSpace);
         }
-        retrieveAll(retrieve);
+        retrieveAllById(retrieve);
         storeAll(store);
     }
 

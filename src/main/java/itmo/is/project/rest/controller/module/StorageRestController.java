@@ -1,6 +1,5 @@
 package itmo.is.project.rest.controller.module;
 
-import itmo.is.project.dto.AmountDto;
 import itmo.is.project.dto.resource.ResourceAmountDto;
 import itmo.is.project.dto.resource.StoredResourceDto;
 import itmo.is.project.model.resource.ResourceIdAmount;
@@ -44,7 +43,7 @@ public class StorageRestController {
             @PathVariable Integer resourceId,
             @RequestBody Integer amount
     ) {
-        storageService.store(new ResourceIdAmount(resourceId, amount));
+        storageService.storeById(new ResourceIdAmount(resourceId, amount));
         return ResponseEntity.ok().build();
     }
 
@@ -69,7 +68,7 @@ public class StorageRestController {
     public ResponseEntity<Void> retrieveAll(
             @RequestBody List<ResourceIdAmount> resources
     ) {
-        storageService.retrieveAll(resources);
+        storageService.retrieveAllById(resources);
         return ResponseEntity.ok().build();
     }
 }
