@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/management/trades/policies")
+@RequestMapping("/api/v1/trades/policies")
 @RequiredArgsConstructor
 public class TradePolicyRestController {
     private final TradePolicyService service;

@@ -14,7 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/management/trades")
+@RequestMapping("/api/v1/trades")
 @RequiredArgsConstructor
 public class TradeRestController {
     private final TradeService tradeService;
