@@ -21,7 +21,6 @@ public class SecurityFilterChainConfig {
             "/v3/api-docs/**", "/v3/api-docs.yaml",
             "/api/v*/auth/**", "api/**"
     };
-    private static final String[] ADMIN_LIST_URL = {"/api/v*/admin/**"};
 
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -33,7 +32,6 @@ public class SecurityFilterChainConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
                         request.requestMatchers(WHITE_LIST_URL).permitAll()
-                                .requestMatchers(ADMIN_LIST_URL).hasAnyRole("OWNER", "MANAGER")
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
