@@ -72,7 +72,7 @@ public class TradeService {
             Trade trade
     ) {
         return resources.stream()
-                .map(resource -> Pair.of(getTradeOfferByResourceIdAndOperation(resource.getId(), operation), resource))
+                .map(resource -> Pair.of(getTradeOfferByResourceIdAndOperation(resource.getResourceId(), operation), resource))
                 .collect(Collectors.toMap(
                         Pair::getFirst,
                         pair -> createTradeItem(pair.getFirst(), pair.getSecond(), operation, trade)
@@ -92,10 +92,10 @@ public class TradeService {
             Operation operation,
             Trade trade
     ) {
-        Resource resource = resourceRepository.findById(resourceIdAmount.getId()).orElseThrow();
+        Resource resource = resourceRepository.findById(resourceIdAmount.getResourceId()).orElseThrow();
         TradeItem tradeItem = new TradeItem();
         tradeItem.setCompositeKey(trade, resource);
-        tradeItem.setAmount(resourceIdAmount.getAmount());
+        tradeItem.setAmount(resourceIdAmount.getResourceAmount());
         tradeItem.setOperation(operation);
         tradeItem.setPrice(offer.price());
         return tradeItem;
@@ -167,7 +167,7 @@ public class TradeService {
     }
 
     private void transferResources(Collection<TradeItem> retrieve, Collection<TradeItem> store) {
-        storageModuleService.retrieveAndStoreAll(
+        storageModuleService.retrieveAndStoreAllById(
                 retrieve.stream().map(TradeItem::getResourceIdAmount).toList(),
                 store.stream().map(TradeItem::getResourceIdAmount).toList()
         );

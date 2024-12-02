@@ -60,7 +60,7 @@ public class StorageModuleRestController {
             @PathVariable Integer resourceId,
             @RequestBody Integer amount
     ) {
-        storageModuleService.storeById(new ResourceIdAmount(resourceId, amount));
+        storageModuleService.storeResourceById(new ResourceIdAmount(resourceId, amount));
         return ResponseEntity.ok().build();
     }
 
@@ -68,7 +68,7 @@ public class StorageModuleRestController {
     public ResponseEntity<Void> storeAll(
             @RequestBody List<ResourceIdAmount> resources
     ) {
-        storageModuleService.storeAll(resources);
+        storageModuleService.storeAllResourcesById(resources);
         return ResponseEntity.ok().build();
     }
 
@@ -77,7 +77,7 @@ public class StorageModuleRestController {
             @PathVariable Integer resourceId,
             @RequestBody Integer amount
     ) {
-        storageModuleService.retrieve(new ResourceIdAmount(resourceId, amount));
+        storageModuleService.retrieveResourceById(new ResourceIdAmount(resourceId, amount));
         return ResponseEntity.ok().build();
     }
 
@@ -85,7 +85,7 @@ public class StorageModuleRestController {
     public ResponseEntity<Void> retrieveAll(
             @RequestBody List<ResourceIdAmount> resources
     ) {
-        storageModuleService.retrieveAllById(resources);
+        storageModuleService.retrieveAllResourcesById(resources);
         return ResponseEntity.ok().build();
     }
 }

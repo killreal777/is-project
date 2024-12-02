@@ -1,49 +1,37 @@
 package itmo.is.project.service.module;
 
-import itmo.is.project.dto.module.storage.StorageModuleBlueprintDto;
 import itmo.is.project.dto.resource.ResourceAmountDto;
 import itmo.is.project.dto.resource.StoredResourceDto;
-import itmo.is.project.mapper.module.storage.StorageModuleBlueprintMapper;
 import itmo.is.project.mapper.resource.ResourceAmountMapper;
 import itmo.is.project.mapper.resource.StoredResourceMapper;
 import itmo.is.project.model.module.storage.StorageModuleFreeSpace;
 import itmo.is.project.model.module.storage.StoredResource;
-import itmo.is.project.model.resource.Resource;
 import itmo.is.project.model.resource.ResourceAmount;
 import itmo.is.project.model.resource.ResourceAmountHolder;
-import itmo.is.project.model.resource.ResourceIdAmount;
-import itmo.is.project.repository.ResourceRepository;
-import itmo.is.project.repository.module.storage.StorageModuleBlueprintRepository;
+import itmo.is.project.model.resource.ResourceIdAmountHolder;
 import itmo.is.project.repository.module.storage.StorageModuleRepository;
 import itmo.is.project.repository.module.storage.StoredResourceRepository;
+import itmo.is.project.service.resource.ResourceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayDeque;
-import java.util.Collection;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class StorageModuleService {
 
-    private final StorageModuleBlueprintRepository storageModuleBlueprintRepository;
-    private final StorageModuleBlueprintMapper storageModuleBlueprintMapper;
-
     private final StoredResourceRepository storedResourceRepository;
-    private final ResourceAmountMapper resourceAmountMapper;
-    private final StoredResourceMapper storedResourceMapper;
-    private final ResourceRepository resourceRepository;
-
     private final StorageModuleRepository storageModuleRepository;
 
-    public Page<StorageModuleBlueprintDto> findAllBlueprints(Pageable pageable) {
-        return storageModuleBlueprintRepository.findAll(pageable)
-                .map(storageModuleBlueprintMapper::toDto);
-    }
+    private final ResourceAmountMapper resourceAmountMapper;
+    private final StoredResourceMapper storedResourceMapper;
+
+    private final ResourceService resourceService;
+
 
     public Page<StoredResourceDto> getAllStoredResources(Pageable pageable) {
         return storedResourceRepository.findAll(pageable)
@@ -70,103 +58,108 @@ public class StorageModuleService {
     }
 
 
-    private void checkFreeSpace(int amount) {
-        int freeSpace = storageModuleRepository.getTotalFreeSpaceInStorages();
-        if (amount > freeSpace) {
-            throw new IllegalStateException();
+    @Transactional
+    public void storeResourceById(ResourceIdAmountHolder resourceIdAmount) {
+        storeResource(resourceService.toResourceAmount(resourceIdAmount));
+    }
+
+    @Transactional
+    public void storeResource(ResourceAmountHolder resourceAmount) {
+        storeAllResources(List.of(resourceAmount));
+    }
+
+    @Transactional
+    public void storeAllResourcesById(Collection<? extends ResourceIdAmountHolder> resources) {
+        storeAllResources(resources.stream().map(resourceService::toResourceAmount).toList());
+    }
+
+    @Transactional
+    public void storeAllResources(Collection<? extends ResourceAmountHolder> resources) {
+        int amountTotal = sumResourcesAmount(resources);
+        checkFreeSpace(amountTotal);
+        Deque<StorageModuleFreeSpace> storages = getAvailableStorages();
+        for (ResourceAmountHolder resourceAmount : resources) {
+            storeResourceToStorages(resourceAmount, storages);
         }
     }
 
     private Deque<StorageModuleFreeSpace> getAvailableStorages() {
         return new ArrayDeque<>(
                 storageModuleRepository.findAllHavingFreeSpace().stream()
-                        .map(pair -> new StorageModuleFreeSpace(pair.getFirst(), pair.getSecond()))
+                        .map(StorageModuleFreeSpace::new)
                         .toList()
         );
     }
 
-    private ResourceAmount toResourceAmount(ResourceIdAmount resourceIdAmount) {
-        Resource resource = resourceRepository.findById(resourceIdAmount.getId()).orElseThrow();
-        return new ResourceAmount(resource, resourceIdAmount.getAmount());
-    }
-
-
-    public void storeAll(Collection<ResourceIdAmount> resources) {
-        int amountTotal = sumResourcesAmount(resources);
-        checkFreeSpace(amountTotal);
-
-        Deque<StorageModuleFreeSpace> storages = getAvailableStorages();
-
-        for (ResourceIdAmount resourceIdAmount : resources) {
-            storeAllAmountToStorages(toResourceAmount(resourceIdAmount), storages);
-        }
-    }
-
-    public void storeById(ResourceIdAmount resourceIdAmount) {
-        checkFreeSpace(resourceIdAmount.getAmount());
-        Deque<StorageModuleFreeSpace> storages = getAvailableStorages();
-        storeAllAmountToStorages(toResourceAmount(resourceIdAmount), storages);
-    }
-
-    public void store(ResourceAmountHolder resourceAmount) {
-        checkFreeSpace(resourceAmount.getAmount());
-        Deque<StorageModuleFreeSpace> storages = getAvailableStorages();
-        storeAllAmountToStorages(resourceAmount.getResourceAmount(), storages);
-    }
-
-    private void storeAllAmountToStorages(ResourceAmount resourceAmount, Deque<StorageModuleFreeSpace> storages) {
+    private void storeResourceToStorages(
+            ResourceAmountHolder resourceAmount,
+            Deque<StorageModuleFreeSpace> storages
+    ) {
         while (resourceAmount.getAmount() > 0) {
-            StorageModuleFreeSpace storage = storages.poll();
-            storeResourceUpToStorageCapacity(resourceAmount, storage);
-            if (storage.getFreeSpace() > 0) {
-                storages.offerFirst(storage);
+            StorageModuleFreeSpace storageModuleFreeSpace = storages.poll();
+            storeResourceUpToStorageCapacity(resourceAmount, Objects.requireNonNull(storageModuleFreeSpace));
+            if (storageModuleFreeSpace.getFreeSpace() > 0) {
+                storages.offerFirst(storageModuleFreeSpace);
             }
         }
     }
 
-    private void storeResourceUpToStorageCapacity(ResourceAmount resourceAmount, StorageModuleFreeSpace storage) {
+    private void storeResourceUpToStorageCapacity(
+            ResourceAmountHolder resourceAmountToStore,
+            StorageModuleFreeSpace storageModuleFreeSpace
+    ) {
         StoredResource.CompositeKey id = new StoredResource.CompositeKey(
-                storage.getStorageModule().getId(), resourceAmount.getResource().getId()
+                storageModuleFreeSpace.getStorageModuleId(), resourceAmountToStore.getResourceId()
         );
         StoredResource storedResource = storedResourceRepository.findById(id).orElseGet(() ->
-                new StoredResource(id, storage.getStorageModule(), resourceAmount.getResource(), 0)
+                new StoredResource(id, storageModuleFreeSpace.getStorageModule(), resourceAmountToStore.getResource(), 0)
         );
-        int storeAmount = Math.min(resourceAmount.getAmount(), storage.getFreeSpace());
-        storedResource.setAmount(storedResource.getAmount() + storeAmount);
+        int storeAmount = Math.min(resourceAmountToStore.getAmount(), storageModuleFreeSpace.getFreeSpace());
+        storedResource.add(storeAmount);
         storedResourceRepository.save(storedResource);
-        resourceAmount.setAmount(resourceAmount.getAmount() - storeAmount);
-        storage.setFreeSpace(storage.getFreeSpace() - storeAmount);
+        resourceAmountToStore.sub(storeAmount);
+        storageModuleFreeSpace.sub(storeAmount);
     }
 
 
-    public void retrieveAllById(Collection<ResourceIdAmount> resources) {
-        for (ResourceIdAmount resourceIdAmount : resources) {
-            checkExistenceRequiredResourceAmount(resourceIdAmount);
+    @Transactional
+    public void retrieveResourceById(ResourceIdAmountHolder resourceIdAmount) {
+        retrieveResource(resourceService.toResourceAmount(resourceIdAmount));
+    }
+
+    @Transactional
+    public void retrieveResource(ResourceAmountHolder resourceAmount) {
+        retrieveAllResources(List.of(resourceAmount));
+    }
+
+    @Transactional
+    public void retrieveAllResourcesById(Collection<? extends ResourceIdAmountHolder> resources) {
+        retrieveAllResources(resources.stream().map(resourceService::toResourceAmount).toList());
+    }
+
+    @Transactional
+    public void retrieveAllResources(Collection<? extends ResourceAmountHolder> resources) {
+        for (ResourceAmountHolder resourceAmount : resources) {
+            checkExistenceRequiredResourceAmount(resourceAmount);
         }
-        for (ResourceIdAmount resourceIdAmount : resources) {
-            retrieveFromStorages(toResourceAmount(resourceIdAmount));
+        for (ResourceAmountHolder resourceAmount : resources) {
+            retrieveResourceFromStorages(resourceAmount);
         }
     }
 
-    public void retrieveAll(Collection<? extends ResourceAmountHolder> resources) {
-        for (ResourceAmountHolder resource : resources) {
-            checkExistenceRequiredResourceAmount(resource.getResourceIdAmount());
-        }
-        for (ResourceAmountHolder resource : resources) {
-            retrieveFromStorages(resource.getResourceAmount());
+    private void checkExistenceRequiredResourceAmount(ResourceIdAmountHolder required) {
+        Integer resourceId = required.getResourceId();
+        ResourceAmount total = storedResourceRepository.findResourceAmountTotal(resourceId).orElseThrow();
+        if (total.getAmount() < required.getAmount()) {
+            throw new IllegalStateException();
         }
     }
 
-    public void retrieve(ResourceIdAmount resourceIdAmount) {
-        checkExistenceRequiredResourceAmount(resourceIdAmount);
-        retrieveFromStorages(toResourceAmount(resourceIdAmount));
-    }
-
-    private void retrieveFromStorages(ResourceAmount resourceAmount) {
-        Integer resourceId = resourceAmount.getResource().getId();
+    private void retrieveResourceFromStorages(ResourceIdAmountHolder resourceIdAmount) {
+        Integer resourceId = resourceIdAmount.getResourceId();
         List<StoredResource> storedResources = storedResourceRepository.findAllByResourceId(resourceId);
 
-        int remainingAmount = resourceAmount.getAmount();
+        int remainingAmount = resourceIdAmount.getAmount();
         for (StoredResource storedResource : storedResources) {
             if (storedResource.getAmount() <= remainingAmount) {
                 storedResourceRepository.delete(storedResource);
@@ -182,27 +175,42 @@ public class StorageModuleService {
         }
     }
 
-    private void checkExistenceRequiredResourceAmount(ResourceIdAmount required) {
-        Integer id = required.getId();
-        ResourceAmount total = storedResourceRepository.findResourceAmountTotal(id).orElseThrow();
-        if (total.getAmount() < required.getAmount()) {
-            throw new IllegalStateException();
-        }
+
+    @Transactional
+    public void retrieveAndStoreAllById(
+            Collection<? extends ResourceIdAmountHolder> retrieve,
+            Collection<? extends ResourceIdAmountHolder> store
+    ) {
+        retrieveAndStoreAll(
+                retrieve.stream().map(resourceService::toResourceAmount).toList(),
+                store.stream().map(resourceService::toResourceAmount).toList()
+        );
     }
 
-    public void retrieveAndStoreAll(Collection<ResourceIdAmount> retrieve, Collection<ResourceIdAmount> store) {
+    @Transactional
+    public void retrieveAndStoreAll(
+            Collection<? extends ResourceAmountHolder> retrieve,
+            Collection<? extends ResourceAmountHolder> store
+    ) {
         int requiredSpace = sumResourcesAmount(store) - sumResourcesAmount(retrieve);
         if (requiredSpace > 0) {
             checkFreeSpace(requiredSpace);
         }
-        retrieveAllById(retrieve);
-        storeAll(store);
+        retrieveAllResources(retrieve);
+        storeAllResources(store);
     }
 
-    private int sumResourcesAmount(Collection<ResourceIdAmount> resources) {
+
+    private int sumResourcesAmount(Collection<? extends ResourceIdAmountHolder> resources) {
         return resources.stream()
-                .mapToInt(ResourceIdAmount::getAmount)
+                .mapToInt(ResourceIdAmountHolder::getAmount)
                 .sum();
     }
 
+    private void checkFreeSpace(int amount) {
+        int freeSpace = storageModuleRepository.getTotalFreeSpaceInStorages();
+        if (amount > freeSpace) {
+            throw new IllegalStateException();
+        }
+    }
 }

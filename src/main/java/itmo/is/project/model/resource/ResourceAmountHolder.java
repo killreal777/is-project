@@ -1,21 +1,18 @@
 package itmo.is.project.model.resource;
 
-public interface ResourceAmountHolder {
+public interface ResourceAmountHolder extends ResourceIdAmountHolder {
 
     Resource getResource();
 
-    Integer getAmount();
-
     void setResource(Resource resource);
 
-    void setAmount(Integer amount);
+    @Override
+    default Integer getResourceId() {
+        return getResource().getId();
+    }
 
     default ResourceAmount getResourceAmount() {
         return new ResourceAmount(getResource(), getAmount());
-    }
-
-    default ResourceIdAmount getResourceIdAmount() {
-        return new ResourceIdAmount(getResource().getId(), getAmount());
     }
 
     default void setResourceAmount(ResourceAmount resourceAmount) {

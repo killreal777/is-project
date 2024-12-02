@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class ResourceIdAmount {
+public class ResourceIdAmount implements ResourceIdAmountHolder {
 
     @NotNull
     private Integer id;
@@ -19,4 +19,9 @@ public class ResourceIdAmount {
     @NotNull
     @Min(1)
     private Integer amount;
+
+    @Override
+    public ResourceIdAmount getResourceIdAmount() {
+        return this;
+    }
 }

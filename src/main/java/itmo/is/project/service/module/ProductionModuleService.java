@@ -93,7 +93,7 @@ public class ProductionModuleService {
             throw new IllegalStateException();
         }
         List<Consumption> consumption = productionModule.getBlueprint().getConsumption();
-        storageModuleService.retrieveAll(consumption);
+        storageModuleService.retrieveAllResources(consumption);
         productionModule.setState(ProductionModuleState.MANUFACTURING);
         productionModule = productionModuleRepository.save(productionModule);
         return productionModuleMapper.toDto(productionModule);
@@ -105,7 +105,7 @@ public class ProductionModuleService {
             throw new IllegalStateException();
         }
         Production production = productionModule.getBlueprint().getProduction();
-        storageModuleService.store(production);
+        storageModuleService.storeResource(production);
         productionModule.setState(ProductionModuleState.READY);
         productionModule = productionModuleRepository.save(productionModule);
         return productionModuleMapper.toDto(productionModule);

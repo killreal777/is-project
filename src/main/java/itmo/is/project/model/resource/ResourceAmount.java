@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class ResourceAmount {
+public class ResourceAmount implements ResourceAmountHolder {
 
     @NotNull
     private Resource resource;
@@ -27,5 +27,10 @@ public class ResourceAmount {
 
     public ResourceIdAmount getResourceIdAmount() {
         return new ResourceIdAmount(resource.getId(), amount);
+    }
+
+    @Override
+    public ResourceAmount getResourceAmount() {
+        return this;
     }
 }

@@ -25,4 +25,16 @@ public class StorageModuleFreeSpace {
         this.storageModule = storageModuleFreeSpacePair.getFirst();
         this.freeSpace = storageModuleFreeSpacePair.getSecond();
     }
+
+    public Integer getStorageModuleId() {
+        return storageModule.getId();
+    }
+
+    public void add(int space) {
+        freeSpace += space;
+    }
+
+    public void sub(int space) {
+        freeSpace -= space;
+    }
 }
