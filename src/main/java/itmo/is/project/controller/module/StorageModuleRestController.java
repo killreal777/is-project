@@ -6,7 +6,7 @@ import itmo.is.project.dto.module.storage.StorageModuleDto;
 import itmo.is.project.dto.resource.ResourceAmountDto;
 import itmo.is.project.dto.resource.StoredResourceDto;
 import itmo.is.project.model.resource.ResourceIdAmount;
-import itmo.is.project.service.module.StorageService;
+import itmo.is.project.service.module.StorageModuleService;
 import itmo.is.project.service.module.build.StorageModuleBuildService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,8 +19,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/modules/storage")
 @RequiredArgsConstructor
-public class StorageRestController {
-    private final StorageService storageService;
+public class StorageModuleRestController {
+    private final StorageModuleService storageModuleService;
     private final StorageModuleBuildService storageModuleBuildService;
 
     @GetMapping("/build/blueprints")
@@ -37,22 +37,22 @@ public class StorageRestController {
 
     @GetMapping("/resources")
     public ResponseEntity<Page<StoredResourceDto>> findAll(Pageable pageable) {
-        return ResponseEntity.ok(storageService.getAllStoredResources(pageable));
+        return ResponseEntity.ok(storageModuleService.getAllStoredResources(pageable));
     }
 
     @GetMapping("/resources/{storageId}")
     public ResponseEntity<Page<ResourceAmountDto>> findByStorageId(@PathVariable Integer storageId, Pageable pageable) {
-        return ResponseEntity.ok(storageService.getAllResourceAmountsByStorageId(storageId, pageable));
+        return ResponseEntity.ok(storageModuleService.getAllResourceAmountsByStorageId(storageId, pageable));
     }
 
     @GetMapping("/resources/total")
     public ResponseEntity<Page<ResourceAmountDto>> findAllTotal(Pageable pageable) {
-        return ResponseEntity.ok(storageService.getAllResourceAmountsTotal(pageable));
+        return ResponseEntity.ok(storageModuleService.getAllResourceAmountsTotal(pageable));
     }
 
     @GetMapping("/resources/{resourceId}/total")
     public ResponseEntity<ResourceAmountDto> findByResourceId(@PathVariable Integer resourceId) {
-        return ResponseEntity.ok(storageService.getResourceAmountTotal(resourceId));
+        return ResponseEntity.ok(storageModuleService.getResourceAmountTotal(resourceId));
     }
 
     @PutMapping("/resources/{resourceId}/store")
@@ -60,7 +60,7 @@ public class StorageRestController {
             @PathVariable Integer resourceId,
             @RequestBody Integer amount
     ) {
-        storageService.storeById(new ResourceIdAmount(resourceId, amount));
+        storageModuleService.storeById(new ResourceIdAmount(resourceId, amount));
         return ResponseEntity.ok().build();
     }
 
@@ -68,7 +68,7 @@ public class StorageRestController {
     public ResponseEntity<Void> storeAll(
             @RequestBody List<ResourceIdAmount> resources
     ) {
-        storageService.storeAll(resources);
+        storageModuleService.storeAll(resources);
         return ResponseEntity.ok().build();
     }
 
@@ -77,7 +77,7 @@ public class StorageRestController {
             @PathVariable Integer resourceId,
             @RequestBody Integer amount
     ) {
-        storageService.retrieve(new ResourceIdAmount(resourceId, amount));
+        storageModuleService.retrieve(new ResourceIdAmount(resourceId, amount));
         return ResponseEntity.ok().build();
     }
 
@@ -85,7 +85,7 @@ public class StorageRestController {
     public ResponseEntity<Void> retrieveAll(
             @RequestBody List<ResourceIdAmount> resources
     ) {
-        storageService.retrieveAllById(resources);
+        storageModuleService.retrieveAllById(resources);
         return ResponseEntity.ok().build();
     }
 }

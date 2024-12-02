@@ -5,7 +5,7 @@ import itmo.is.project.dto.module.dock.DockModuleBlueprintDto;
 import itmo.is.project.dto.module.dock.DockModuleDto;
 import itmo.is.project.dto.module.dock.DockingSpotDto;
 import itmo.is.project.model.user.User;
-import itmo.is.project.service.module.DockService;
+import itmo.is.project.service.module.DockModuleService;
 import itmo.is.project.service.module.build.DockModuleBuildService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/modules/dock")
 @RequiredArgsConstructor
 public class DockModuleRestController {
-    private final DockService dockService;
+    private final DockModuleService dockModuleService;
     private final DockModuleBuildService dockModuleBuildService;
 
     @GetMapping("/build/blueprints")
@@ -36,22 +36,22 @@ public class DockModuleRestController {
 
     @GetMapping("/spots")
     public ResponseEntity<Page<DockingSpotDto>> getAllDockingSpots(@PageableDefault Pageable pageable) {
-        return ResponseEntity.ok(dockService.getAllDockingSpots(pageable));
+        return ResponseEntity.ok(dockModuleService.getAllDockingSpots(pageable));
     }
 
     @GetMapping("/spots/occupied")
     public ResponseEntity<Page<DockingSpotDto>> getAllOccupiedDockingSpots(@PageableDefault Pageable pageable) {
-        return ResponseEntity.ok(dockService.getAllOccupiedDockingSpots(pageable));
+        return ResponseEntity.ok(dockModuleService.getAllOccupiedDockingSpots(pageable));
     }
 
     @PostMapping("/requests/dock")
     public ResponseEntity<DockingSpotDto> dock(@AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(dockService.dock(user));
+        return ResponseEntity.ok(dockModuleService.dock(user));
     }
 
     @PostMapping("/requests/undock")
     public ResponseEntity<Void> undock(@AuthenticationPrincipal User user) {
-        dockService.undock(user);
+        dockModuleService.undock(user);
         return ResponseEntity.ok().build();
     }
 }

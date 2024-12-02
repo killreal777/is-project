@@ -8,7 +8,7 @@ import itmo.is.project.model.module.production.ProductionModule;
 import itmo.is.project.model.module.production.ProductionModuleBlueprint;
 import itmo.is.project.repository.module.production.ProductionModuleBlueprintRepository;
 import itmo.is.project.repository.module.production.ProductionModuleRepository;
-import itmo.is.project.service.module.StorageService;
+import itmo.is.project.service.module.StorageModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +18,14 @@ public class ProductionModuleBuildService extends
 
     @Autowired
     public ProductionModuleBuildService(
-            StorageService storageService,
+            StorageModuleService storageModuleService,
             ProductionModuleBlueprintRepository productionModuleBlueprintRepository,
             ProductionModuleBlueprintMapper productionModuleBlueprintMapper,
             ProductionModuleRepository productionModuleRepository,
             ProductionModuleMapper productionModuleMapper
     ) {
         super(
-                storageService,
+                storageModuleService,
                 productionModuleBlueprintRepository,
                 productionModuleBlueprintMapper,
                 productionModuleRepository,

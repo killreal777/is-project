@@ -5,7 +5,6 @@ import itmo.is.project.dto.resource.ResourceAmountDto;
 import itmo.is.project.dto.resource.StoredResourceDto;
 import itmo.is.project.mapper.module.storage.StorageModuleBlueprintMapper;
 import itmo.is.project.mapper.resource.ResourceAmountMapper;
-import itmo.is.project.mapper.resource.ResourceMapper;
 import itmo.is.project.mapper.resource.StoredResourceMapper;
 import itmo.is.project.model.module.storage.StorageModuleFreeSpace;
 import itmo.is.project.model.module.storage.StoredResource;
@@ -29,7 +28,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class StorageService {
+public class StorageModuleService {
 
     private final StorageModuleBlueprintRepository storageModuleBlueprintRepository;
     private final StorageModuleBlueprintMapper storageModuleBlueprintMapper;

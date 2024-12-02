@@ -6,7 +6,7 @@ import itmo.is.project.model.module.Module;
 import itmo.is.project.model.module.ModuleBlueprint;
 import itmo.is.project.repository.module.ModuleBlueprintRepository;
 import itmo.is.project.repository.module.ModuleRepository;
-import itmo.is.project.service.module.StorageService;
+import itmo.is.project.service.module.StorageModuleService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class BuildService<M extends Module<B>, B extends ModuleBlueprint, ModuleDto, BlueprintDto> {
-    protected final StorageService storageService;
+    protected final StorageModuleService storageModuleService;
 
     protected final ModuleBlueprintRepository<B> moduleBlueprintRepository;
     protected final EntityMapper<BlueprintDto, B> moduleBlueprintMapper;

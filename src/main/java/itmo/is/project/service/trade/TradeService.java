@@ -15,7 +15,7 @@ import itmo.is.project.model.user.User;
 import itmo.is.project.repository.ResourceRepository;
 import itmo.is.project.repository.trade.TradeItemRepository;
 import itmo.is.project.repository.trade.TradeRepository;
-import itmo.is.project.service.module.StorageService;
+import itmo.is.project.service.module.StorageModuleService;
 import itmo.is.project.service.user.AccountService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -37,7 +36,7 @@ public class TradeService {
     private final TradeRepository tradeRepository;
     private final TradeMapper tradeMapper;
     private final AccountService accountService;
-    private final StorageService storageService;
+    private final StorageModuleService storageModuleService;
     private final ResourceRepository resourceRepository;
 
     public Page<TradeDto> getAllTrades(Pageable pageable) {
@@ -155,7 +154,7 @@ public class TradeService {
         int retrieveAmount = calculateTotalAmount(retrieve);
         int storeAmount = calculateTotalAmount(store);
         int requiredFreeSpace = storeAmount - retrieveAmount;
-        if (requiredFreeSpace > 0 && requiredFreeSpace > storageService.getTotalFreeSpace()) {
+        if (requiredFreeSpace > 0 && requiredFreeSpace > storageModuleService.getTotalFreeSpace()) {
             System.out.println("FREE SPACE");
             throw new IllegalStateException();
         }
@@ -168,7 +167,7 @@ public class TradeService {
     }
 
     private void transferResources(Collection<TradeItem> retrieve, Collection<TradeItem> store) {
-        storageService.retrieveAndStoreAll(
+        storageModuleService.retrieveAndStoreAll(
                 retrieve.stream().map(TradeItem::getResourceIdAmount).toList(),
                 store.stream().map(TradeItem::getResourceIdAmount).toList()
         );

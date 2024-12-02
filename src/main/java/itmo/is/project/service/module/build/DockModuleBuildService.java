@@ -8,7 +8,7 @@ import itmo.is.project.model.module.dock.DockModule;
 import itmo.is.project.model.module.dock.DockModuleBlueprint;
 import itmo.is.project.repository.module.dock.DockModuleBlueprintRepository;
 import itmo.is.project.repository.module.dock.DockModuleRepository;
-import itmo.is.project.service.module.StorageService;
+import itmo.is.project.service.module.StorageModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +18,14 @@ public class DockModuleBuildService extends
 
     @Autowired
     public DockModuleBuildService(
-            StorageService storageService,
+            StorageModuleService storageModuleService,
             DockModuleBlueprintRepository dockModuleBlueprintRepository,
             DockModuleBlueprintMapper dockModuleBlueprintMapper,
             DockModuleRepository dockModuleRepository,
             DockModuleMapper dockModuleMapper
     ) {
         super(
-                storageService,
+                storageModuleService,
                 dockModuleBlueprintRepository,
                 dockModuleBlueprintMapper,
                 dockModuleRepository,

@@ -22,7 +22,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ProductionService {
+public class ProductionModuleService {
     private final UserService userService;
 
     private final ProductionModuleRepository productionModuleRepository;
@@ -31,7 +31,7 @@ public class ProductionService {
     private final ProductionModuleBlueprintRepository productionModuleBlueprintRepository;
     private final ProductionModuleBlueprintMapper productionModuleBlueprintMapper;
 
-    private final StorageService storageService;
+    private final StorageModuleService storageModuleService;
 
     public Page<ProductionModuleBlueprintDto> findAllBlueprints(Pageable pageable) {
         return productionModuleBlueprintRepository.findAll(pageable)
@@ -93,7 +93,7 @@ public class ProductionService {
             throw new IllegalStateException();
         }
         List<Consumption> consumption = productionModule.getBlueprint().getConsumption();
-        storageService.retrieveAll(consumption);
+        storageModuleService.retrieveAll(consumption);
         productionModule.setState(ProductionModuleState.MANUFACTURING);
         productionModule = productionModuleRepository.save(productionModule);
         return productionModuleMapper.toDto(productionModule);
@@ -105,7 +105,7 @@ public class ProductionService {
             throw new IllegalStateException();
         }
         Production production = productionModule.getBlueprint().getProduction();
-        storageService.store(production);
+        storageModuleService.store(production);
         productionModule.setState(ProductionModuleState.READY);
         productionModule = productionModuleRepository.save(productionModule);
         return productionModuleMapper.toDto(productionModule);
