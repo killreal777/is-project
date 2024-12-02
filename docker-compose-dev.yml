@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:latest
-    container_name: postgres
+    container_name: is-project-postgres
     environment:
       POSTGRES_USER: s333291
       POSTGRES_PASSWORD: qwerty12345
@@ -10,12 +10,12 @@ services:
       - "15432:5432"
   backend:
     build: .
-    container_name: backend
+    container_name: is-project-backend
     depends_on:
       - postgres
     environment:
       - SPRING_PROFILES_ACTIVE=dev
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/studs
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://is-project-postgres:5432/studs
       - SPRING_DATASOURCE_USERNAME=s333291
       - SPRING_DATASOURCE_PASSWORD=qwerty12345
     ports:
