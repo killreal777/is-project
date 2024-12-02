@@ -1,7 +1,9 @@
 package itmo.is.project.service.module;
 
+import itmo.is.project.dto.module.storage.StorageModuleBlueprintDto;
 import itmo.is.project.dto.resource.ResourceAmountDto;
 import itmo.is.project.dto.resource.StoredResourceDto;
+import itmo.is.project.mapper.module.storage.StorageModuleBlueprintMapper;
 import itmo.is.project.mapper.resource.ResourceAmountMapper;
 import itmo.is.project.mapper.resource.ResourceMapper;
 import itmo.is.project.mapper.resource.StoredResourceMapper;
@@ -12,6 +14,7 @@ import itmo.is.project.model.resource.ResourceAmount;
 import itmo.is.project.model.resource.ResourceAmountHolder;
 import itmo.is.project.model.resource.ResourceIdAmount;
 import itmo.is.project.repository.ResourceRepository;
+import itmo.is.project.repository.module.storage.StorageModuleBlueprintRepository;
 import itmo.is.project.repository.module.storage.StorageModuleRepository;
 import itmo.is.project.repository.module.storage.StoredResourceRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +30,21 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class StorageService {
+
+    private final StorageModuleBlueprintRepository storageModuleBlueprintRepository;
+    private final StorageModuleBlueprintMapper storageModuleBlueprintMapper;
+
     private final StoredResourceRepository storedResourceRepository;
-    private final ResourceMapper resourceMapper;
     private final ResourceAmountMapper resourceAmountMapper;
     private final StoredResourceMapper storedResourceMapper;
     private final ResourceRepository resourceRepository;
 
     private final StorageModuleRepository storageModuleRepository;
+
+    public Page<StorageModuleBlueprintDto> findAllBlueprints(Pageable pageable) {
+        return storageModuleBlueprintRepository.findAll(pageable)
+                .map(storageModuleBlueprintMapper::toDto);
+    }
 
     public Page<StoredResourceDto> getAllStoredResources(Pageable pageable) {
         return storedResourceRepository.findAll(pageable)

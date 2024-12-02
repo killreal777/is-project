@@ -1,9 +1,13 @@
 package itmo.is.project.controller.module;
 
+import itmo.is.project.dto.module.BuildModuleRequest;
+import itmo.is.project.dto.module.storage.StorageModuleBlueprintDto;
+import itmo.is.project.dto.module.storage.StorageModuleDto;
 import itmo.is.project.dto.resource.ResourceAmountDto;
 import itmo.is.project.dto.resource.StoredResourceDto;
 import itmo.is.project.model.resource.ResourceIdAmount;
 import itmo.is.project.service.module.StorageService;
+import itmo.is.project.service.module.build.StorageModuleBuildService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,10 +17,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/storage")
+@RequestMapping("/api/v1/modules/storage")
 @RequiredArgsConstructor
 public class StorageRestController {
     private final StorageService storageService;
+    private final StorageModuleBuildService storageModuleBuildService;
+
+    @GetMapping("/build/blueprints")
+    public ResponseEntity<Page<StorageModuleBlueprintDto>> findAllBlueprints(Pageable pageable) {
+        return ResponseEntity.ok(storageModuleBuildService.findAllBlueprints(pageable));
+    }
+
+    @PostMapping("/build")
+    public ResponseEntity<StorageModuleDto> buildModule(
+            @RequestBody BuildModuleRequest buildModuleRequest
+    ) {
+        return ResponseEntity.ok(storageModuleBuildService.buildModule(buildModuleRequest));
+    }
 
     @GetMapping("/resources")
     public ResponseEntity<Page<StoredResourceDto>> findAll(Pageable pageable) {

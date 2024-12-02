@@ -6,8 +6,6 @@ import itmo.is.project.dto.module.dock.DockingSpotDto;
 import itmo.is.project.mapper.module.dock.DockModuleBlueprintMapper;
 import itmo.is.project.mapper.module.dock.DockModuleMapper;
 import itmo.is.project.mapper.module.dock.DockingSpotMapper;
-import itmo.is.project.model.module.dock.DockModule;
-import itmo.is.project.model.module.dock.DockModuleBlueprint;
 import itmo.is.project.model.module.dock.DockingSpot;
 import itmo.is.project.model.user.Spaceship;
 import itmo.is.project.model.user.User;
@@ -15,41 +13,32 @@ import itmo.is.project.repository.module.dock.DockModuleBlueprintRepository;
 import itmo.is.project.repository.module.dock.DockModuleRepository;
 import itmo.is.project.repository.module.dock.DockingSpotRepository;
 import itmo.is.project.service.user.SpaceshipService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DockModuleService extends
-        ModuleService<DockModule, DockModuleBlueprint, DockModuleDto, DockModuleBlueprintDto> {
+@RequiredArgsConstructor
+public class DockService {
+
+    private final DockModuleBlueprintRepository dockModuleBlueprintRepository;
+    private final DockModuleBlueprintMapper dockModuleBlueprintMapper;
+
+    private final DockModuleRepository dockModuleRepository;
+    private final DockModuleMapper dockModuleMapper;
 
     private final DockingSpotRepository dockingSpotRepository;
     private final DockingSpotMapper dockingSpotMapper;
     private final SpaceshipService spaceshipService;
 
-    @Autowired
-    public DockModuleService(
-            StorageService storageService,
-            DockModuleBlueprintRepository dockModuleBlueprintRepository,
-            DockModuleBlueprintMapper dockModuleBlueprintMapper,
-            DockModuleRepository dockModuleRepository,
-            DockModuleMapper dockModuleMapper,
-            DockingSpotRepository dockingSpotRepository,
-            DockingSpotMapper dockingSpotMapper,
-            SpaceshipService spaceshipService
-    ) {
-        super(
-                storageService,
-                dockModuleBlueprintRepository,
-                dockModuleBlueprintMapper,
-                dockModuleRepository,
-                dockModuleMapper,
-                DockModule::new
-        );
-        this.dockingSpotRepository = dockingSpotRepository;
-        this.dockingSpotMapper = dockingSpotMapper;
-        this.spaceshipService = spaceshipService;
+    public Page<DockModuleBlueprintDto> findAllBlueprints(Pageable pageable) {
+        return dockModuleBlueprintRepository.findAll(pageable)
+                .map(dockModuleBlueprintMapper::toDto);
+    }
+
+    public Page<DockModuleDto> findAllModules(Pageable pageable) {
+        return dockModuleRepository.findAll(pageable).map(dockModuleMapper::toDto);
     }
 
     public Page<DockingSpotDto> getAllDockingSpots(Pageable pageable) {
