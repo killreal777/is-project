@@ -14,6 +14,8 @@ import java.util.Optional;
 @Repository
 public interface TradeRepository extends JpaRepository<Trade, Integer> {
 
+    Page<Trade> findAllByUserId(Integer userId, Pageable pageable);
+
     @Query("""
             SELECT
                 tp.resource,
@@ -43,13 +45,11 @@ public interface TradeRepository extends JpaRepository<Trade, Integer> {
             GROUP BY tp.resource, tp.purchaseLimit, tp.purchasePrice
             HAVING GREATEST(COALESCE(SUM(sr.amount), 0) - tp.purchaseLimit, 0) > 0
             """)
-    Optional<Object[]> findPurchaseOfferByResourceIdRaw(Integer resourceId);
+    Object[][] findPurchaseOfferByResourceIdRaw(Integer resourceId);
 
-    default TradeOfferDto findPurchaseOfferByResourceId(Integer resourceId) {
-        return findPurchaseOfferByResourceIdRaw(resourceId)
-                .map(rawSelect -> (Object[]) rawSelect[0])
-                .map(this::parseTradeOffer)
-                .orElseThrow();
+    default Optional<TradeOfferDto> findPurchaseOfferByResourceId(Integer resourceId) {
+        Object[][] rawSelect = findPurchaseOfferByResourceIdRaw(resourceId);
+        return rawSelect.length == 0 ? Optional.empty() : Optional.of(parseTradeOffer(rawSelect[0]));
     }
 
     @Query("""           
@@ -80,13 +80,11 @@ public interface TradeRepository extends JpaRepository<Trade, Integer> {
             GROUP BY tp.resource, tp.sellLimit, tp.sellPrice
             HAVING GREATEST(COALESCE(SUM(sr.amount), 0) - tp.sellLimit, 0) > 0
             """)
-    Optional<Object[]> findSellOfferByResourceIdRaw(Integer resourceId);
+    Object[][] findSellOfferByResourceIdRaw(Integer resourceId);
 
-    default TradeOfferDto findSellOfferByResourceId(Integer resourceId) {
-        return findSellOfferByResourceIdRaw(resourceId)
-                .map(rawSelect -> (Object[]) rawSelect[0])
-                .map(this::parseTradeOffer)
-                .orElseThrow();
+    default Optional<TradeOfferDto> findSellOfferByResourceId(Integer resourceId) {
+        Object[][] rawSelect = findSellOfferByResourceIdRaw(resourceId);
+        return rawSelect.length == 0 ? Optional.empty() : Optional.of(parseTradeOffer(rawSelect[0]));
     }
 
     private TradeOfferDto parseTradeOffer(Object[] rawResult) {

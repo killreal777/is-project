@@ -47,4 +47,9 @@ public class TradePolicy {
     @Min(0)
     @Column(name = "purchase_limit")
     private Integer purchaseLimit;
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
+        this.resourceId = resource.getId();
+    }
 }

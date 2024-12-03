@@ -7,6 +7,7 @@ import itmo.is.project.model.module.ModuleBlueprint;
 import itmo.is.project.repository.module.ModuleBlueprintRepository;
 import itmo.is.project.repository.module.ModuleRepository;
 import itmo.is.project.service.module.StorageModuleService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,10 +34,12 @@ public abstract class BuildService<M extends Module<B>, B extends ModuleBlueprin
 
     @Transactional
     public ModuleDto buildModule(BuildModuleRequest request) {
-        B blueprint = moduleBlueprintRepository.findById(request.blueprintId()).orElseThrow();
+        B blueprint = moduleBlueprintRepository.findById(request.blueprintId()).orElseThrow(() ->
+                new EntityNotFoundException("Blueprint not found with id: " + request.blueprintId())
+        );
         M module = moduleConstructor.get();
         module.setBlueprint(blueprint);
-        storageModuleService.retrieveAllResources(blueprint.getBuildCost().getItems());
+        storageModuleService.retrieveAll(blueprint.getBuildCost().getItems());
         module = moduleRepository.save(module);
         return moduleMapper.toDto(module);
     }

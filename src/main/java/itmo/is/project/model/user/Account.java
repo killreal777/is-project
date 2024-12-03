@@ -25,5 +25,13 @@ public class Account {
     @Min(0)
     @Column(name = "balance", nullable = false)
     private Integer balance = 0;
+
+    public void deposit(Integer amount) {
+        balance += amount;
+    }
+
+    public void withdraw(Integer amount) {
+        balance -= amount;
+    }
 }
 

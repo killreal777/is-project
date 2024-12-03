@@ -7,29 +7,33 @@ import itmo.is.project.service.user.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth/v1")
+@RequestMapping("/auth/v1/balances")
 @RequiredArgsConstructor
 public class AccountRestController {
     private final AccountService accountService;
 
-    @GetMapping("/balances")
-    public ResponseEntity<Page<AccountDto>> findAll(Pageable pageable) {
+    @GetMapping
+    public ResponseEntity<Page<AccountDto>> getAllAccounts(@PageableDefault Pageable pageable) {
         return ResponseEntity.ok(accountService.findAllAccounts(pageable));
     }
 
-    @GetMapping("/balance")
-    public ResponseEntity<AccountDto> findByUserId(
-            @AuthenticationPrincipal User user
-    ) {
+    @GetMapping("/{userId}")
+    public ResponseEntity<AccountDto> getAccountByUserId(@PathVariable Integer userId) {
+        return ResponseEntity.ok(accountService.findAccountByUserId(userId));
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<AccountDto> getMyAccount(@AuthenticationPrincipal User user) {
         return ResponseEntity.ok(accountService.findAccountByUserId(user.getId()));
     }
 
-    @PutMapping("/balance/deposit")
+    @PutMapping("/my/deposit")
     public ResponseEntity<AccountDto> deposit(
             @RequestBody TransferRequest request,
             @AuthenticationPrincipal User user
@@ -37,7 +41,7 @@ public class AccountRestController {
         return ResponseEntity.ok(accountService.deposit(user.getId(), request));
     }
 
-    @PutMapping("/balance/withdraw")
+    @PutMapping("/my/withdraw")
     public ResponseEntity<AccountDto> withdraw(
             @RequestBody TransferRequest request,
             @AuthenticationPrincipal User user

@@ -10,7 +10,10 @@ import itmo.is.project.model.user.Role;
 import itmo.is.project.model.user.User;
 import itmo.is.project.repository.module.production.ProductionModuleRepository;
 import itmo.is.project.service.user.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,22 +22,31 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProductionModuleService {
-    private final UserService userService;
 
     private final ProductionModuleRepository productionModuleRepository;
     private final ProductionModuleMapper productionModuleMapper;
 
     private final StorageModuleService storageModuleService;
+    private final UserService userService;
+
+    public Page<ProductionModuleDto> getAllProductionModules(Pageable pageable) {
+        return productionModuleRepository.findAll(pageable).map(productionModuleMapper::toDto);
+    }
+
+    public ProductionModuleDto getProductionModuleById(Integer id) {
+        return productionModuleRepository.findById(id).map(productionModuleMapper::toDto)
+                .orElseThrow(() -> new EntityNotFoundException("Production module not found with id: " + id));
+    }
 
     @Transactional
     public ProductionModuleDto assignEngineer(Integer productionModuleId, Integer userId) {
         ProductionModule productionModule = findProductionModuleById(productionModuleId);
         if (productionModule.getEngineer() != null) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("Engine is already assigned to production module");
         }
         User user = userService.findUserById(userId);
         if (user.getRole() != Role.ROLE_ENGINEER) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("This user is not an engineer");
         }
         productionModule.setEngineer(user);
         productionModule = productionModuleRepository.save(productionModule);
@@ -45,7 +57,7 @@ public class ProductionModuleService {
     public ProductionModuleDto removeEngineer(Integer productionModuleId) {
         ProductionModule productionModule = findProductionModuleById(productionModuleId);
         if (productionModule.getState() != ProductionModuleState.OFF) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("Cannot remove engineer: production module is not off");
         }
         if (productionModule.getEngineer() != null) {
             productionModule.setEngineer(null);
@@ -58,7 +70,7 @@ public class ProductionModuleService {
     public ProductionModuleDto start(Integer productionModuleId) {
         ProductionModule productionModule = findProductionModuleById(productionModuleId);
         if (productionModule.getEngineer() == null) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("Cannot start production module: engineer is not assigned");
         }
         if (productionModule.getState() == ProductionModuleState.OFF) {
             productionModule.setState(ProductionModuleState.READY);
@@ -79,10 +91,10 @@ public class ProductionModuleService {
     public ProductionModuleDto loadConsumingResources(Integer productionModuleId) {
         ProductionModule productionModule = findProductionModuleById(productionModuleId);
         if (productionModule.getState() != ProductionModuleState.READY) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("Cannot load resources: production module is not ready");
         }
         List<Consumption> consumption = productionModule.getBlueprint().getConsumption();
-        storageModuleService.retrieveAllResources(consumption);
+        storageModuleService.retrieveAll(consumption);
         productionModule.setState(ProductionModuleState.MANUFACTURING);
         productionModule = productionModuleRepository.save(productionModule);
         return productionModuleMapper.toDto(productionModule);
@@ -92,16 +104,18 @@ public class ProductionModuleService {
     public ProductionModuleDto storeProducedResources(Integer productionModuleId) {
         ProductionModule productionModule = findProductionModuleById(productionModuleId);
         if (productionModule.getState() != ProductionModuleState.MANUFACTURING) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("Cannot store production module: production module is not manufacturing");
         }
         Production production = productionModule.getBlueprint().getProduction();
-        storageModuleService.storeResource(production);
+        storageModuleService.store(production);
         productionModule.setState(ProductionModuleState.READY);
         productionModule = productionModuleRepository.save(productionModule);
         return productionModuleMapper.toDto(productionModule);
     }
 
     private ProductionModule findProductionModuleById(Integer productionModuleId) {
-        return productionModuleRepository.findById(productionModuleId).orElseThrow();
+        return productionModuleRepository.findById(productionModuleId).orElseThrow(() ->
+                new EntityNotFoundException("Production module not found with id: " + productionModuleId)
+        );
     }
 }

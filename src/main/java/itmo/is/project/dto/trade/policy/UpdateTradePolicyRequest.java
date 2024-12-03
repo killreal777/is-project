@@ -14,7 +14,7 @@ public record UpdateTradePolicyRequest(
         Integer sellPrice,
 
         @Schema(example = "100")
-        @JsonProperty(value = "sellLimit", required = true)
+        @JsonProperty(value = "sellLimit")
         Integer sellLimit,
 
         @Schema(example = "true")
@@ -26,7 +26,7 @@ public record UpdateTradePolicyRequest(
         Integer purchasePrice,
 
         @Schema(example = "10000")
-        @JsonProperty(value = "purchaseLimit", required = true)
+        @JsonProperty(value = "purchaseLimit")
         Integer purchaseLimit
 ) {
 }

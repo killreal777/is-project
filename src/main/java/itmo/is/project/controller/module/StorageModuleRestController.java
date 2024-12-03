@@ -11,6 +11,7 @@ import itmo.is.project.service.module.build.StorageModuleBuildService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,69 +24,70 @@ public class StorageModuleRestController {
     private final StorageModuleService storageModuleService;
     private final StorageModuleBuildService storageModuleBuildService;
 
+    @GetMapping
+    public ResponseEntity<Page<StorageModuleDto>> getAllStorageModules(@PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(storageModuleService.getAllStorageModules(pageable));
+    }
+
+    @GetMapping("/{storageModuleId}")
+    public ResponseEntity<StorageModuleDto> getStorageModuleById(@PathVariable Integer storageModuleId) {
+        return ResponseEntity.ok(storageModuleService.getStorageModuleById(storageModuleId));
+    }
+
     @GetMapping("/build/blueprints")
-    public ResponseEntity<Page<StorageModuleBlueprintDto>> findAllBlueprints(Pageable pageable) {
+    public ResponseEntity<Page<StorageModuleBlueprintDto>> findAllBlueprints(@PageableDefault Pageable pageable) {
         return ResponseEntity.ok(storageModuleBuildService.findAllBlueprints(pageable));
     }
 
     @PostMapping("/build")
-    public ResponseEntity<StorageModuleDto> buildModule(
-            @RequestBody BuildModuleRequest buildModuleRequest
-    ) {
+    public ResponseEntity<StorageModuleDto> buildModule(@RequestBody BuildModuleRequest buildModuleRequest) {
         return ResponseEntity.ok(storageModuleBuildService.buildModule(buildModuleRequest));
     }
 
     @GetMapping("/resources")
-    public ResponseEntity<Page<StoredResourceDto>> findAll(Pageable pageable) {
+    public ResponseEntity<Page<StoredResourceDto>> findAll(@PageableDefault Pageable pageable) {
         return ResponseEntity.ok(storageModuleService.getAllStoredResources(pageable));
     }
 
     @GetMapping("/resources/{storageId}")
-    public ResponseEntity<Page<ResourceAmountDto>> findByStorageId(@PathVariable Integer storageId, Pageable pageable) {
-        return ResponseEntity.ok(storageModuleService.getAllResourceAmountsByStorageId(storageId, pageable));
+    public ResponseEntity<Page<ResourceAmountDto>> findByStorageId(
+            @PathVariable Integer storageId,
+            @PageableDefault Pageable pageable
+    ) {
+        return ResponseEntity.ok(storageModuleService.getAllResourcesByStorageId(storageId, pageable));
     }
 
     @GetMapping("/resources/total")
-    public ResponseEntity<Page<ResourceAmountDto>> findAllTotal(Pageable pageable) {
-        return ResponseEntity.ok(storageModuleService.getAllResourceAmountsTotal(pageable));
+    public ResponseEntity<Page<ResourceAmountDto>> findAllTotal(@PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(storageModuleService.getAllResourcesTotal(pageable));
     }
 
     @GetMapping("/resources/{resourceId}/total")
     public ResponseEntity<ResourceAmountDto> findByResourceId(@PathVariable Integer resourceId) {
-        return ResponseEntity.ok(storageModuleService.getResourceAmountTotal(resourceId));
+        return ResponseEntity.ok(storageModuleService.getResourceAmountTotalByResourceId(resourceId));
     }
 
     @PutMapping("/resources/{resourceId}/store")
-    public ResponseEntity<Void> store(
-            @PathVariable Integer resourceId,
-            @RequestBody Integer amount
-    ) {
-        storageModuleService.storeResourceById(new ResourceIdAmount(resourceId, amount));
+    public ResponseEntity<Void> store(@PathVariable Integer resourceId, @RequestBody Integer amount) {
+        storageModuleService.storeById(new ResourceIdAmount(resourceId, amount));
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/resources/store")
-    public ResponseEntity<Void> storeAll(
-            @RequestBody List<ResourceIdAmount> resources
-    ) {
-        storageModuleService.storeAllResourcesById(resources);
+    public ResponseEntity<Void> storeAll(@RequestBody List<ResourceIdAmount> resources) {
+        storageModuleService.storeAllById(resources);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/resources/{resourceId}/retrieve")
-    public ResponseEntity<Void> retrieve(
-            @PathVariable Integer resourceId,
-            @RequestBody Integer amount
-    ) {
-        storageModuleService.retrieveResourceById(new ResourceIdAmount(resourceId, amount));
+    public ResponseEntity<Void> retrieve(@PathVariable Integer resourceId, @RequestBody Integer amount) {
+        storageModuleService.retrieveById(new ResourceIdAmount(resourceId, amount));
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/resources/retrieve")
-    public ResponseEntity<Void> retrieveAll(
-            @RequestBody List<ResourceIdAmount> resources
-    ) {
-        storageModuleService.retrieveAllResourcesById(resources);
+    public ResponseEntity<Void> retrieveAll(@RequestBody List<ResourceIdAmount> resources) {
+        storageModuleService.retrieveAllById(resources);
         return ResponseEntity.ok().build();
     }
 }

@@ -14,6 +14,7 @@ import itmo.is.project.repository.trade.TradeRepository;
 import itmo.is.project.service.module.StorageModuleService;
 import itmo.is.project.service.resource.ResourceService;
 import itmo.is.project.service.user.AccountService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -39,12 +40,33 @@ public class TradeService {
         return tradeRepository.findAll(pageable).map(tradeMapper::toDto);
     }
 
-    public Page<TradeOfferDto> getAllTradeOffersStationBuys(Pageable pageable) {
+    public TradeDto getTradeById(Integer id) {
+        return tradeRepository.findById(id).map(tradeMapper::toDto)
+                .orElseThrow(() -> new EntityNotFoundException("Trade not found with id: " + id));
+    }
+
+    public Page<TradeDto> getAllTradesByUserId(Integer userId, Pageable pageable) {
+        return tradeRepository.findAllByUserId(userId, pageable).map(tradeMapper::toDto);
+    }
+
+    public Page<TradeOfferDto> getAllPurchaseOffers(Pageable pageable) {
         return tradeRepository.findAllPurchaseOffers(pageable);
     }
 
-    public Page<TradeOfferDto> getAllTradeOffersStationSells(Pageable pageable) {
+    public Page<TradeOfferDto> getAllSellOffers(Pageable pageable) {
         return tradeRepository.findAllSellOffers(pageable);
+    }
+
+    public TradeOfferDto getSellOfferByResourceId(Integer resourceId) {
+        return tradeRepository.findSellOfferByResourceId(resourceId).orElseThrow(() ->
+                new EntityNotFoundException("Sell offer not found with resource id: " + resourceId)
+        );
+    }
+
+    public TradeOfferDto getPurchaseOfferByResourceId(Integer resourceId) {
+        return tradeRepository.findPurchaseOfferByResourceId(resourceId).orElseThrow(() ->
+                new EntityNotFoundException("Purchase offer not found with resource id: " + resourceId)
+        );
     }
 
     @Transactional
@@ -84,8 +106,8 @@ public class TradeService {
 
     private TradeOfferDto getTradeOffer(Integer resourceId, Operation operation) {
         return switch (operation) {
-            case BUY -> tradeRepository.findPurchaseOfferByResourceId(resourceId);
-            case SELL -> tradeRepository.findSellOfferByResourceId(resourceId);
+            case BUY -> getSellOfferByResourceId(resourceId);
+            case SELL -> getPurchaseOfferByResourceId(resourceId);
         };
     }
 

@@ -8,6 +8,7 @@ import itmo.is.project.service.module.build.ProductionModuleBuildService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,19 +16,26 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/modules/production")
 @RequiredArgsConstructor
 public class ProductionModuleRestController {
-
     private final ProductionModuleService productionModuleService;
     private final ProductionModuleBuildService productionModuleBuildService;
 
+    @GetMapping
+    public ResponseEntity<Page<ProductionModuleDto>> getAllProductionModules(@PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(productionModuleService.getAllProductionModules(pageable));
+    }
+
+    @GetMapping("/{productionModuleId}")
+    public ResponseEntity<ProductionModuleDto> getProductionModule(@PathVariable Integer productionModuleId) {
+        return ResponseEntity.ok(productionModuleService.getProductionModuleById(productionModuleId));
+    }
+
     @GetMapping("/build/blueprints")
-    public ResponseEntity<Page<ProductionModuleBlueprintDto>> findAllBlueprints(Pageable pageable) {
+    public ResponseEntity<Page<ProductionModuleBlueprintDto>> findAllBlueprints(@PageableDefault Pageable pageable) {
         return ResponseEntity.ok(productionModuleBuildService.findAllBlueprints(pageable));
     }
 
     @PostMapping("/build")
-    public ResponseEntity<ProductionModuleDto> buildModule(
-            @RequestBody BuildModuleRequest buildModuleRequest
-    ) {
+    public ResponseEntity<ProductionModuleDto> buildModule(@RequestBody BuildModuleRequest buildModuleRequest) {
         return ResponseEntity.ok(productionModuleBuildService.buildModule(buildModuleRequest));
     }
 
@@ -40,37 +48,27 @@ public class ProductionModuleRestController {
     }
 
     @DeleteMapping("/{productionModuleId}/engineer")
-    public ResponseEntity<ProductionModuleDto> removeEngineer(
-            @PathVariable Integer productionModuleId
-    ) {
+    public ResponseEntity<ProductionModuleDto> removeEngineer(@PathVariable Integer productionModuleId) {
         return ResponseEntity.ok(productionModuleService.removeEngineer(productionModuleId));
     }
 
     @PostMapping("/{productionModuleId}/start")
-    public ResponseEntity<ProductionModuleDto> start(
-            @PathVariable Integer productionModuleId
-    ) {
+    public ResponseEntity<ProductionModuleDto> start(@PathVariable Integer productionModuleId) {
         return ResponseEntity.ok(productionModuleService.start(productionModuleId));
     }
 
     @PostMapping("/{productionModuleId}/stop")
-    public ResponseEntity<ProductionModuleDto> stop(
-            @PathVariable Integer productionModuleId
-    ) {
+    public ResponseEntity<ProductionModuleDto> stop(@PathVariable Integer productionModuleId) {
         return ResponseEntity.ok(productionModuleService.stop(productionModuleId));
     }
 
     @PostMapping("/{productionModuleId}/load")
-    public ResponseEntity<ProductionModuleDto> loadConsumingResources(
-            @PathVariable Integer productionModuleId
-    ) {
+    public ResponseEntity<ProductionModuleDto> loadConsumingResources(@PathVariable Integer productionModuleId) {
         return ResponseEntity.ok(productionModuleService.loadConsumingResources(productionModuleId));
     }
 
     @PostMapping("/{productionModuleId}/store")
-    public ResponseEntity<ProductionModuleDto> storeProducedResources(
-            @PathVariable Integer productionModuleId
-    ) {
+    public ResponseEntity<ProductionModuleDto> storeProducedResources(@PathVariable Integer productionModuleId) {
         return ResponseEntity.ok(productionModuleService.storeProducedResources(productionModuleId));
     }
 }

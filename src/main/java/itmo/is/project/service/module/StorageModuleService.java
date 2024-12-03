@@ -1,7 +1,9 @@
 package itmo.is.project.service.module;
 
+import itmo.is.project.dto.module.storage.StorageModuleDto;
 import itmo.is.project.dto.resource.ResourceAmountDto;
 import itmo.is.project.dto.resource.StoredResourceDto;
+import itmo.is.project.mapper.module.storage.StorageModuleMapper;
 import itmo.is.project.mapper.resource.ResourceAmountMapper;
 import itmo.is.project.mapper.resource.StoredResourceMapper;
 import itmo.is.project.model.module.storage.StorageModuleFreeSpace;
@@ -12,6 +14,7 @@ import itmo.is.project.model.resource.ResourceIdAmountHolder;
 import itmo.is.project.repository.module.storage.StorageModuleRepository;
 import itmo.is.project.repository.module.storage.StoredResourceRepository;
 import itmo.is.project.service.resource.ResourceService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,57 +27,65 @@ import java.util.*;
 @RequiredArgsConstructor
 public class StorageModuleService {
 
-    private final StoredResourceRepository storedResourceRepository;
     private final StorageModuleRepository storageModuleRepository;
+    private final StorageModuleMapper storageModuleMapper;
 
-    private final ResourceAmountMapper resourceAmountMapper;
+    private final StoredResourceRepository storedResourceRepository;
     private final StoredResourceMapper storedResourceMapper;
+    private final ResourceAmountMapper resourceAmountMapper;
 
     private final ResourceService resourceService;
 
+    public Page<StorageModuleDto> getAllStorageModules(Pageable pageable) {
+        return storageModuleRepository.findAll(pageable).map(storageModuleMapper::toDto);
+    }
+
+    public StorageModuleDto getStorageModuleById(Integer id) {
+        return storageModuleRepository.findById(id).map(storageModuleMapper::toDto)
+                .orElseThrow(() -> new EntityNotFoundException("Storage module not found with id: " + id));
+    }
 
     public Page<StoredResourceDto> getAllStoredResources(Pageable pageable) {
         return storedResourceRepository.findAll(pageable)
                 .map(storedResourceMapper::toDto);
     }
 
-    public Page<ResourceAmountDto> getAllResourceAmountsTotal(Pageable pageable) {
+    public Page<ResourceAmountDto> getAllResourcesTotal(Pageable pageable) {
         return storedResourceRepository.findAllResourceAmountsTotal(pageable)
                 .map(resourceAmountMapper::toDto);
     }
 
-    public ResourceAmountDto getResourceAmountTotal(Integer resourceId) {
+    public ResourceAmountDto getResourceAmountTotalByResourceId(Integer resourceId) {
         return storedResourceRepository.findResourceAmountTotal(resourceId)
-                .map(resourceAmountMapper::toDto).orElseThrow();
+                .map(resourceAmountMapper::toDto)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Resource not found in storages with resource id: " + resourceId)
+                );
     }
 
-    public Page<ResourceAmountDto> getAllResourceAmountsByStorageId(Integer storageModuleId, Pageable pageable) {
+    public Page<ResourceAmountDto> getAllResourcesByStorageId(Integer storageModuleId, Pageable pageable) {
         return storedResourceRepository.findAllByIdStorageModuleId(storageModuleId, pageable)
-                .map(storedResource -> resourceAmountMapper.toDto(storedResource.getResourceAmount()));
-    }
-
-    public int getTotalFreeSpace() {
-        return storageModuleRepository.getTotalFreeSpaceInStorages();
+                .map(resourceAmountMapper::toDto);
     }
 
 
     @Transactional
-    public void storeResourceById(ResourceIdAmountHolder resourceIdAmount) {
-        storeResource(resourceService.toResourceAmount(resourceIdAmount));
+    public void storeById(ResourceIdAmountHolder resourceIdAmount) {
+        store(resourceService.toResourceAmount(resourceIdAmount));
     }
 
     @Transactional
-    public void storeResource(ResourceAmountHolder resourceAmount) {
-        storeAllResources(List.of(resourceAmount));
+    public void store(ResourceAmountHolder resourceAmount) {
+        storeAll(List.of(resourceAmount));
     }
 
     @Transactional
-    public void storeAllResourcesById(Collection<? extends ResourceIdAmountHolder> resources) {
-        storeAllResources(resources.stream().map(resourceService::toResourceAmount).toList());
+    public void storeAllById(Collection<? extends ResourceIdAmountHolder> resources) {
+        storeAll(resources.stream().map(resourceService::toResourceAmount).toList());
     }
 
     @Transactional
-    public void storeAllResources(Collection<? extends ResourceAmountHolder> resources) {
+    public void storeAll(Collection<? extends ResourceAmountHolder> resources) {
         int amountTotal = sumResourcesAmount(resources);
         checkFreeSpace(amountTotal);
         Deque<StorageModuleFreeSpace> storages = getAvailableStorages();
@@ -123,22 +134,22 @@ public class StorageModuleService {
 
 
     @Transactional
-    public void retrieveResourceById(ResourceIdAmountHolder resourceIdAmount) {
-        retrieveResource(resourceService.toResourceAmount(resourceIdAmount));
+    public void retrieveById(ResourceIdAmountHolder resourceIdAmount) {
+        retrieve(resourceService.toResourceAmount(resourceIdAmount));
     }
 
     @Transactional
-    public void retrieveResource(ResourceAmountHolder resourceAmount) {
-        retrieveAllResources(List.of(resourceAmount));
+    public void retrieve(ResourceAmountHolder resourceAmount) {
+        retrieveAll(List.of(resourceAmount));
     }
 
     @Transactional
-    public void retrieveAllResourcesById(Collection<? extends ResourceIdAmountHolder> resources) {
-        retrieveAllResources(resources.stream().map(resourceService::toResourceAmount).toList());
+    public void retrieveAllById(Collection<? extends ResourceIdAmountHolder> resources) {
+        retrieveAll(resources.stream().map(resourceService::toResourceAmount).toList());
     }
 
     @Transactional
-    public void retrieveAllResources(Collection<? extends ResourceAmountHolder> resources) {
+    public void retrieveAll(Collection<? extends ResourceAmountHolder> resources) {
         for (ResourceAmountHolder resourceAmount : resources) {
             checkExistenceRequiredResourceAmount(resourceAmount);
         }
@@ -151,7 +162,7 @@ public class StorageModuleService {
         Integer resourceId = required.getResourceId();
         ResourceAmount total = storedResourceRepository.findResourceAmountTotal(resourceId).orElseThrow();
         if (total.getAmount() < required.getAmount()) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("Insufficient resources");
         }
     }
 
@@ -196,8 +207,8 @@ public class StorageModuleService {
         if (requiredSpace > 0) {
             checkFreeSpace(requiredSpace);
         }
-        retrieveAllResources(retrieve);
-        storeAllResources(store);
+        retrieveAll(retrieve);
+        storeAll(store);
     }
 
 
@@ -210,7 +221,7 @@ public class StorageModuleService {
     private void checkFreeSpace(int amount) {
         int freeSpace = storageModuleRepository.getTotalFreeSpaceInStorages();
         if (amount > freeSpace) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("Not enough free space in storages");
         }
     }
 }

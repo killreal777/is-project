@@ -22,15 +22,23 @@ public class DockModuleRestController {
     private final DockModuleService dockModuleService;
     private final DockModuleBuildService dockModuleBuildService;
 
+    @GetMapping
+    public ResponseEntity<Page<DockModuleDto>> getAllDockModules(@PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(dockModuleService.getAllDockModules(pageable));
+    }
+
+    @GetMapping("/{dockModuleId}")
+    public ResponseEntity<DockModuleDto> getDockModuleById(@PathVariable Integer dockModuleId) {
+        return ResponseEntity.ok(dockModuleService.getDockModuleById(dockModuleId));
+    }
+
     @GetMapping("/build/blueprints")
-    public ResponseEntity<Page<DockModuleBlueprintDto>> findAllBlueprints(Pageable pageable) {
+    public ResponseEntity<Page<DockModuleBlueprintDto>> findAllBlueprints(@PageableDefault Pageable pageable) {
         return ResponseEntity.ok(dockModuleBuildService.findAllBlueprints(pageable));
     }
 
     @PostMapping("/build")
-    public ResponseEntity<DockModuleDto> buildModule(
-            @RequestBody BuildModuleRequest buildModuleRequest
-    ) {
+    public ResponseEntity<DockModuleDto> buildModule(@RequestBody BuildModuleRequest buildModuleRequest) {
         return ResponseEntity.ok(dockModuleBuildService.buildModule(buildModuleRequest));
     }
 
@@ -42,6 +50,11 @@ public class DockModuleRestController {
     @GetMapping("/spots/occupied")
     public ResponseEntity<Page<DockingSpotDto>> getAllOccupiedDockingSpots(@PageableDefault Pageable pageable) {
         return ResponseEntity.ok(dockModuleService.getAllOccupiedDockingSpots(pageable));
+    }
+
+    @GetMapping("/spots/occupied/my")
+    public ResponseEntity<DockingSpotDto> getMyDockingSpot(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(dockModuleService.getOccupiedDockingSpotByPilot(user));
     }
 
     @PostMapping("/requests/dock")

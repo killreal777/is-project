@@ -23,15 +23,46 @@ public class TradeRestController {
     public ResponseEntity<Page<TradeDto>> getAllTrades(@PageableDefault Pageable pageable) {
         return ResponseEntity.ok(tradeService.getAllTrades(pageable));
     }
-    
-    @GetMapping("/offers/stationBuys")
-    public ResponseEntity<Page<TradeOfferDto>> getAllTradeOffersStationBuys(@PageableDefault Pageable pageable) {
-        return ResponseEntity.ok(tradeService.getAllTradeOffersStationBuys(pageable));
+
+    @GetMapping("/{tradeId}")
+    public ResponseEntity<TradeDto> getTradeById(@PathVariable Integer tradeId) {
+        return ResponseEntity.ok(tradeService.getTradeById(tradeId));
     }
 
-    @GetMapping("/offers/stationSells")
-    public ResponseEntity<Page<TradeOfferDto>> getAllTradeOffersStationSells(@PageableDefault Pageable pageable) {
-        return ResponseEntity.ok(tradeService.getAllTradeOffersStationSells(pageable));
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<Page<TradeDto>> getTradesByUserId(
+            @PathVariable Integer userId,
+            @PageableDefault Pageable pageable
+    ) {
+        return ResponseEntity.ok(tradeService.getAllTradesByUserId(userId, pageable));
+    }
+
+    @GetMapping("/users/me")
+    public ResponseEntity<Page<TradeDto>> getMyTrades(
+            @AuthenticationPrincipal User user,
+            @PageableDefault Pageable pageable
+    ) {
+        return ResponseEntity.ok(tradeService.getAllTradesByUserId(user.getId(), pageable));
+    }
+
+    @GetMapping("/offers/sell")
+    public ResponseEntity<Page<TradeOfferDto>> getAllSellOffers(@PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(tradeService.getAllSellOffers(pageable));
+    }
+
+    @GetMapping("/offers/sell/{resourceId}")
+    public ResponseEntity<TradeOfferDto> getSellOfferByResourceId(@PathVariable("resourceId") Integer resourceId) {
+        return ResponseEntity.ok(tradeService.getSellOfferByResourceId(resourceId));
+    }
+
+    @GetMapping("/offers/purchase")
+    public ResponseEntity<Page<TradeOfferDto>> getAllPurchaseOffers(@PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(tradeService.getAllPurchaseOffers(pageable));
+    }
+
+    @GetMapping("/offers/purchase/{resourceId}")
+    public ResponseEntity<TradeOfferDto> getPurchaseOfferByResourceId(@PathVariable("resourceId") Integer resourceId) {
+        return ResponseEntity.ok(tradeService.getPurchaseOfferByResourceId(resourceId));
     }
 
     @PostMapping

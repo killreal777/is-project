@@ -19,6 +19,4 @@ public interface DockingSpotRepository extends JpaRepository<DockingSpot, Intege
     Optional<DockingSpot> findBySpaceshipPilot(User pilot);
 
     boolean existsBySpaceship(Spaceship spaceship);
-
-    boolean existsBySpaceshipId(Integer id);
 }
