@@ -49,7 +49,7 @@ public class StorageModuleService {
     }
 
     public Page<ResourceAmountDto> getAllResourceAmountsByStorageId(Integer storageModuleId, Pageable pageable) {
-        return storedResourceRepository.findAllByStorageId(storageModuleId, pageable)
+        return storedResourceRepository.findAllByIdStorageModuleId(storageModuleId, pageable)
                 .map(storedResource -> resourceAmountMapper.toDto(storedResource.getResourceAmount()));
     }
 
@@ -157,7 +157,7 @@ public class StorageModuleService {
 
     private void retrieveResourceFromStorages(ResourceIdAmountHolder resourceIdAmount) {
         Integer resourceId = resourceIdAmount.getResourceId();
-        List<StoredResource> storedResources = storedResourceRepository.findAllByResourceId(resourceId);
+        List<StoredResource> storedResources = storedResourceRepository.findAllByIdResourceId(resourceId);
 
         int remainingAmount = resourceIdAmount.getAmount();
         for (StoredResource storedResource : storedResources) {

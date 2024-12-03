@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import lombok.experimental.Accessors;
 
 @Entity
 @Table(name = "trade_item")
@@ -47,6 +46,13 @@ public class TradeItem implements ResourceAmountHolder {
     @Min(0)
     @Column(name = "price", nullable = false, updatable = false)
     private Integer price;
+
+    public TradeItem(Trade trade, ResourceAmountHolder resourceAmount, Operation operation, Integer price) {
+        setCompositeKey(trade, resourceAmount.getResource());
+        this.amount = resourceAmount.getAmount();
+        this.operation = operation;
+        this.price = price;
+    }
 
     public void setCompositeKey(Trade trade, Resource resource) {
         this.trade = trade;

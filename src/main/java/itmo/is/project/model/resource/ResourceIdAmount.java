@@ -13,7 +13,7 @@ import lombok.*;
 public class ResourceIdAmount implements ResourceIdAmountHolder {
 
     @NotNull
-    private Integer id;
+    private Integer resourceId;
 
     @With
     @NotNull
