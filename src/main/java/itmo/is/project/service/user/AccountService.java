@@ -38,20 +38,6 @@ public class AccountService {
                 .orElseThrow(() -> new NoSuchElementException("User ID not found: " + userId));
     }
 
-    public AccountDto findAccountByUsername(String username) {
-        return accountMapper.toDto(findByUsername(username));
-    }
-
-    private Account findByUsername(String username) {
-        return accountRepository.findByUserUsername(username)
-                .orElseThrow(() -> new NoSuchElementException("Username not found: " + username));
-    }
-
-    public AccountDto findStationAccount() {
-        return accountRepository.findOwnerAccount().map(accountMapper::toDto)
-                .orElseThrow(() -> new IllegalStateException("Owner account not found"));
-    }
-
     public AccountDto deposit(Integer userId, TransferRequest request) {
         Account account = findByUserId(userId);
         account.setBalance(account.getBalance() + request.amount());
@@ -70,17 +56,17 @@ public class AccountService {
         return accountMapper.toDto(account);
     }
 
-    public void transferFunds(AccountDto from, AccountDto to, int amount) {
-        Account accountFrom = accountRepository.findById(from.user().id())
-                .orElseThrow(() -> new IllegalArgumentException("Account not found: " + from.user().id()));
-        Account accountTo = accountRepository.findById(to.user().id())
-                .orElseThrow(() -> new IllegalArgumentException("Account not found: " + to.user().id()));
-
-        accountFrom.setBalance(accountFrom.getBalance() - amount);
-        accountTo.setBalance(accountTo.getBalance() + amount);
-
-        accountRepository.save(accountFrom);
-        accountRepository.save(accountTo);
+    public void transferFundsBetweenStationAndUser(Integer userId, int stationBalanceChange) {
+        Account user = accountRepository.findByUserId(userId)
+                .orElseThrow(() -> new NoSuchElementException("User ID not found: " + userId));
+        Account station = accountRepository.findOwnerAccount()
+                .orElseThrow(() -> new IllegalStateException("Owner account not found"));
+        station.setBalance(station.getBalance() + stationBalanceChange);
+        user.setBalance(user.getBalance() - stationBalanceChange);
+        if (station.getBalance() < 0 || user.getBalance() < 0) {
+            throw new IllegalStateException("Insufficient funds");
+        }
+        accountRepository.save(user);
+        accountRepository.save(station);
     }
-
 }
