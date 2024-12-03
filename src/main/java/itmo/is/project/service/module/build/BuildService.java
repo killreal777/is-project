@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.function.Supplier;
 
@@ -30,10 +31,12 @@ public abstract class BuildService<M extends Module<B>, B extends ModuleBlueprin
                 .map(moduleBlueprintMapper::toDto);
     }
 
+    @Transactional
     public ModuleDto buildModule(BuildModuleRequest request) {
         B blueprint = moduleBlueprintRepository.findById(request.blueprintId()).orElseThrow();
         M module = moduleConstructor.get();
         module.setBlueprint(blueprint);
+        storageModuleService.retrieveAllResources(blueprint.getBuildCost().getItems());
         module = moduleRepository.save(module);
         return moduleMapper.toDto(module);
     }
