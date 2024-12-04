@@ -7,10 +7,10 @@ import java.util.Set;
 
 public record TradeRequest(
 
-        @JsonProperty(value = "buyFromStation", required = true)
-        Set<ResourceIdAmount> buyFromStation,
+        @JsonProperty(value = "buy", required = true)
+        Set<ResourceIdAmount> buy,
 
-        @JsonProperty(value = "sellToStation", required = true)
-        Set<ResourceIdAmount> sellToStation
+        @JsonProperty(value = "sell", required = true)
+        Set<ResourceIdAmount> sell
 ) {
 }

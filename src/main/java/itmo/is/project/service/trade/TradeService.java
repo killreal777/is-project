@@ -74,8 +74,8 @@ public class TradeService {
         Trade trade = new Trade();
         trade.setUser(user);
 
-        List<TradeItem> sell = createTradeItems(request.buyFromStation(), Operation.SELL, trade);
-        List<TradeItem> purchase = createTradeItems(request.sellToStation(), Operation.BUY, trade);
+        List<TradeItem> sell = createTradeItems(request.buy(), Operation.SELL, trade);
+        List<TradeItem> purchase = createTradeItems(request.sell(), Operation.BUY, trade);
 
         int stationBalanceChange = calculateStationBalanceChange(sell, purchase);
         accountService.transferFundsBetweenStationAndUser(user.getId(), stationBalanceChange);
@@ -106,8 +106,8 @@ public class TradeService {
 
     private TradeOfferDto getTradeOffer(Integer resourceId, Operation operation) {
         return switch (operation) {
-            case BUY -> getSellOfferByResourceId(resourceId);
-            case SELL -> getPurchaseOfferByResourceId(resourceId);
+            case BUY -> getSellOfferByResourceId(resourceId);      // user buys -> station sells
+            case SELL -> getPurchaseOfferByResourceId(resourceId); // user sells -> station buys
         };
     }
 

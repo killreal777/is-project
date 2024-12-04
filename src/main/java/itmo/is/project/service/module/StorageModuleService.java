@@ -2,10 +2,10 @@ package itmo.is.project.service.module;
 
 import itmo.is.project.dto.module.storage.StorageModuleDto;
 import itmo.is.project.dto.resource.ResourceAmountDto;
-import itmo.is.project.dto.resource.StoredResourceDto;
+import itmo.is.project.dto.module.storage.StoredResourceDto;
 import itmo.is.project.mapper.module.storage.StorageModuleMapper;
 import itmo.is.project.mapper.resource.ResourceAmountMapper;
-import itmo.is.project.mapper.resource.StoredResourceMapper;
+import itmo.is.project.mapper.module.storage.StoredResourceMapper;
 import itmo.is.project.model.module.storage.StorageModuleFreeSpace;
 import itmo.is.project.model.module.storage.StoredResource;
 import itmo.is.project.model.resource.ResourceAmount;

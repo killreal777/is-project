@@ -6,6 +6,6 @@ import itmo.is.project.mapper.user.UserMapper;
 import itmo.is.project.model.trade.Trade;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", uses = {UserMapper.class})
+@Mapper(componentModel = "spring", uses = {UserMapper.class, TradeItemMapper.class})
 public interface TradeMapper extends EntityMapper<TradeDto, Trade> {
 }

@@ -3,6 +3,8 @@ package itmo.is.project.dto.module.storage;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.List;
+
 public record StorageModuleDto(
 
         @Schema(example = "1")
@@ -10,6 +12,9 @@ public record StorageModuleDto(
         Integer id,
 
         @JsonProperty(value = "blueprint", required = true)
-        StorageModuleBlueprintDto blueprint
+        StorageModuleBlueprintDto blueprint,
+
+        @JsonProperty(value = "storedResources", required = true)
+        List<StoredResourceDto> storedResources
 ) {
 }

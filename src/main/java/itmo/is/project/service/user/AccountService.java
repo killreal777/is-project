@@ -1,7 +1,6 @@
 package itmo.is.project.service.user;
 
 import itmo.is.project.dto.user.AccountDto;
-import itmo.is.project.dto.user.TransferRequest;
 import itmo.is.project.mapper.user.AccountMapper;
 import itmo.is.project.model.user.Account;
 import itmo.is.project.model.user.User;
@@ -38,17 +37,17 @@ public class AccountService {
     }
 
     @Transactional
-    public AccountDto deposit(Integer userId, TransferRequest request) {
+    public AccountDto deposit(Integer userId, Integer amount) {
         Account account = findByUserId(userId);
-        account.deposit(request.amount());
+        account.deposit(amount);
         account = accountRepository.save(account);
         return accountMapper.toDto(account);
     }
 
     @Transactional
-    public AccountDto withdraw(Integer userId, TransferRequest request) {
+    public AccountDto withdraw(Integer userId, Integer amount) {
         Account account = findByUserId(userId);
-        account.withdraw(request.amount());
+        account.withdraw(amount);
         if (account.getBalance() < 0) {
             throw new IllegalStateException("Insufficient funds");
         }

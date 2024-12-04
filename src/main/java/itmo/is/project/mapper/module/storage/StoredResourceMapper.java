@@ -1,6 +1,6 @@
-package itmo.is.project.mapper.resource;
+package itmo.is.project.mapper.module.storage;
 
-import itmo.is.project.dto.resource.StoredResourceDto;
+import itmo.is.project.dto.module.storage.StoredResourceDto;
 import itmo.is.project.mapper.EntityMapper;
 import itmo.is.project.model.module.storage.StoredResource;
 import org.mapstruct.Mapper;
@@ -10,6 +10,6 @@ import org.mapstruct.Mapping;
 public interface StoredResourceMapper extends EntityMapper<StoredResourceDto, StoredResource> {
 
     @Override
-    @Mapping(source = "id.storageModuleId", target = "storageModuleId")
+    @Mapping(source = "storageModule.id", target = "storageModuleId")
     StoredResourceDto toDto(StoredResource entity);
 }

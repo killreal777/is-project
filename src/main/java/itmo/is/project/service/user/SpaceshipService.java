@@ -1,8 +1,8 @@
 package itmo.is.project.service.user;
 
-import itmo.is.project.dto.user.CreateSpaceshipRequest;
-import itmo.is.project.dto.user.SpaceshipDto;
-import itmo.is.project.dto.user.UpdateSpaceshipRequest;
+import itmo.is.project.dto.user.spaceship.CreateSpaceshipRequest;
+import itmo.is.project.dto.user.spaceship.SpaceshipDto;
+import itmo.is.project.dto.user.spaceship.UpdateSpaceshipRequest;
 import itmo.is.project.mapper.user.SpaceshipMapper;
 import itmo.is.project.model.user.Spaceship;
 import itmo.is.project.model.user.User;

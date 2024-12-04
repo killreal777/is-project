@@ -1,7 +1,6 @@
 package itmo.is.project.controller.user;
 
 import itmo.is.project.dto.user.AccountDto;
-import itmo.is.project.dto.user.TransferRequest;
 import itmo.is.project.model.user.User;
 import itmo.is.project.service.user.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -34,18 +33,12 @@ public class AccountRestController {
     }
 
     @PutMapping("/my/deposit")
-    public ResponseEntity<AccountDto> deposit(
-            @RequestBody TransferRequest request,
-            @AuthenticationPrincipal User user
-    ) {
-        return ResponseEntity.ok(accountService.deposit(user.getId(), request));
+    public ResponseEntity<AccountDto> deposit(@RequestParam Integer amount, @AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(accountService.deposit(user.getId(), amount));
     }
 
     @PutMapping("/my/withdraw")
-    public ResponseEntity<AccountDto> withdraw(
-            @RequestBody TransferRequest request,
-            @AuthenticationPrincipal User user
-    ) {
-        return ResponseEntity.ok(accountService.withdraw(user.getId(), request));
+    public ResponseEntity<AccountDto> withdraw(@RequestParam Integer amount, @AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(accountService.withdraw(user.getId(), amount));
     }
 }

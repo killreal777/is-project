@@ -6,10 +6,7 @@ import itmo.is.project.model.resource.ResourceAmountHolder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "stored_resource")
@@ -29,7 +26,7 @@ public class StoredResource implements ResourceAmountHolder {
     @MapsId("storageModuleId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "storage_id", referencedColumnName = "id")
-    private StorageModule storage;
+    private StorageModule storageModule;
 
     @MapsId("resourceId")
     @ManyToOne(fetch = FetchType.EAGER)
@@ -43,8 +40,8 @@ public class StoredResource implements ResourceAmountHolder {
 
     public StoredResource(ResourceAmount resourceAmount, StorageModule storageModule) {
         setResourceAmount(resourceAmount);
-        setStorage(storageModule);
-        setId(new CompositeKey(storage.getId(), resource.getId()));
+        setStorageModule(storageModule);
+        setId(new CompositeKey(storageModule.getId(), resource.getId()));
     }
 
     public void add(Integer amount) {

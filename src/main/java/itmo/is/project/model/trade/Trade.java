@@ -7,6 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "trade")
@@ -31,4 +32,7 @@ public class Trade {
     @CreationTimestamp
     @Column(name = "time", nullable = false)
     private LocalDateTime time;
+
+    @OneToMany(mappedBy = "trade", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<TradeItem> items;
 }

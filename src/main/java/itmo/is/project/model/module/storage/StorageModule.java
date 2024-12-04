@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class StorageModule extends Module<StorageModuleBlueprint> {
 
-    @OneToMany(mappedBy = "storage", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "storageModule", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StoredResource> storedResources;
 }
 
