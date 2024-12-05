@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +37,7 @@ public class AuthenticationService {
 
     public JwtResponse registerOwner(RegistrationRequest request) {
         if (userService.isOwnerRegistered()) {
-            throw new AuthenticationServiceException("Owner is already registered");
+            throw new IllegalStateException("Owner is already registered");
         }
         boolean enabled = true;
         User user = userService.createUser(request, Role.ROLE_OWNER, enabled);
@@ -79,13 +78,13 @@ public class AuthenticationService {
 
     private void validateUserEnabled(User user) {
         if (!user.isEnabled()) {
-            throw new AuthenticationServiceException("User is disabled: " + user.getUsername());
+            throw new IllegalStateException("User is disabled: " + user.getUsername());
         }
     }
 
     private void validateUserNotEnabled(User user) {
         if (user.isEnabled()) {
-            throw new AuthenticationServiceException("User is enabled: " + user.getUsername());
+            throw new IllegalStateException("User is enabled: " + user.getUsername());
         }
     }
 }

@@ -5,13 +5,12 @@ import itmo.is.project.mapper.user.UserMapper;
 import itmo.is.project.model.user.Role;
 import itmo.is.project.model.user.User;
 import itmo.is.project.repository.user.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -23,12 +22,12 @@ public class UserService {
 
     public User findUserById(Integer userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + userId));
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
     }
 
     public User findUserByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new NoSuchElementException("User not found with username: " + username));
+                .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
     }
 
     public Page<User> findAllDisabledUsers(Pageable pageable) {
