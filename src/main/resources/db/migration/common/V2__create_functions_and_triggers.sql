@@ -125,7 +125,7 @@ BEGIN
     SELECT smb.capacity - COALESCE(SUM(sr.amount), 0) INTO free_space
     FROM storage_module sm
     JOIN storage_module_blueprint smb ON sm.id = storage_module_id AND sm.blueprint_id = smb.build_cost_id
-    JOIN stored_resource sr ON sr.storage_id = storage_module_id
+    LEFT JOIN stored_resource sr ON sr.storage_id = storage_module_id
     GROUP BY smb.capacity;
     RETURN free_space;
 END;

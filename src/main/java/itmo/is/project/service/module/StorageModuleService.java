@@ -95,11 +95,7 @@ public class StorageModuleService {
     }
 
     private Deque<StorageModuleFreeSpace> getAvailableStorages() {
-        return new ArrayDeque<>(
-                storageModuleRepository.findAllHavingFreeSpace().stream()
-                        .map(StorageModuleFreeSpace::new)
-                        .toList()
-        );
+        return new ArrayDeque<>(storageModuleRepository.findAllHavingFreeSpace());
     }
 
     private void storeResourceToStorages(
