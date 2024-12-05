@@ -3,9 +3,8 @@ package itmo.is.project.controller.module;
 import itmo.is.project.dto.module.BuildModuleRequest;
 import itmo.is.project.dto.module.storage.StorageModuleBlueprintDto;
 import itmo.is.project.dto.module.storage.StorageModuleDto;
-import itmo.is.project.dto.resource.ResourceAmountDto;
 import itmo.is.project.dto.module.storage.StoredResourceDto;
-import itmo.is.project.model.resource.ResourceIdAmount;
+import itmo.is.project.dto.resource.ResourceAmountDto;
 import itmo.is.project.service.module.StorageModuleService;
 import itmo.is.project.service.module.build.StorageModuleBuildService;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +14,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/modules/storage")
@@ -67,29 +64,5 @@ public class StorageModuleRestController {
     @GetMapping("/resources/{resourceId}/total")
     public ResponseEntity<ResourceAmountDto> findByResourceId(@PathVariable Integer resourceId) {
         return ResponseEntity.ok(storageModuleService.getResourceAmountTotalByResourceId(resourceId));
-    }
-
-    @PutMapping("/resources/{resourceId}/store")
-    public ResponseEntity<Void> store(@PathVariable Integer resourceId, @RequestParam Integer amount) {
-        storageModuleService.storeById(new ResourceIdAmount(resourceId, amount));
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/resources/store")
-    public ResponseEntity<Void> storeAll(@RequestBody List<ResourceIdAmount> resources) {
-        storageModuleService.storeAllById(resources);
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/resources/{resourceId}/retrieve")
-    public ResponseEntity<Void> retrieve(@PathVariable Integer resourceId, @RequestParam Integer amount) {
-        storageModuleService.retrieveById(new ResourceIdAmount(resourceId, amount));
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/resources/retrieve")
-    public ResponseEntity<Void> retrieveAll(@RequestBody List<ResourceIdAmount> resources) {
-        storageModuleService.retrieveAllById(resources);
-        return ResponseEntity.ok().build();
     }
 }
