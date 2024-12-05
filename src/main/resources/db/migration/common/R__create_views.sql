@@ -251,8 +251,8 @@ SELECT
     ti.amount,
     ti.price,
     CASE
-        WHEN ti.operation = 'SELL' THEN - (ti.amount * ti.price)
-        WHEN ti.operation = 'BUY' THEN ti.amount * ti.price
+        WHEN ti.operation = 'SELL' THEN ti.amount * ti.price
+        WHEN ti.operation = 'BUY' THEN - (ti.amount * ti.price)
     END AS income,
     t.time AS trade_time
 FROM trade_item ti

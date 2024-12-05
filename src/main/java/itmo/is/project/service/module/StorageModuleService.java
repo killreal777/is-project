@@ -102,16 +102,17 @@ public class StorageModuleService {
             ResourceAmountHolder resourceAmount,
             Deque<StorageModuleFreeSpace> storages
     ) {
-        while (resourceAmount.getAmount() > 0) {
+        int remainingAmount = resourceAmount.getAmount();
+        while (remainingAmount > 0) {
             StorageModuleFreeSpace storageModuleFreeSpace = storages.poll();
-            storeResourceUpToStorageCapacity(resourceAmount, Objects.requireNonNull(storageModuleFreeSpace));
+            remainingAmount -= storeResourceUpToStorageCapacity(resourceAmount, storageModuleFreeSpace);
             if (storageModuleFreeSpace.getFreeSpace() > 0) {
                 storages.offerFirst(storageModuleFreeSpace);
             }
         }
     }
 
-    private void storeResourceUpToStorageCapacity(
+    private int storeResourceUpToStorageCapacity(
             ResourceAmountHolder resourceAmountToStore,
             StorageModuleFreeSpace storageModuleFreeSpace
     ) {
@@ -124,8 +125,8 @@ public class StorageModuleService {
         int storeAmount = Math.min(resourceAmountToStore.getAmount(), storageModuleFreeSpace.getFreeSpace());
         storedResource.add(storeAmount);
         storedResourceRepository.save(storedResource);
-        resourceAmountToStore.sub(storeAmount);
         storageModuleFreeSpace.sub(storeAmount);
+        return storeAmount;
     }
 
 

@@ -1,10 +1,11 @@
 package itmo.is.project.service.trade;
 
+import itmo.is.project.dto.resource.ResourceIdAmountDto;
 import itmo.is.project.dto.trade.TradeDto;
 import itmo.is.project.dto.trade.TradeOfferDto;
 import itmo.is.project.dto.trade.TradeRequest;
 import itmo.is.project.mapper.trade.TradeMapper;
-import itmo.is.project.model.resource.ResourceIdAmountHolder;
+import itmo.is.project.model.resource.ResourceIdAmount;
 import itmo.is.project.model.trade.Operation;
 import itmo.is.project.model.trade.Trade;
 import itmo.is.project.model.trade.TradeItem;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -81,18 +83,19 @@ public class TradeService {
         accountService.transferFundsBetweenStationAndUser(user.getId(), stationBalanceChange);
         storageModuleService.retrieveAndStoreAll(sell, purchase);
 
+        trade.setItems(new ArrayList<>(sell));
+        trade.getItems().addAll(purchase);
         trade = tradeRepository.save(trade);
-        tradeItemRepository.saveAll(sell);
-        tradeItemRepository.saveAll(purchase);
 
         return tradeMapper.toDto(trade);
     }
 
     private List<TradeItem> createTradeItems(
-            Collection<? extends ResourceIdAmountHolder> resources,
+            Collection<ResourceIdAmountDto> resources,
             Operation operation, Trade trade
     ) {
         return resources.stream()
+                .map((dto -> new ResourceIdAmount(dto.id(), dto.amount())))
                 .map(resourceService::toResourceAmount)
                 .map(resourceAmount -> {
                     TradeOfferDto offer = getTradeOffer(resourceAmount.getResourceId(), operation);
@@ -119,7 +122,7 @@ public class TradeService {
 
     private int calculateSumPrice(List<TradeItem> items) {
         return items.stream()
-                .mapToInt(TradeItem::getPrice)
+                .mapToInt(item -> item.getPrice() * item.getAmount())
                 .sum();
     }
 }

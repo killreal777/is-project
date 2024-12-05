@@ -1,16 +1,16 @@
 package itmo.is.project.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import itmo.is.project.model.resource.ResourceIdAmount;
+import itmo.is.project.dto.resource.ResourceIdAmountDto;
 
-import java.util.Set;
+import java.util.List;
 
 public record TradeRequest(
 
         @JsonProperty(value = "buy", required = true)
-        Set<ResourceIdAmount> buy,
+        List<ResourceIdAmountDto> buy,
 
         @JsonProperty(value = "sell", required = true)
-        Set<ResourceIdAmount> sell
+        List<ResourceIdAmountDto> sell
 ) {
 }
