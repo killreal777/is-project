@@ -12,7 +12,7 @@ users
 CASCADE;
 
 
--- USERSp
+-- USERS
 
 INSERT INTO users (id, username, password, role, enabled) VALUES -- BCrypt password encoding
 (1, 'AliceSmith', '$2a$10$mxUxwT6BU1L6hY0.UFVoQekPDAuckjho0sOVoY6uW2e2GdMTUy/SS', 'ROLE_OWNER', TRUE), -- 1$;{ghd@`8
@@ -121,8 +121,6 @@ INSERT INTO stored_resource (storage_id, resource_id, amount) VALUES
 (3, 8, 6000);   -- Claytronics (resource_id 8)
 
 
-
--- DOCK MODULES
 
 -- DOCK MODULES
 INSERT INTO dock_module (id, blueprint_id) VALUES
