@@ -21,12 +21,12 @@ public class TradePolicyRestController {
         return ResponseEntity.ok(service.getAll(pageable));
     }
 
-    @GetMapping("/stationBuys")
+    @GetMapping("/purchase")
     public ResponseEntity<Page<TradePolicyDto>> getAllStationBuys(@PageableDefault Pageable pageable) {
         return ResponseEntity.ok(service.getAllStationBuys(pageable));
     }
 
-    @GetMapping("/stationSells")
+    @GetMapping("/sell")
     public ResponseEntity<Page<TradePolicyDto>> getAllStationSells(@PageableDefault Pageable pageable) {
         return ResponseEntity.ok(service.getAllStationSells(pageable));
     }
