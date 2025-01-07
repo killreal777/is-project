@@ -32,7 +32,7 @@ public class AuthenticationService {
         );
         User user = userService.findUserByUsername(request.username());
         validateUserEnabled(user);
-        return new JwtResponse(jwtService.generateToken(user));
+        return new JwtResponse(jwtService.generateToken(user), userMapper.toDto(user));
     }
 
     public JwtResponse registerOwner(RegistrationRequest request) {
@@ -41,13 +41,13 @@ public class AuthenticationService {
         }
         boolean enabled = true;
         User user = userService.createUser(request, Role.ROLE_OWNER, enabled);
-        return new JwtResponse(jwtService.generateToken(user));
+        return new JwtResponse(jwtService.generateToken(user), userMapper.toDto(user));
     }
 
     public JwtResponse registerPilot(RegistrationRequest request) {
         boolean enabled = true;
         User user = userService.createUser(request, Role.ROLE_PILOT, enabled);
-        return new JwtResponse(jwtService.generateToken(user));
+        return new JwtResponse(jwtService.generateToken(user), userMapper.toDto(user));
     }
 
     public void applyManagerRegistrationRequest(RegistrationRequest request) {
