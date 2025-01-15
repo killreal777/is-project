@@ -13,7 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth/v1/balances")
+@RequestMapping("/api/v1/balances")
 @RequiredArgsConstructor
 public class AccountRestController {
     private final AccountService accountService;
