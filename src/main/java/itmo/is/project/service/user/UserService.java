@@ -1,6 +1,7 @@
 package itmo.is.project.service.user;
 
 import itmo.is.project.dto.security.RegistrationRequest;
+import itmo.is.project.dto.user.UserDto;
 import itmo.is.project.mapper.user.UserMapper;
 import itmo.is.project.model.user.Role;
 import itmo.is.project.model.user.User;
@@ -19,6 +20,18 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final AccountService accountService;
+
+    public Page<UserDto> getAllUsers(Pageable pageable, Role role) {
+        if (role == null) {
+            return userRepository.findAll(pageable).map(userMapper::toDto);
+        } else {
+            return userRepository.findAllByRole(role, pageable).map(userMapper::toDto);
+        }
+    }
+
+    public UserDto getUserById(Integer id) {
+        return userMapper.toDto(findUserById(id));
+    }
 
     public User findUserById(Integer userId) {
         return userRepository.findById(userId)
