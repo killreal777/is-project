@@ -13,8 +13,8 @@ public record ProductionModuleBlueprintDto(
         @JsonProperty(value = "id", required = true)
         Integer id,
 
-        @Schema(example = "1")
-        @JsonProperty(value = "Advanced Composite Production", required = true)
+        @Schema(example = "Advanced Composite Production")
+        @JsonProperty(value = "name", required = true)
         String name,
 
         @JsonProperty(value = "buildCost", required = true)
