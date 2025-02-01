@@ -6,7 +6,7 @@ import itmo.is.project.mapper.EntityMapper;
 import itmo.is.project.model.trade.TradePolicy;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface TradePolicyMapper extends EntityMapper<TradePolicyDto, TradePolicy> {
     TradePolicy toEntity(UpdateTradePolicyRequest request);
 }

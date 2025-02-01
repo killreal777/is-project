@@ -5,6 +5,6 @@ import itmo.is.project.mapper.EntityMapper;
 import itmo.is.project.model.module.dock.DockModule;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", uses = {DockModuleBlueprintMapper.class})
+@Mapper(uses = {DockModuleBlueprintMapper.class})
 public interface DockModuleMapper extends EntityMapper<DockModuleDto, DockModule> {
 }

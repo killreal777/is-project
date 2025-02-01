@@ -7,7 +7,7 @@ import itmo.is.project.mapper.EntityMapper;
 import itmo.is.project.model.user.User;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface UserMapper extends EntityMapper<UserDto, User> {
     User toEntity(RegistrationRequest registrationRequest);
 

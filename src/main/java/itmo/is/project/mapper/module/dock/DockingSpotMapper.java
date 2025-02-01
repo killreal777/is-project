@@ -6,6 +6,6 @@ import itmo.is.project.mapper.user.SpaceshipMapper;
 import itmo.is.project.model.module.dock.DockingSpot;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", uses = {SpaceshipMapper.class})
+@Mapper(uses = {SpaceshipMapper.class})
 public interface DockingSpotMapper extends EntityMapper<DockingSpotDto, DockingSpot> {
 }

@@ -6,7 +6,7 @@ import itmo.is.project.model.module.storage.StoredResource;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface StoredResourceMapper extends EntityMapper<StoredResourceDto, StoredResource> {
 
     @Override

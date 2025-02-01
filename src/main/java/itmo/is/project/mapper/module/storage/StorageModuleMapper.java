@@ -5,6 +5,6 @@ import itmo.is.project.mapper.EntityMapper;
 import itmo.is.project.model.module.storage.StorageModule;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", uses = {StorageModuleBlueprintMapper.class, StoredResourceMapper.class})
+@Mapper(uses = {StorageModuleBlueprintMapper.class, StoredResourceMapper.class})
 public interface StorageModuleMapper extends EntityMapper<StorageModuleDto, StorageModule> {
 }

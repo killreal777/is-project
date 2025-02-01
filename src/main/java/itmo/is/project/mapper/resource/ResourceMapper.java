@@ -6,6 +6,6 @@ import itmo.is.project.model.resource.Resource;
 import org.mapstruct.Mapper;
 
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface ResourceMapper extends EntityMapper<ResourceDto, Resource> {
 }

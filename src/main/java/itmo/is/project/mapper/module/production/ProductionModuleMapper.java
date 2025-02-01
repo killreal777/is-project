@@ -7,7 +7,7 @@ import itmo.is.project.model.module.production.ProductionModule;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {ProductionModuleBlueprintMapper.class})
+@Mapper(uses = {ProductionModuleBlueprintMapper.class})
 public interface ProductionModuleMapper extends EntityMapper<ProductionModuleDto, ProductionModule> {
 
     @Override

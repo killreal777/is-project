@@ -6,7 +6,7 @@ import itmo.is.project.model.trade.TradeItem;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface TradeItemMapper extends EntityMapper<TradeItemDto, TradeItem> {
 
     @Override

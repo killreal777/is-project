@@ -5,7 +5,7 @@ import itmo.is.project.mapper.EntityMapper;
 import itmo.is.project.model.module.production.ProductionModuleBlueprint;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface ProductionModuleBlueprintMapper
         extends EntityMapper<ProductionModuleBlueprintDto, ProductionModuleBlueprint> {
 }

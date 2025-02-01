@@ -80,6 +80,7 @@
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -180,6 +181,10 @@
 								<version>${lombok-mapstruct-binding.version}</version>
 							</path>
 						</annotationProcessorPaths>
+						<compilerArgs>
+							<arg>-Amapstruct.defaultComponentModel=spring</arg>
+							<arg>-Amapstruct.unmappedTargetPolicy=IGNORE</arg>
+						</compilerArgs>
 					</configuration>
 				</plugin>
 			</plugins>
