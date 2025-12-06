@@ -1,0 +1,3768 @@
+openapi: 3.0.1
+info:
+  title: Space station information system REST API
+  version: v1
+servers:
+- url: http://127.0.0.1:8080
+  description: Localhost
+security:
+- JWT Bearer: []
+paths:
+  /api/v1/trades/policies/{resourceId}:
+    get:
+      tags:
+      - trade-policy-rest-controller
+      operationId: getByResourceId
+      parameters:
+      - name: resourceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/TradePolicyDto"
+    put:
+      tags:
+      - trade-policy-rest-controller
+      operationId: updateByResourceId
+      parameters:
+      - name: resourceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTradePolicyRequest"
+        required: true
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/TradePolicyDto"
+  /api/v1/spaceships/my:
+    get:
+      tags:
+      - spaceship-rest-controller
+      operationId: getMySpaceship
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SpaceshipDto"
+    put:
+      tags:
+      - spaceship-rest-controller
+      operationId: updateMySpaceship
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateSpaceshipRequest"
+        required: true
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SpaceshipDto"
+    post:
+      tags:
+      - spaceship-rest-controller
+      operationId: createMySpaceship
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSpaceshipRequest"
+        required: true
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SpaceshipDto"
+  /api/v1/balances/my/withdraw:
+    put:
+      tags:
+      - account-rest-controller
+      operationId: withdraw
+      parameters:
+      - name: amount
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AccountDto"
+  /api/v1/balances/my/deposit:
+    put:
+      tags:
+      - account-rest-controller
+      operationId: deposit
+      parameters:
+      - name: amount
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AccountDto"
+  /api/v1/auth/register/requests/{userId}/approve:
+    put:
+      tags:
+      - authentication-rest-controller
+      operationId: approveRegistrationApplication
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+  /api/v1/trades:
+    get:
+      tags:
+      - trade-rest-controller
+      operationId: getAllTrades
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+    post:
+      tags:
+      - trade-rest-controller
+      operationId: trade
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TradeRequest"
+        required: true
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/TradeDto"
+  /api/v1/modules/storage/build:
+    post:
+      tags:
+      - storage-module-rest-controller
+      operationId: buildModule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BuildModuleRequest"
+        required: true
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/StorageModuleDto"
+  /api/v1/modules/production/{productionModuleId}/store:
+    post:
+      tags:
+      - production-module-rest-controller
+      operationId: storeProducedResources
+      parameters:
+      - name: productionModuleId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProductionModuleDto"
+  /api/v1/modules/production/{productionModuleId}/stop:
+    post:
+      tags:
+      - production-module-rest-controller
+      operationId: stop
+      parameters:
+      - name: productionModuleId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProductionModuleDto"
+  /api/v1/modules/production/{productionModuleId}/start:
+    post:
+      tags:
+      - production-module-rest-controller
+      operationId: start
+      parameters:
+      - name: productionModuleId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProductionModuleDto"
+  /api/v1/modules/production/{productionModuleId}/load:
+    post:
+      tags:
+      - production-module-rest-controller
+      operationId: loadConsumingResources
+      parameters:
+      - name: productionModuleId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProductionModuleDto"
+  /api/v1/modules/production/{productionModuleId}/engineer:
+    post:
+      tags:
+      - production-module-rest-controller
+      operationId: assignEngineer
+      parameters:
+      - name: productionModuleId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int32
+        required: true
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProductionModuleDto"
+    delete:
+      tags:
+      - production-module-rest-controller
+      operationId: removeEngineer
+      parameters:
+      - name: productionModuleId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProductionModuleDto"
+  /api/v1/modules/production/build:
+    post:
+      tags:
+      - production-module-rest-controller
+      operationId: buildModule_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BuildModuleRequest"
+        required: true
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProductionModuleDto"
+  /api/v1/modules/dock/requests/undock:
+    post:
+      tags:
+      - dock-module-rest-controller
+      operationId: undock
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+  /api/v1/modules/dock/requests/dock:
+    post:
+      tags:
+      - dock-module-rest-controller
+      operationId: dock
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DockingSpotDto"
+  /api/v1/modules/dock/build:
+    post:
+      tags:
+      - dock-module-rest-controller
+      operationId: buildModule_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BuildModuleRequest"
+        required: true
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DockModuleDto"
+  /api/v1/auth/register/pilot:
+    post:
+      tags:
+      - authentication-rest-controller
+      operationId: registerPilot
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegistrationRequest"
+        required: true
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/JwtResponse"
+  /api/v1/auth/register/owner:
+    post:
+      tags:
+      - authentication-rest-controller
+      operationId: registerOwner
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegistrationRequest"
+        required: true
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/JwtResponse"
+  /api/v1/auth/register/manager:
+    post:
+      tags:
+      - authentication-rest-controller
+      operationId: registerManager
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegistrationRequest"
+        required: true
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+  /api/v1/auth/register/engineer:
+    post:
+      tags:
+      - authentication-rest-controller
+      operationId: registerEngineer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegistrationRequest"
+        required: true
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+  /api/v1/auth/login:
+    post:
+      tags:
+      - authentication-rest-controller
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthenticationRequest"
+        required: true
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/JwtResponse"
+  /api/v1/users:
+    get:
+      tags:
+      - user-rest-controller
+      operationId: getAllUsers
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      - name: role
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - ROLE_OWNER
+          - ROLE_MANAGER
+          - ROLE_ENGINEER
+          - ROLE_PILOT
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/users/{userId}:
+    get:
+      tags:
+      - user-rest-controller
+      operationId: getUserById
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDto"
+  /api/v1/users/me:
+    get:
+      tags:
+      - user-rest-controller
+      operationId: getMe
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDto"
+  /api/v1/trades/{tradeId}:
+    get:
+      tags:
+      - trade-rest-controller
+      operationId: getTradeById
+      parameters:
+      - name: tradeId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/TradeDto"
+  /api/v1/trades/users/{userId}:
+    get:
+      tags:
+      - trade-rest-controller
+      operationId: getTradesByUserId
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/trades/users/me:
+    get:
+      tags:
+      - trade-rest-controller
+      operationId: getMyTrades
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/trades/policies:
+    get:
+      tags:
+      - trade-policy-rest-controller
+      operationId: getAll
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/trades/policies/sell:
+    get:
+      tags:
+      - trade-policy-rest-controller
+      operationId: getAllStationSells
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/trades/policies/purchase:
+    get:
+      tags:
+      - trade-policy-rest-controller
+      operationId: getAllStationBuys
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/trades/offers/sell:
+    get:
+      tags:
+      - trade-rest-controller
+      operationId: getAllSellOffers
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/trades/offers/sell/{resourceId}:
+    get:
+      tags:
+      - trade-rest-controller
+      operationId: getSellOfferByResourceId
+      parameters:
+      - name: resourceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/TradeOfferDto"
+  /api/v1/trades/offers/purchase:
+    get:
+      tags:
+      - trade-rest-controller
+      operationId: getAllPurchaseOffers
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/trades/offers/purchase/{resourceId}:
+    get:
+      tags:
+      - trade-rest-controller
+      operationId: getPurchaseOfferByResourceId
+      parameters:
+      - name: resourceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/TradeOfferDto"
+  /api/v1/spaceships:
+    get:
+      tags:
+      - spaceship-rest-controller
+      operationId: findAllSpaceships
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/spaceships/{spaceshipId}:
+    get:
+      tags:
+      - spaceship-rest-controller
+      operationId: findSpaceshipById
+      parameters:
+      - name: spaceshipId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SpaceshipDto"
+  /api/v1/modules/storage:
+    get:
+      tags:
+      - storage-module-rest-controller
+      operationId: getAllStorageModules
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/modules/storage/{storageModuleId}:
+    get:
+      tags:
+      - storage-module-rest-controller
+      operationId: getStorageModuleById
+      parameters:
+      - name: storageModuleId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/StorageModuleDto"
+  /api/v1/modules/storage/resources:
+    get:
+      tags:
+      - storage-module-rest-controller
+      operationId: findAll
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/modules/storage/resources/{storageId}:
+    get:
+      tags:
+      - storage-module-rest-controller
+      operationId: findByStorageId
+      parameters:
+      - name: storageId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/modules/storage/resources/{resourceId}/total:
+    get:
+      tags:
+      - storage-module-rest-controller
+      operationId: findByResourceId
+      parameters:
+      - name: resourceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ResourceAmountDto"
+  /api/v1/modules/storage/resources/total:
+    get:
+      tags:
+      - storage-module-rest-controller
+      operationId: findAllTotal
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/modules/storage/build/blueprints:
+    get:
+      tags:
+      - storage-module-rest-controller
+      operationId: findAllBlueprints
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/modules/production:
+    get:
+      tags:
+      - production-module-rest-controller
+      operationId: getAllProductionModules
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/modules/production/{productionModuleId}:
+    get:
+      tags:
+      - production-module-rest-controller
+      operationId: getProductionModule
+      parameters:
+      - name: productionModuleId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProductionModuleDto"
+  /api/v1/modules/production/build/blueprints:
+    get:
+      tags:
+      - production-module-rest-controller
+      operationId: findAllBlueprints_1
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/modules/dock:
+    get:
+      tags:
+      - dock-module-rest-controller
+      operationId: getAllDockModules
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/modules/dock/{dockModuleId}:
+    get:
+      tags:
+      - dock-module-rest-controller
+      operationId: getDockModuleById
+      parameters:
+      - name: dockModuleId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DockModuleDto"
+  /api/v1/modules/dock/spots:
+    get:
+      tags:
+      - dock-module-rest-controller
+      operationId: getAllDockingSpots
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/modules/dock/spots/occupied:
+    get:
+      tags:
+      - dock-module-rest-controller
+      operationId: getAllOccupiedDockingSpots
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/modules/dock/spots/occupied/my:
+    get:
+      tags:
+      - dock-module-rest-controller
+      operationId: getMyDockingSpot
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DockingSpotDto"
+  /api/v1/modules/dock/build/blueprints:
+    get:
+      tags:
+      - dock-module-rest-controller
+      operationId: findAllBlueprints_2
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/balances:
+    get:
+      tags:
+      - account-rest-controller
+      operationId: getAllAccounts
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/balances/{userId}:
+    get:
+      tags:
+      - account-rest-controller
+      operationId: getAccountByUserId
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AccountDto"
+  /api/v1/balances/my:
+    get:
+      tags:
+      - account-rest-controller
+      operationId: getMyAccount
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AccountDto"
+  /api/v1/auth/register/requests:
+    get:
+      tags:
+      - authentication-rest-controller
+      operationId: getPendingRegistrationRequests
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModel"
+  /api/v1/auth/register/requests/{userId}/reject:
+    delete:
+      tags:
+      - authentication-rest-controller
+      operationId: rejectRegistrationApplication
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties:
+                    type: string
+                - type: string
+        "409":
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+components:
+  schemas:
+    UpdateTradePolicyRequest:
+      required:
+      - purchasePrice
+      - sellPrice
+      - stationBuys
+      - stationSells
+      type: object
+      properties:
+        stationSells:
+          type: boolean
+          example: true
+        sellPrice:
+          type: integer
+          format: int32
+          example: 5000
+        sellLimit:
+          type: integer
+          format: int32
+          example: 100
+        stationBuys:
+          type: boolean
+          example: true
+        purchasePrice:
+          type: integer
+          format: int32
+          example: 500
+        purchaseLimit:
+          type: integer
+          format: int32
+          example: 10000
+    Resource:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          maxLength: 32
+          minLength: 0
+          type: string
+    TradePolicyDto:
+      required:
+      - purchasePrice
+      - resource
+      - sellPrice
+      - stationBuys
+      - stationSells
+      type: object
+      properties:
+        resource:
+          $ref: "#/components/schemas/Resource"
+        stationSells:
+          type: boolean
+          example: true
+        sellPrice:
+          type: integer
+          format: int32
+          example: 5000
+        sellLimit:
+          type: integer
+          format: int32
+          example: 100
+        stationBuys:
+          type: boolean
+          example: true
+        purchasePrice:
+          type: integer
+          format: int32
+          example: 500
+        purchaseLimit:
+          type: integer
+          format: int32
+          example: 10000
+    UpdateSpaceshipRequest:
+      required:
+      - size
+      type: object
+      properties:
+        size:
+          type: string
+          example: S
+          enum:
+          - S
+          - M
+          - L
+    SpaceshipDto:
+      required:
+      - id
+      - pilot
+      - size
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        pilot:
+          $ref: "#/components/schemas/UserDto"
+        size:
+          type: string
+          example: S
+          enum:
+          - S
+          - M
+          - L
+    UserDto:
+      required:
+      - id
+      - role
+      - username
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        username:
+          type: string
+          example: killreal777
+        role:
+          type: string
+          example: ROLE_PILOT
+          enum:
+          - ROLE_OWNER
+          - ROLE_MANAGER
+          - ROLE_ENGINEER
+          - ROLE_PILOT
+    AccountDto:
+      required:
+      - balance
+      - user
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/UserDto"
+        balance:
+          type: integer
+          format: int32
+          example: 1000000
+    ResourceIdAmountDto:
+      required:
+      - amount
+      - id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 8
+        amount:
+          type: integer
+          format: int32
+          example: 500
+    TradeRequest:
+      required:
+      - buy
+      - sell
+      type: object
+      properties:
+        buy:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResourceIdAmountDto"
+        sell:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResourceIdAmountDto"
+    ResourceDto:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 8
+        name:
+          type: string
+          example: Claytronics
+    TradeDto:
+      required:
+      - id
+      - items
+      - time
+      - user
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        user:
+          $ref: "#/components/schemas/UserDto"
+        time:
+          type: string
+          format: date-time
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/TradeItemDto"
+    TradeItemDto:
+      required:
+      - amount
+      - operation
+      - price
+      - resource
+      - tradeId
+      type: object
+      properties:
+        tradeId:
+          type: integer
+          format: int32
+          example: 1
+        resource:
+          $ref: "#/components/schemas/ResourceDto"
+        amount:
+          type: integer
+          format: int32
+          example: 500
+        operation:
+          type: string
+          example: SELL
+          enum:
+          - BUY
+          - SELL
+        price:
+          type: integer
+          format: int32
+          example: 1000
+    CreateSpaceshipRequest:
+      required:
+      - size
+      type: object
+      properties:
+        size:
+          type: string
+          example: S
+          enum:
+          - S
+          - M
+          - L
+    BuildModuleRequest:
+      required:
+      - blueprintId
+      type: object
+      properties:
+        blueprintId:
+          type: integer
+          format: int32
+          example: 1
+    BuildCostDto:
+      required:
+      - id
+      - items
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResourceAmountDto"
+    ResourceAmountDto:
+      required:
+      - amount
+      - resource
+      type: object
+      properties:
+        resource:
+          $ref: "#/components/schemas/ResourceDto"
+        amount:
+          type: integer
+          format: int32
+          example: 500
+    StorageModuleBlueprintDto:
+      required:
+      - buildCost
+      - capacity
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        name:
+          type: string
+          example: Storage S
+        buildCost:
+          $ref: "#/components/schemas/BuildCostDto"
+        capacity:
+          type: integer
+          format: int32
+          example: 25000
+    StorageModuleDto:
+      required:
+      - blueprint
+      - id
+      - storedResources
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        blueprint:
+          $ref: "#/components/schemas/StorageModuleBlueprintDto"
+        storedResources:
+          type: array
+          items:
+            $ref: "#/components/schemas/StoredResourceDto"
+    StoredResourceDto:
+      required:
+      - resourceAmount
+      - storageModuleId
+      type: object
+      properties:
+        storageModuleId:
+          type: integer
+          format: int32
+          example: 1
+        resourceAmount:
+          $ref: "#/components/schemas/ResourceAmountDto"
+    ProductionModuleBlueprintDto:
+      required:
+      - buildCost
+      - consumption
+      - id
+      - name
+      - production
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        name:
+          type: string
+          example: Advanced Composite Production
+        buildCost:
+          $ref: "#/components/schemas/BuildCostDto"
+        production:
+          $ref: "#/components/schemas/ResourceAmountDto"
+        consumption:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResourceAmountDto"
+    ProductionModuleDto:
+      required:
+      - blueprint
+      - engineer
+      - id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        blueprint:
+          $ref: "#/components/schemas/ProductionModuleBlueprintDto"
+        engineer:
+          $ref: "#/components/schemas/UserDto"
+    DockingSpotDto:
+      required:
+      - id
+      - isOccupied
+      - size
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        size:
+          type: string
+          example: S
+          enum:
+          - S
+          - M
+          - L
+        isOccupied:
+          type: boolean
+          example: true
+        spaceship:
+          $ref: "#/components/schemas/SpaceshipDto"
+    DockModuleBlueprintDto:
+      required:
+      - buildCost
+      - id
+      - lDocksQuantity
+      - mDocksQuantity
+      - name
+      - sDocksQuantity
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        name:
+          type: string
+          example: Dock Area 1M6S
+        buildCost:
+          $ref: "#/components/schemas/BuildCostDto"
+        sDocksQuantity:
+          type: integer
+          format: int32
+          example: 6
+        mDocksQuantity:
+          type: integer
+          format: int32
+          example: 1
+        lDocksQuantity:
+          type: integer
+          format: int32
+          example: 0
+    DockModuleDto:
+      required:
+      - blueprint
+      - dockingSpots
+      - id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        blueprint:
+          $ref: "#/components/schemas/DockModuleBlueprintDto"
+        dockingSpots:
+          type: array
+          items:
+            $ref: "#/components/schemas/DockingSpotDto"
+    RegistrationRequest:
+      required:
+      - password
+      - username
+      type: object
+      properties:
+        username:
+          type: string
+          example: killreal777
+        password:
+          type: string
+          example: qwerty12345
+    JwtResponse:
+      required:
+      - accessToken
+      - user
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJraWxscmVhbDc3NyIsImlhdCI6MTczMjg2MTEwNywiZXhwIjoxNzMyOTQ3NTA3fQ.qzKFP5gSrASGLjACOhydbhV7famSFSllK1xUjk8iXRg
+        user:
+          $ref: "#/components/schemas/UserDto"
+    AuthenticationRequest:
+      required:
+      - password
+      - username
+      type: object
+      properties:
+        username:
+          type: string
+          example: killreal777
+        password:
+          type: string
+          example: qwerty12345
+    Pageable:
+      type: object
+      properties:
+        page:
+          minimum: 0
+          type: integer
+          format: int32
+        size:
+          minimum: 1
+          type: integer
+          format: int32
+        sort:
+          type: array
+          items:
+            type: string
+    PageMetadata:
+      type: object
+      properties:
+        size:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+    PagedModel:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+        page:
+          $ref: "#/components/schemas/PageMetadata"
+    TradeOfferDto:
+      required:
+      - amount
+      - price
+      - resource
+      type: object
+      properties:
+        resource:
+          $ref: "#/components/schemas/Resource"
+        amount:
+          type: integer
+          format: int32
+          example: 200
+        price:
+          type: integer
+          format: int32
+          example: 1000
+  securitySchemes:
+    JWT Bearer:
+      type: http
+      name: Authorization
+      scheme: bearer
+      bearerFormat: JWT
