@@ -4,7 +4,7 @@
 
 **Spring**: Boot, Web, Data JPA, Security + JWT;
 
-Flyway, SQL, PostgreSQL, Docker, Swagger, Maven
+Flyway, SQL, PostgreSQL, Docker, Swagger, Gradle (with Wrapper)
 
 ## Описание предметной области
 
