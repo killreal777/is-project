@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: is-project-postgres
+    environment:
+      POSTGRES_USER: s333291
+      POSTGRES_PASSWORD: qwerty12345
+      POSTGRES_DB: studs
+    ports:
+      - "15432:5432"
+  
+  flyway:
+    image: flyway/flyway:latest
+    container_name: is-project-flyway
+    command: -url=jdbc:postgresql://is-project-postgres:5432/studs -user=s333291 -password=qwerty12345 -connectRetries=60 migrate
+    volumes:
+      - ./db/migration/common:/flyway/sql/common
+#      - ./db/migration/dev:/flyway/sql/dev
+    depends_on:
+      - postgres
