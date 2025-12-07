@@ -2,6 +2,7 @@ package itmo.isproject.security.config
 
 import itmo.isproject.repository.user.UserRepository
 import itmo.isproject.security.filter.JwtAuthenticationFilter
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
@@ -22,6 +23,7 @@ import org.springframework.web.cors.CorsConfigurationSource
 
 @Configuration
 @EnableMethodSecurity
+@EnableConfigurationProperties(SecurityConfigProperties::class)
 class SecurityConfig(
     private val jwtAuthenticationFilter: JwtAuthenticationFilter,
     private val userRepository: UserRepository
