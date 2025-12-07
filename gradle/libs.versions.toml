@@ -1,26 +1,25 @@
 [versions]
-kotlinVersion = "2.2.21"
-springBootVersion = "3.3.5"
-springDependencyManagementVersion = "1.1.6"
-springDocVersion = "2.6.0"
-jjwtVersion = "0.11.5"
-mapstructVersion = "1.6.2"
-lombokVersion = "1.18.42"
-lombokMapstructBindingVersion = "0.2.0"
+kotlin = "2.2.21"
+spring-boot = "3.3.12"
+spring-dependency-management = "1.1.6"
+spring-doc = "2.6.0"
+jjwt = "0.11.5"
+mapstruct = "1.6.2"
+postgresql = "42.2.27"
 
 [plugins]
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinVersion" }
-kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlinVersion" }
-kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlinVersion" }
-spring-boot = { id = "org.springframework.boot", version.ref = "springBootVersion" }
-spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "springDependencyManagementVersion" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }
 
 [libraries]
-springdoc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springDocVersion" }
-jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwtVersion" }
-jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwtVersion" }
-jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwtVersion" }
-mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstructVersion" }
-mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstructVersion" }
-lombok = { module = "org.projectlombok:lombok", version.ref = "lombokVersion" }
-lombok-mapstruct-binding = { module = "org.projectlombok:lombok-mapstruct-binding", version.ref = "lombokMapstructBindingVersion" }
+springdoc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "spring-doc" }
+jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
+jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
+jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }

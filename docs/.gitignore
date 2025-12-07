@@ -1,3 +1,6 @@
 ### draw.io ###
 **/*.dtmp
 **/*.bkp
+
+# Should be on GitHub Wiki
+wiki
