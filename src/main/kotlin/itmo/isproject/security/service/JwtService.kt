@@ -8,20 +8,18 @@ import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import itmo.isproject.model.user.Role
 import itmo.isproject.model.user.User
-import org.springframework.beans.factory.annotation.Value
+import itmo.isproject.security.config.SecurityConfigProperties
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 import java.security.Key
 import java.util.*
 
 @Service
-class JwtService {
-
-    @Value("\${application.security.jwt.secret-key}")
-    private lateinit var secretKey: String
-
-    @Value("\${application.security.jwt.expiration}")
-    private var jwtExpiration: Long = 0
+class JwtService(
+    securityConfigProperties: SecurityConfigProperties
+) {
+    private val secretKey: String = securityConfigProperties.secretKey
+    private val jwtExpiration: Long = securityConfigProperties.expiration
 
     fun generateToken(user: User): String {
         val extraClaims: Map<String, Any> = mapOf(
