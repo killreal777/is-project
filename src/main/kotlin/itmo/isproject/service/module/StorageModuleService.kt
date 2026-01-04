@@ -3,6 +3,8 @@ package itmo.isproject.service.module
 import itmo.isproject.dto.module.storage.StorageModuleDto
 import itmo.isproject.dto.resource.ResourceAmountDto
 import itmo.isproject.dto.module.storage.StoredResourceDto
+import io.github.oshai.kotlinlogging.KotlinLogging
+import io.github.oshai.kotlinlogging.withLoggingContext
 import itmo.isproject.mapper.module.storage.StorageModuleMapper
 import itmo.isproject.mapper.resource.ResourceAmountMapper
 import itmo.isproject.mapper.module.storage.StoredResourceMapper
@@ -22,6 +24,8 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
+private val logger = KotlinLogging.logger {}
+
 @Service
 class StorageModuleService(
     private val storageModuleRepository: StorageModuleRepository,
@@ -33,31 +37,49 @@ class StorageModuleService(
 ) {
 
     fun getAllStorageModules(pageable: Pageable): Page<StorageModuleDto> {
+        withLoggingContext("page" to pageable.pageNumber.toString()) {
+            logger.debug { "Fetching all storage modules" }
+        }
         return storageModuleRepository.findAll(pageable).map { storageModuleMapper.toDto(it) }
     }
 
     fun getStorageModuleById(id: Int): StorageModuleDto {
+        withLoggingContext("storageModuleId" to id.toString()) {
+            logger.debug { "Fetching storage module by" }
+        }
         return storageModuleRepository.findByIdOrNull(id)?.let { storageModuleMapper.toDto(it) }
             ?: throw EntityNotFoundException("Storage module not found with id: $id")
     }
 
     fun getAllStoredResources(pageable: Pageable): Page<StoredResourceDto> {
+        withLoggingContext("page" to pageable.pageNumber.toString()) {
+            logger.debug { "Fetching all stored resources" }
+        }
         return storedResourceRepository.findAll(pageable)
             .map { storedResourceMapper.toDto(it) }
     }
 
     fun getAllResourcesTotal(pageable: Pageable): Page<ResourceAmountDto> {
+        withLoggingContext("page" to pageable.pageNumber.toString()) {
+            logger.debug { "Fetching all resources total" }
+        }
         return storedResourceRepository.findAllResourceAmountsTotal(pageable)
             .map { resourceAmountMapper.toDto(it) }
     }
 
     fun getResourceAmountTotalByResourceId(resourceId: Int): ResourceAmountDto {
+        withLoggingContext("resourceId" to resourceId.toString()) {
+            logger.debug { "Fetching resource amount total by" }
+        }
         return storedResourceRepository.findResourceAmountTotal(resourceId)
             ?.let { resourceAmountMapper.toDto(it) }
             ?: throw EntityNotFoundException("Resource not found in storages with resource id: $resourceId")
     }
 
     fun getAllResourcesByStorageId(storageModuleId: Int, pageable: Pageable): Page<ResourceAmountDto> {
+        withLoggingContext("storageModuleId" to storageModuleId.toString(), "page" to pageable.pageNumber.toString()) {
+            logger.debug { "Fetching all resources by" }
+        }
         return storedResourceRepository.findAllByIdStorageModuleId(storageModuleId, pageable)
             .map { resourceAmountMapper.toDto(it) }
     }
@@ -79,11 +101,20 @@ class StorageModuleService(
 
     @Transactional
     fun storeAll(resources: Collection<ResourceAmountHolder>) {
+        withLoggingContext("resourcesCount" to resources.size.toString()) {
+            logger.info { "Storing resources" }
+        }
         val amountTotal = sumResourcesAmount(resources)
+        withLoggingContext("amount" to amountTotal.toString()) {
+            logger.debug { "Total amount to store" }
+        }
         checkFreeSpace(amountTotal)
         val storages = getAvailableStorages()
         for (resourceAmount in resources) {
             storeResourceToStorages(resourceAmount, storages)
+        }
+        withLoggingContext("resourcesCount" to resources.size.toString()) {
+            logger.info { "Resources stored successfully" }
         }
     }
 
@@ -141,11 +172,17 @@ class StorageModuleService(
 
     @Transactional
     fun retrieveAll(resources: Collection<ResourceAmountHolder>) {
+        withLoggingContext("resourcesCount" to resources.size.toString()) {
+            logger.info { "Retrieving resources" }
+        }
         for (resourceAmount in resources) {
             checkExistenceRequiredResourceAmount(resourceAmount)
         }
         for (resourceAmount in resources) {
             retrieveResourceFromStorages(resourceAmount)
+        }
+        withLoggingContext("resourcesCount" to resources.size.toString()) {
+            logger.info { "Resources retrieved successfully" }
         }
     }
 
@@ -154,6 +191,13 @@ class StorageModuleService(
         val total = storedResourceRepository.findResourceAmountTotal(resourceId)
             ?: throw EntityNotFoundException("Resource not found in storages with resource id: $resourceId")
         if ((total.amount ?: 0) < (required.amount ?: 0)) {
+            withLoggingContext(
+                "resourceId" to (resourceId?.toString() ?: "null"),
+                "required" to (required.amount?.toString() ?: "null"),
+                "available" to (total.amount?.toString() ?: "null")
+            ) {
+                logger.warn { "Insufficient resources" }
+            }
             throw IllegalStateException("Insufficient resources")
         }
     }
@@ -208,7 +252,13 @@ class StorageModuleService(
 
     private fun checkFreeSpace(amount: Int) {
         val freeSpace = storageModuleRepository.getTotalFreeSpaceInStorages() ?: 0
+        withLoggingContext("required" to amount.toString(), "available" to freeSpace.toString()) {
+            logger.debug { "Checking free space" }
+        }
         if (amount > freeSpace) {
+            withLoggingContext("required" to amount.toString(), "available" to freeSpace.toString()) {
+                logger.warn { "Not enough free space" }
+            }
             throw IllegalStateException("Not enough free space in storages")
         }
     }

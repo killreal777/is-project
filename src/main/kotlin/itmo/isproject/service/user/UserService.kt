@@ -1,5 +1,7 @@
 package itmo.isproject.service.user
 
+import io.github.oshai.kotlinlogging.KotlinLogging
+import io.github.oshai.kotlinlogging.withLoggingContext
 import itmo.isproject.dto.security.RegistrationRequest
 import itmo.isproject.dto.user.UserDto
 import itmo.isproject.mapper.user.UserMapper
@@ -13,6 +15,8 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
+private val logger = KotlinLogging.logger {}
+
 @Service
 class UserService(
     private val userRepository: UserRepository,
@@ -22,6 +26,9 @@ class UserService(
 ) {
 
     fun getAllUsers(pageable: Pageable, role: Role?): Page<UserDto> {
+        withLoggingContext("page" to pageable.pageNumber.toString(), "role" to (role?.name ?: "null")) {
+            logger.debug { "Fetching all users" }
+        }
         return if (role == null) {
             userRepository.findAll(pageable).map { userMapper.toDto(it) }
         } else {
@@ -30,6 +37,9 @@ class UserService(
     }
 
     fun getUserById(id: Int): UserDto {
+        withLoggingContext("userId" to id.toString()) {
+            logger.debug { "Fetching user by ID" }
+        }
         return userMapper.toDto(findUserById(id))
     }
 
@@ -39,11 +49,17 @@ class UserService(
     }
 
     fun findUserByUsername(username: String): User {
+        withLoggingContext("username" to username) {
+            logger.debug { "Finding user by username" }
+        }
         return userRepository.findByUsernameInternal(username)
             ?: throw EntityNotFoundException("User not found with username: $username")
     }
 
     fun findAllDisabledUsers(pageable: Pageable): Page<User> {
+        withLoggingContext("page" to pageable.pageNumber.toString()) {
+            logger.debug { "Fetching all disabled users" }
+        }
         return userRepository.findAllByEnabledFalse(pageable)
     }
 
@@ -52,22 +68,37 @@ class UserService(
     }
 
     fun updateUser(user: User) {
+        withLoggingContext("userId" to user.id.toString(), "username" to user.usernameInternal) {
+            logger.info { "Updating user" }
+        }
         userRepository.save(user)
     }
 
     fun deleteUser(user: User) {
+        withLoggingContext("userId" to user.id.toString(), "username" to user.usernameInternal) {
+            logger.info { "Deleting user" }
+        }
         userRepository.delete(user)
     }
 
     fun createUser(request: RegistrationRequest, role: Role, enabled: Boolean): User {
+        withLoggingContext("username" to request.username, "role" to role.name, "enabled" to enabled.toString()) {
+            logger.info { "Creating user" }
+        }
         validateUsername(request.username)
         val user = userRepository.save(toUser(request, role, enabled))
         createAccountIfPilotOrOwner(user)
+        withLoggingContext("userId" to user.id.toString(), "username" to user.usernameInternal) {
+            logger.info { "User created" }
+        }
         return user
     }
 
     private fun validateUsername(username: String?) {
         if (userRepository.existsByUsernameInternal(username)) {
+            withLoggingContext("username" to (username ?: "null")) {
+                logger.warn { "Username is taken" }
+            }
             throw IllegalArgumentException("Username is taken: $username")
         }
     }
@@ -82,6 +113,9 @@ class UserService(
 
     private fun createAccountIfPilotOrOwner(user: User) {
         if (user.role == Role.ROLE_PILOT || user.role == Role.ROLE_OWNER) {
+            withLoggingContext("role" to (user.role?.name ?: "null"), "userId" to user.id.toString()) {
+                logger.debug { "Creating account for user" }
+            }
             accountService.createAccount(user)
         }
     }

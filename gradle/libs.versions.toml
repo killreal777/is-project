@@ -6,6 +6,8 @@ spring-doc = "2.6.0"
 jjwt = "0.11.5"
 mapstruct = "1.6.2"
 postgresql = "42.2.27"
+kotlin-logging = "7.0.3"
+logstash-logback-encoder = "8.0"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -23,3 +25,5 @@ jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+kotlin-logging = { module = "io.github.oshai:kotlin-logging-jvm", version.ref = "kotlin-logging" }
+logstash-logback-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash-logback-encoder" }
