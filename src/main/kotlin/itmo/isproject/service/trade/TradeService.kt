@@ -1,5 +1,7 @@
 package itmo.isproject.service.trade
 
+import io.github.oshai.kotlinlogging.KotlinLogging
+import io.github.oshai.kotlinlogging.withLoggingContext
 import itmo.isproject.dto.resource.ResourceIdAmountDto
 import itmo.isproject.dto.trade.TradeDto
 import itmo.isproject.dto.trade.TradeOfferDto
@@ -21,6 +23,8 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
+private val logger = KotlinLogging.logger {}
+
 @Service
 class TradeService(
     private val tradeRepository: TradeRepository,
@@ -31,36 +35,66 @@ class TradeService(
 ) {
 
     fun getAllTrades(pageable: Pageable): Page<TradeDto> {
+        withLoggingContext("page" to pageable.pageNumber.toString(), "size" to pageable.pageSize.toString()) {
+            logger.debug { "Fetching all trades" }
+        }
         return tradeRepository.findAll(pageable).map { tradeMapper.toDto(it) }
     }
 
     fun getTradeById(id: Int): TradeDto {
+        withLoggingContext("tradeId" to id.toString()) {
+            logger.debug { "Fetching trade by id" }
+        }
         return tradeRepository.findByIdOrNull(id)?.let { tradeMapper.toDto(it) }
             ?: throw EntityNotFoundException("Trade not found with id: $id")
     }
 
     fun getAllTradesByUserId(userId: Int, pageable: Pageable): Page<TradeDto> {
+        withLoggingContext("userId" to userId.toString(), "page" to pageable.pageNumber.toString()) {
+            logger.debug { "Fetching trades for user" }
+        }
         return tradeRepository.findAllByUserId(userId, pageable).map { tradeMapper.toDto(it) }
     }
 
     fun getAllPurchaseOffers(pageable: Pageable): Page<TradeOfferDto> {
+        withLoggingContext("page" to pageable.pageNumber.toString()) {
+            logger.debug { "Fetching all purchase offers" }
+        }
         return tradeRepository.findAllPurchaseOffers(pageable)
     }
 
     fun getAllSellOffers(pageable: Pageable): Page<TradeOfferDto> {
+        withLoggingContext("page" to pageable.pageNumber.toString()) {
+            logger.debug { "Fetching all sell offers" }
+        }
         return tradeRepository.findAllSellOffers(pageable)
     }
 
     fun getSellOfferByResourceId(resourceId: Int): TradeOfferDto {
-        return tradeRepository.findSellOfferByResourceId(resourceId) ?: throw EntityNotFoundException("Sell offer not found with resource id: $resourceId")
+        withLoggingContext("resourceId" to resourceId.toString()) {
+            logger.debug { "Fetching sell offer for resource" }
+        }
+        return tradeRepository.findSellOfferByResourceId(resourceId)
+            ?: throw EntityNotFoundException("Sell offer not found with resource id: $resourceId")
     }
 
     fun getPurchaseOfferByResourceId(resourceId: Int): TradeOfferDto {
-        return tradeRepository.findPurchaseOfferByResourceId(resourceId) ?: throw EntityNotFoundException("Purchase offer not found with resource id: $resourceId")
+        withLoggingContext("resourceId" to resourceId.toString()) {
+            logger.debug { "Fetching purchase offer for resource" }
+        }
+        return tradeRepository.findPurchaseOfferByResourceId(resourceId)
+            ?: throw EntityNotFoundException("Purchase offer not found with resource id: $resourceId")
     }
 
     @Transactional
     fun trade(request: TradeRequest, user: User): TradeDto {
+        withLoggingContext("username" to user.usernameInternal, "userId" to (user.id?.toString() ?: "null")) {
+            logger.info { "Processing trade request for user" }
+        }
+        withLoggingContext("buyCount" to request.buy.size.toString(), "sellCount" to request.sell.size.toString()) {
+            logger.debug { "Trade request details" }
+        }
+
         val trade = Trade()
         trade.user = user
 
@@ -68,6 +102,10 @@ class TradeService(
         val purchase = createTradeItems(request.sell, Operation.BUY, trade)
 
         val stationBalanceChange = calculateStationBalanceChange(sell, purchase)
+        withLoggingContext("balanceChange" to stationBalanceChange.toString()) {
+            logger.info { "Trade balance change for station" }
+        }
+
         accountService.transferFundsBetweenStationAndUser(user.id, stationBalanceChange)
         storageModuleService.retrieveAndStoreAll(sell, purchase)
 
@@ -75,6 +113,13 @@ class TradeService(
         trade.items.addAll(purchase)
         val savedTrade = tradeRepository.save(trade)
 
+        withLoggingContext(
+            "tradeId" to (savedTrade.id?.toString() ?: "null"),
+            "username" to user.usernameInternal,
+            "balanceChange" to stationBalanceChange.toString()
+        ) {
+            logger.info { "Trade completed" }
+        }
         return tradeMapper.toDto(savedTrade)
     }
 
@@ -82,11 +127,21 @@ class TradeService(
         resources: Collection<ResourceIdAmountDto>,
         operation: Operation, trade: Trade
     ): List<TradeItem> {
+        withLoggingContext("resourcesCount" to resources.size.toString(), "operation" to operation.toString()) {
+            logger.debug { "Creating trade items for operation" }
+        }
         return resources.map { dto -> ResourceIdAmount(dto.id, dto.amount) }
             .map { resourceService.toResourceAmount(it) }
             .map { resourceAmount ->
                 val offer = getTradeOffer(resourceAmount.resourceId, operation)
                 if ((offer.amount ?: 0) < (resourceAmount.amount ?: 0)) {
+                    withLoggingContext(
+                        "resourceId" to (resourceAmount.resourceId?.toString() ?: "null"),
+                        "requested" to (resourceAmount.amount?.toString() ?: "null"),
+                        "available" to (offer.amount?.toString() ?: "null")
+                    ) {
+                        logger.warn { "Insufficient resources for trade" }
+                    }
                     throw IllegalArgumentException()
                 }
                 TradeItem(trade, resourceAmount, operation, offer.price)
@@ -103,6 +158,13 @@ class TradeService(
     private fun calculateStationBalanceChange(sell: List<TradeItem>, purchase: List<TradeItem>): Int {
         val income = calculateSumPrice(sell)
         val outcome = calculateSumPrice(purchase)
+        withLoggingContext(
+            "income" to income.toString(),
+            "outcome" to outcome.toString(),
+            "net" to (income - outcome).toString()
+        ) {
+            logger.debug { "Trade calculation" }
+        }
         return income - outcome
     }
 

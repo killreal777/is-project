@@ -1,5 +1,7 @@
 package itmo.isproject.security.service
 
+import io.github.oshai.kotlinlogging.KotlinLogging
+import io.github.oshai.kotlinlogging.withLoggingContext
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Service
 import java.security.Key
 import java.util.*
 
+private val logger = KotlinLogging.logger {}
+
 @Service
 class JwtService(
     securityConfigProperties: SecurityConfigProperties
@@ -22,6 +26,9 @@ class JwtService(
     private val jwtExpiration: Long = securityConfigProperties.expiration
 
     fun generateToken(user: User): String {
+        withLoggingContext("userId" to user.id.toString(), "username" to user.usernameInternal) {
+            logger.debug { "Generating JWT token" }
+        }
         val extraClaims: Map<String, Any> = mapOf(
             "id" to user.id!!,
             "role" to user.role!!.name,
@@ -46,9 +53,13 @@ class JwtService(
     }
 
     fun parseUser(token: String): User {
+        logger.debug { "Parsing JWT token" }
         val claims = extractAllClaims(token)
 
         if (claims.expiration.before(Date())) {
+            withLoggingContext("username" to claims.subject) {
+                logger.warn { "JWT token has expired" }
+            }
             throw JwtException("JWT has expired")
         }
 

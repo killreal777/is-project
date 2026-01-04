@@ -46,6 +46,10 @@ dependencies {
 
     // PostgreSQL
     runtimeOnly(libs.postgresql)
+
+    // Logging
+    implementation(libs.kotlin.logging)
+    implementation(libs.logstash.logback.encoder)
 }
 
 java {
