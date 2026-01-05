@@ -5,7 +5,6 @@ import io.github.oshai.kotlinlogging.withLoggingContext
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import itmo.isproject.model.user.Role
@@ -13,8 +12,8 @@ import itmo.isproject.model.user.User
 import itmo.isproject.security.config.SecurityConfigProperties
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
-import java.security.Key
 import java.util.*
+import javax.crypto.SecretKey
 
 private val logger = KotlinLogging.logger {}
 
@@ -42,13 +41,14 @@ class JwtService(
         userDetails: UserDetails,
         expiration: Long
     ): String {
-        return Jwts
-            .builder()
-            .setClaims(extraClaims)
-            .setSubject(userDetails.username)
-            .setIssuedAt(Date(System.currentTimeMillis()))
-            .setExpiration(Date(System.currentTimeMillis() + expiration))
-            .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+        val now = Date(System.currentTimeMillis())
+
+        return Jwts.builder()
+            .claims(extraClaims)
+            .subject(userDetails.username)
+            .issuedAt(now)
+            .expiration(Date(now.time + expiration))
+            .signWith(getSignInKey())
             .compact()
     }
 
@@ -72,15 +72,15 @@ class JwtService(
     }
 
     private fun extractAllClaims(token: String): Claims {
-        return Jwts
-            .parserBuilder()
-            .setSigningKey(getSignInKey())
+        return Jwts.parser()
+            .verifyWith(getSignInKey())
             .build()
-            .parseClaimsJws(token)
-            .body
+            .parseSignedClaims(token)
+            .payload
     }
 
-    private fun getSignInKey(): Key {
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey))
+    private fun getSignInKey(): SecretKey {
+        val keyBytes = Decoders.BASE64.decode(secretKey)
+        return Keys.hmacShaKeyFor(keyBytes)
     }
 }

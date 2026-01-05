@@ -1,13 +1,13 @@
 [versions]
-kotlin = "2.2.21"
-spring-boot = "3.3.12"
-spring-dependency-management = "1.1.6"
-spring-doc = "2.6.0"
-jjwt = "0.11.5"
-mapstruct = "1.6.2"
-postgresql = "42.2.27"
-kotlin-logging = "7.0.3"
-logstash-logback-encoder = "8.0"
+kotlin = "2.3.0"
+spring-boot = "4.0.1"
+spring-dependency-management = "1.1.7"
+spring-doc = "3.0.1"
+jjwt = "0.13.0"
+mapstruct = "1.6.3"
+postgresql = "42.7.8"
+kotlin-logging = "7.0.14"
+logstash-logback-encoder = "9.0"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

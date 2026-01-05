@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional
 
 private val logger = KotlinLogging.logger {}
 
-abstract class BuildService<M : Module<B>, B : ModuleBlueprint, ModuleDto, BlueprintDto>(
+abstract class BuildService<M : Module<B>, B : ModuleBlueprint, ModuleDto : Any, BlueprintDto : Any>(
     protected val storageModuleService: StorageModuleService,
     protected val moduleBlueprintRepository: ModuleBlueprintRepository<B>,
     protected val moduleBlueprintMapper: EntityMapper<BlueprintDto, B>,
