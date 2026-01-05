@@ -34,12 +34,12 @@ class User(
 ) : IntIdEntity(), UserDetails {
 
     override fun getAuthorities(): Collection<GrantedAuthority> {
-        return setOf(SimpleGrantedAuthority(role?.name))
+        return setOf(SimpleGrantedAuthority(role?.name!!))
     }
 
-    override fun getPassword() = passwordInternal
+    override fun getPassword() = passwordInternal!!
 
-    override fun getUsername() = usernameInternal
+    override fun getUsername() = usernameInternal!!
 
     override fun isEnabled() = enabled
 
