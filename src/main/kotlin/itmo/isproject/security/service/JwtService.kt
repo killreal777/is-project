@@ -7,8 +7,8 @@ import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
-import itmo.isproject.model.user.Role
-import itmo.isproject.model.user.User
+import itmo.isproject.shared.user.model.Role
+import itmo.isproject.shared.user.model.User
 import itmo.isproject.security.config.SecurityConfigProperties
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service

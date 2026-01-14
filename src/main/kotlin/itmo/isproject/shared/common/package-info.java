@@ -1,0 +1,1 @@
+package itmo.isproject.shared.common;

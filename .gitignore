@@ -2,6 +2,8 @@ target
 .mvn
 .env
 
+.kotlin
+
 # Logs
 logs/
 
