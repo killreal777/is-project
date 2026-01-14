@@ -1,8 +1,0 @@
-package itmo.isproject.repository.module.production
-
-import itmo.isproject.model.module.production.ProductionModuleBlueprint
-import itmo.isproject.repository.module.ModuleBlueprintRepository
-import org.springframework.stereotype.Repository
-
-@Repository
-interface ProductionModuleBlueprintRepository : ModuleBlueprintRepository<ProductionModuleBlueprint>

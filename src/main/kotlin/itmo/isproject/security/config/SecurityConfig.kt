@@ -1,6 +1,6 @@
 package itmo.isproject.security.config
 
-import itmo.isproject.repository.user.UserRepository
+import itmo.isproject.shared.user.repository.UserRepository
 import itmo.isproject.security.filter.JwtAuthenticationFilter
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean

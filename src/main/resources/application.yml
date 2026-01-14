@@ -5,6 +5,10 @@ spring:
   application:
     name: is-project
 
+  modulith:
+    runtime:
+      verification-enabled: true
+
   jpa:
     generate-ddl: false
     hibernate:

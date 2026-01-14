@@ -10,7 +10,7 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
 }
 
-group = "itmo.is"
+group = "itmo.isproject"
 version = "1.0.0"
 
 repositories {
@@ -27,6 +27,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
+
+    // Spring Modulith
+    implementation(platform(libs.spring.modulith.bom))
+    implementation("org.springframework.modulith:spring-modulith-starter-core")
+    runtimeOnly("org.springframework.modulith:spring-modulith-runtime")
 
     // Jackson
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -50,6 +55,10 @@ dependencies {
     // Logging
     implementation(libs.kotlin.logging)
     implementation(libs.logstash.logback.encoder)
+
+    // Testing
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.modulith:spring-modulith-starter-test")
 }
 
 java {
@@ -68,6 +77,7 @@ kapt {
     arguments {
         arg("mapstruct.defaultComponentModel", "spring")
         arg("mapstruct.unmappedTargetPolicy", "IGNORE")
+        arg("mapstruct.defaultInjectionStrategy", "constructor")
     }
 }
 
@@ -85,4 +95,8 @@ tasks.withType<KotlinCompile> {
             "-Xjvm-default=all-compatibility",
         )
     }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
