@@ -1,0 +1,19 @@
+[%autowidth.stretch, cols="h,a"]
+|===
+|Base package
+|`itmo.isproject.shared.resource`
+|Spring components
+|_Services_
+
+* `i.i.s.r.service.ResourceService`
+
+_Repositories_
+
+* `i.i.s.r.repository.ResourceRepository`
+
+_Others_
+
+* `i.i.s.r.mapper.ResourceMapper` (via `i.i.s.r.mapper.ResourceMapperImpl`)
+|Aggregate roots
+|* `i.i.s.r.model.Resource`
+|===

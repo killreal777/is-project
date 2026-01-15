@@ -1,0 +1,39 @@
+== IsProjectApplication
+plantuml::components.puml[,,format=svg]
+
+== Dock
+plantuml::module-dock.puml[,,format=svg]
+include::module-dock.adoc[]
+
+== Module
+plantuml::module-module.puml[,,format=svg]
+include::module-module.adoc[]
+
+== Production
+plantuml::module-production.puml[,,format=svg]
+include::module-production.adoc[]
+
+== Resource
+plantuml::module-resource.puml[,,format=svg]
+include::module-resource.adoc[]
+
+== Security
+plantuml::module-security.puml[,,format=svg]
+include::module-security.adoc[]
+
+== Shared
+plantuml::module-shared.puml[,,format=svg]
+include::module-shared.adoc[]
+
+== Storage
+plantuml::module-storage.puml[,,format=svg]
+include::module-storage.adoc[]
+
+== Trade
+plantuml::module-trade.puml[,,format=svg]
+include::module-trade.adoc[]
+
+== User
+plantuml::module-user.puml[,,format=svg]
+include::module-user.adoc[]
+

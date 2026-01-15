@@ -1,0 +1,9 @@
+[%autowidth.stretch, cols="h,a"]
+|===
+|Base package
+|`itmo.isproject.security`
+|Bean references
+|* `i.i.s.u.repository.UserRepository` (in User)
+* `i.i.s.u.service.UserService` (in User)
+* `i.i.s.u.mapper.UserMapper` (in User)
+|===

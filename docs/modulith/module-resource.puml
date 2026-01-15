@@ -1,0 +1,30 @@
+@startuml
+title <size:24>Resource</size>
+
+set separator none
+top to bottom direction
+
+<style>
+  root {
+    BackgroundColor: #ffffff
+    FontColor: #444444
+  }
+</style>
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Component>
+
+System_Boundary("IsProjectApplication_boundary", "IsProjectApplication", $tags="") {
+  Container_Boundary("IsProjectApplication.IsProjectApplication_boundary", "IsProjectApplication", $tags="") {
+    Component(IsProjectApplication.IsProjectApplication.Resource, "Resource", $techn="Module", $descr="", $tags="", $link="")
+    Component(IsProjectApplication.IsProjectApplication.Shared, "Shared", $techn="Module", $descr="", $tags="", $link="")
+  }
+
+}
+
+Rel(IsProjectApplication.IsProjectApplication.Resource, IsProjectApplication.IsProjectApplication.Shared, "depends on", $techn="", $tags="", $link="")
+
+SHOW_LEGEND(true)
+hide stereotypes
+@enduml

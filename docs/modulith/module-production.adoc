@@ -1,0 +1,8 @@
+[%autowidth.stretch, cols="h,a"]
+|===
+|Base package
+|`itmo.isproject.production`
+|Bean references
+|* `i.i.s.api.StorageService` (in Storage)
+* `i.i.s.u.service.UserService` (in User)
+|===

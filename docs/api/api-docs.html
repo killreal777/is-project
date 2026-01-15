@@ -1,25 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark-mode">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Space station API</title>
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.11.1/swagger-ui.css"
-    />
-    <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css"/>
+    <link rel="icon" type="image/svg+xml" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32"
+          href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/favicon-32x32.png">
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+    </style>
 </head>
 <body>
 <div id="swagger-ui"></div>
+<script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-standalone-preset.js"></script>
 <script>
     window.onload = function () {
-        var ui = SwaggerUIBundle({
-            url: `api-docs.yaml`,
+        SwaggerUIBundle({
+            url: "api-docs.yaml",
             dom_id: "#swagger-ui",
             presets: [
                 SwaggerUIBundle.presets.apis,
-                SwaggerUIBundle.SwaggerUIStandalonePreset,
+                SwaggerUIStandalonePreset
             ],
+            layout: "BaseLayout",
+            deepLinking: true
         });
     };
 </script>

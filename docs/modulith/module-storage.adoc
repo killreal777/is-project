@@ -1,0 +1,11 @@
+[%autowidth.stretch, cols="h,a"]
+|===
+|Base package
+|`itmo.isproject.storage`
+|Spring components
+|_Services_
+
+* `i.i.s.api.StorageService` (via `i.i.s.service.StorageModuleService`)
+|Bean references
+|* `i.i.s.r.mapper.ResourceMapper` (in Resource)
+|===
