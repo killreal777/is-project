@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: is-project-postgres
+    environment:
+      POSTGRES_USER: s333291
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: studs
+    ports:
+      - "15432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U s333291 -d studs"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - is-project-network
+
+  flyway:
+    image: flyway/flyway:latest
+    container_name: is-project-flyway
+    command: -url=jdbc:postgresql://postgres:5432/studs -user=s333291 -password=${POSTGRES_PASSWORD:-postgres} -connectRetries=60 migrate
+    volumes:
+      - ./db/migration/common:/flyway/sql/common
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - is-project-network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: is-project-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/studs
+      SPRING_DATASOURCE_USERNAME: s333291
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      APPLICATION_SECURITY_JWT_SECRET_KEY: ${JWT_SECRET_KEY:-404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+      APPLICATION_SECURITY_JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
+      SERVER_PORT: 8080
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      flyway:
+        condition: service_completed_successfully
+    networks:
+      - is-project-network
+
+networks:
+  is-project-network:
+    driver: bridge
