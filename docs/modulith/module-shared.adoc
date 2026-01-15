@@ -1,0 +1,7 @@
+[%autowidth.stretch, cols="h,a"]
+|===
+|Base package
+|`itmo.isproject.shared`
+|Spring components
+|* `i.i.s.common.exception.GlobalExceptionHandler`
+|===

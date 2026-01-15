@@ -1,0 +1,10 @@
+[%autowidth.stretch, cols="h,a"]
+|===
+|Base package
+|`itmo.isproject.trade`
+|Bean references
+|* `i.i.s.u.mapper.UserMapper` (in User)
+* `i.i.s.r.service.ResourceService` (in Resource)
+* `i.i.s.u.service.AccountService` (in User)
+* `i.i.s.api.StorageService` (in Storage)
+|===

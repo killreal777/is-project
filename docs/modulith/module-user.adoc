@@ -1,0 +1,33 @@
+[%autowidth.stretch, cols="h,a"]
+|===
+|Base package
+|`itmo.isproject.shared.user`
+|Spring components
+|_Controllers_
+
+* `i.i.s.u.controller.AccountRestController`
+* `i.i.s.u.controller.SpaceshipRestController`
+* `i.i.s.u.controller.UserRestController`
+
+_Services_
+
+* `i.i.s.u.service.AccountService`
+* `i.i.s.u.service.SpaceshipService`
+* `i.i.s.u.service.UserService`
+
+_Repositories_
+
+* `i.i.s.u.repository.AccountRepository`
+* `i.i.s.u.repository.SpaceshipRepository`
+* `i.i.s.u.repository.UserRepository`
+
+_Others_
+
+* `i.i.s.u.mapper.AccountMapper` (via `i.i.s.u.mapper.AccountMapperImpl`)
+* `i.i.s.u.mapper.SpaceshipMapper` (via `i.i.s.u.mapper.SpaceshipMapperImpl`)
+* `i.i.s.u.mapper.UserMapper` (via `i.i.s.u.mapper.UserMapperImpl`)
+|Aggregate roots
+|* `i.i.s.u.model.Account`
+* `i.i.s.u.model.Spaceship`
+* `i.i.s.u.model.User`
+|===

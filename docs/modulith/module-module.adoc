@@ -1,0 +1,10 @@
+[%autowidth.stretch, cols="h,a"]
+|===
+|Base package
+|`itmo.isproject.shared.module`
+|Spring components
+|_Repositories_
+
+* `i.i.s.m.repository.ModuleBlueprintRepository`
+* `i.i.s.m.repository.ModuleRepository`
+|===
