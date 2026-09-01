@@ -85,8 +85,3 @@ docker-compose up
 ```bash
 docker-compose -f docker-compose-app.yml up
 ```
-
-### Локальный доступ к приложению
-
-- [Swagger UI](http://localhost:8080/swagger-ui.html)
-- [Логи](./logs)
